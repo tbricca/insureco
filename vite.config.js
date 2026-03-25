@@ -9,5 +9,16 @@ export default defineConfig({
     globals: true,
     setupFiles: "./src/__tests__/setup.js",
     css: false, // Skip CSS processing in tests
+    coverage: {
+      provider: 'v8',
+      reporter: ['text'],
+      include: ['src/**/*.{js,jsx}'],
+      exclude: [
+        'src/__tests__/**',
+        'src/main.jsx',
+        'src/component-examples/**',
+        '**/*.stories.{js,jsx}',
+      ],
+    },
   },
 });
