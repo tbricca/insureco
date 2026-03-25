@@ -1,3 +1,19 @@
+## Unit Tests ##
+
+## ⚠️ Important: Do Not Write Tests Unprompted
+
+**Never write, add, or modify unit tests unless the user explicitly asks for them.**
+
+This includes:
+- Do not add tests when implementing new features or components
+- Do not add tests when fixing bugs
+- Do not suggest adding tests as a follow-up step unless asked
+- Do not update existing tests unless explicitly requested
+
+Only write tests when the user's request clearly and directly asks for them (e.g. "write a test for...", "add test coverage for...").
+
+############
+
 # Documentation
 Whenever making updates in this app be in the mindset that a different LLM or developer may need to come and make updates to this app later. So always document your work in the appropriate files in the .builder/rules files. To create/update a rules file for Builder's AI:
 
