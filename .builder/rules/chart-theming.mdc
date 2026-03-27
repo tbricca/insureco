@@ -1,0 +1,150 @@
+---
+description: Chart theming rules for @carbon/charts-react — always wire charts to useTheme so they work in both light and dark modes
+globs:
+  - "src/**/*.jsx"
+  - "src/**/*.tsx"
+alwaysApply: false
+---
+
+# Chart Theming Rules
+
+## The Problem This Solves
+
+When `@carbon/charts-react` components are rendered without a `theme` option, they default to the light (`white`) theme internally. This means charts render with hardcoded white backgrounds, light axis labels, and light grid lines — all of which are unreadable in dark mode.
+
+This is NOT a CSS specificity issue. The charts are SVG-based and Carbon Charts resolves their colors from the `theme` option passed in chart options, not from CSS custom properties.
+
+## Rule: Always Wire Charts to useTheme
+
+**Every** `@carbon/charts-react` chart component MUST receive a dynamic `theme` option derived from the current app theme.
+
+### Implementation Pattern
+
+
+import { useTheme } from '../../contexts/ThemeContext';
+import { AreaChart, GaugeChart } from '@carbon/charts-react';
+import '@carbon/charts/styles.css';
+
+export default function MyDashboard() {
+  const { theme } = useTheme();
+
+  // Map app theme to Carbon Charts theme string
+  const chartTheme = (theme === 'g90' || theme === 'g100') ? 'g100' : 'white';
+
+  const chartOptions = {
+    title: 'My Chart',
+    height: '300px',
+    theme: chartTheme,  // ← REQUIRED on every chart
+    // ... other options
+  };
+
+  return <AreaChart data={data} options={chartOptions} />;
+}
+```
+
+### Valid Carbon Charts theme values
+
+| Value | When to use |
+|-------|-------------|
+| `'white'` | Light mode (`white` or `g10` app theme) |
+| `'g10'` | Light grey app theme (optional, `white` works too) |
+| `'g90'` | Dark grey (rarely needed directly) |
+| `'g100'` | Dark mode (`g90` or `g100` app theme) |
+
+The standard mapping used in this project:
+```js
+const chartTheme = (theme === 'g90' || theme === 'g100') ? 'g100' : 'white';
+```
+
+## Rule: chart options must be defined inside the component
+
+Because `chartTheme` is derived from the `useTheme()` hook, chart options that include `theme` **cannot be defined as module-level constants**. They must be defined inside the component function so they can reference the hook value.
+
+```jsx
+// ❌ WRONG — defined outside component, can't access hook
+const chartOptions = {
+  theme: 'white', // hardcoded, breaks dark mode
+};
+
+export default function MyPage() { ... }
+
+// ✅ CORRECT — defined inside component, reads from hook
+export default function MyPage() {
+  const { theme } = useTheme();
+  const chartTheme = (theme === 'g90' || theme === 'g100') ? 'g100' : 'white';
+
+  const chartOptions = {
+    theme: chartTheme,
+  };
+}
+```
+
+Data arrays that don't reference the theme CAN still be module-level constants.
+
+## Rule: Use theme-aware CSS for chart card containers
+
+Chart card wrapper elements must use theme tokens, not hardcoded colors:
+
+```scss
+// ❌ WRONG — invisible border in dark mode
+.chart-card {
+  border: 1px solid rgba(0, 0, 0, 0.69);
+  background: #ffffff;
+}
+
+// ✅ CORRECT — adapts to both themes
+.chart-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--background-secondary);
+}
+```
+
+## Rule: Override chart internal backgrounds to transparent
+
+Even with the correct `theme` option set, some Carbon Charts internal elements may render with opaque backgrounds. Add these SCSS overrides inside the chart card selector:
+
+```scss
+.chart-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--background-secondary);
+
+  .cds--chart-holder,
+  .bx--chart-holder {
+    background: transparent !important;
+  }
+
+  svg rect.chart-grid-backdrop,
+  svg .chart-grid-backdrop {
+    fill: transparent !important;
+  }
+}
+```
+
+## Checklist Before Shipping Any Page With Charts
+
+- [ ] `useTheme()` is imported from `../../contexts/ThemeContext`
+- [ ] `chartTheme` is derived inside the component using `useTheme()`
+- [ ] Every chart options object includes `theme: chartTheme`
+- [ ] Chart options objects are defined inside the component (not module-level)
+- [ ] Chart card borders use `var(--border-subtle)` not hardcoded colors
+- [ ] Chart card backgrounds use `var(--background-secondary)` or `var(--background-primary)`
+- [ ] Page is visually verified in **dark mode** before considering work done
+- [ ] Page is visually verified in **light mode** to confirm nothing regressed
+
+## Supported Chart Components
+
+All `@carbon/charts-react` chart types support the `theme` option:
+- `AreaChart`, `StackedAreaChart`
+- `LineChart`
+- `SimpleBarChart`, `GroupedBarChart`, `StackedBarChart`
+- `GaugeChart`
+- `DonutChart`, `PieChart`
+- `ScatterChart`
+- All others in the library
+
+## Related Rules
+
+- `.builder/rules/theme-contrast-guidelines.mdc` — General contrast and token usage
+- `.builder/rules/theming-system.mdc` — How `useTheme` and `ThemeContext` work
+- `.builder/rules/global-css-usage.mdc` — Never hardcode colors, always use tokens
+- `.builder/rules/design-tokens.mdc` — Available CSS custom properties
