@@ -166,11 +166,10 @@ export default function NetworkDashboard() {
       {notificationOpen && (
         <div className="network-dashboard__notification">
           <InlineNotification
-            kind="warning"
+            kind="error"
             title="Title"
             subtitle="Message"
             onCloseButtonClick={() => setNotificationOpen(false)}
-            style={{ backgroundColor: 'rgba(244, 0, 0, 1)' }}
           />
         </div>
       )}
