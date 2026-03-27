@@ -10,6 +10,29 @@ alwaysApply: false
 
 This document provides guidelines for using Carbon's `InlineNotification` component in the InsureCo application.
 
+## ⚠️ Critical: `lowContrast` Prop Required for Colored Backgrounds
+
+**Carbon's `InlineNotification` has two contrast modes:**
+
+| Mode | Background | When to use |
+|---|---|---|
+| **Default (high contrast)** | Dark/inverse (`#393939`) | Notifications on colored/dark page backgrounds |
+| **`lowContrast` (low contrast)** | Colored (yellow, green, red, blue) | Notifications on white/light page backgrounds |
+
+**On light-mode pages, always use `lowContrast`** — otherwise the notification will appear with a dark background regardless of the `kind` prop:
+
+
+// ❌ WRONG — dark background even in light mode
+<InlineNotification kind="warning" title="Title" subtitle="Message" />
+
+// ✅ CORRECT — yellow background in light mode
+<InlineNotification kind="warning" lowContrast title="Title" subtitle="Message" />
+```
+
+This was a hard-won lesson: a `kind="warning"` notification showing a dark `#393939` background on a light page is **not** a theming bug or a CSS load-order problem — it is simply the default high-contrast behavior. The fix is always `lowContrast`, not inline style overrides or CSS hacks.
+
+---
+
 ## Overview
 
 `InlineNotification` is a Carbon Design System component used to display contextual feedback messages inline within page content. These notifications are theme-aware and automatically adapt colors for both light and dark modes.

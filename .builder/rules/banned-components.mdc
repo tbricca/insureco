@@ -14,15 +14,6 @@ This file documents Carbon Design System components that should not be used in t
 
 **None** - All Carbon components are currently approved for use.
 
-## Previously Banned Components
-
-### ProgressIndicator (Unbanned)
-
-**Component**: `ProgressIndicator` and `ProgressStep` from `@carbon/react`
-
-**Previous Issue**: Had theming issues that have been resolved through proper CSS overrides and specificity management.
-
-**Alternative Available**: `StepBreadcrumb` (custom component) is still available at `src/components/StepBreadcrumb.jsx` for projects preferring a custom implementation.
 
 ## Guidelines for Using Carbon Components
 

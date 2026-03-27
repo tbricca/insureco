@@ -1,3 +1,4 @@
+import "@carbon/charts/styles.css";
 import "./index.scss";
 
 import React from "react";
