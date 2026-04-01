@@ -1,0 +1,195 @@
+---
+description: Material Design guidelines for new components
+globs:
+alwaysApply: false
+---
+
+# Material Design — New Component Guidelines
+
+## ⚠️ IMPORTANT: Design System Transition
+
+This project is **migrating from Carbon Design System to Material Design (MUI)**. Any **new component** created must follow Material Design principles and use **MUI (Material UI)** as the component library.
+
+- **Existing components**: Leave Carbon-based components as-is unless explicitly asked to update them.
+- **New components**: Always use MUI and Material Design patterns.
+
+---
+
+## Library
+
+Use **MUI (Material UI v5+)** — `@mui/material`.
+
+Install if not already present:
+
+npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+```
+
+---
+
+## Core Principles
+
+1. **Use MUI components first** — prefer MUI primitives over custom HTML.
+2. **Use the MUI theme system** — all colors, spacing, and typography via `theme` tokens, never hardcoded values.
+3. **Follow Material Design 3 (M3) guidelines** — elevation, motion, shape, and color roles.
+4. **Support both light and dark modes** — use `theme.palette` tokens that adapt automatically.
+
+---
+
+## Component Patterns
+
+### Buttons
+```jsx
+import Button from '@mui/material/Button';
+
+// Primary action
+<Button variant="contained">Submit</Button>
+
+// Secondary action
+<Button variant="outlined">Cancel</Button>
+
+// Subtle action
+<Button variant="text">Learn More</Button>
+```
+
+### Text Inputs
+```jsx
+import TextField from '@mui/material/TextField';
+
+<TextField label="Email" variant="outlined" fullWidth />
+<TextField label="Password" type="password" variant="outlined" error helperText="Required" />
+```
+
+### Layout & Spacing
+```jsx
+import { Box, Stack, Grid } from '@mui/material';
+
+// Spacing via sx prop (uses theme spacing — 1 unit = 8px)
+<Box sx={{ p: 2, mb: 3 }}>...</Box>
+
+// Stack for linear layouts
+<Stack spacing={2} direction="row">...</Stack>
+
+// Grid for responsive layouts
+<Grid container spacing={2}>
+  <Grid item xs={12} md={6}>...</Grid>
+</Grid>
+```
+
+### Typography
+```jsx
+import Typography from '@mui/material/Typography';
+
+<Typography variant="h1">Heading</Typography>
+<Typography variant="body1">Body text</Typography>
+<Typography variant="caption" color="text.secondary">Caption</Typography>
+```
+
+### Cards
+```jsx
+import { Card, CardContent, CardActions } from '@mui/material';
+
+<Card elevation={2}>
+  <CardContent>
+    <Typography variant="h6">Title</Typography>
+    <Typography variant="body2">Content</Typography>
+  </CardContent>
+  <CardActions>
+    <Button size="small">Action</Button>
+  </CardActions>
+</Card>
+```
+
+### Icons
+```jsx
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+<CheckCircleIcon color="success" />
+<CheckCircleIcon sx={{ color: 'primary.main' }} />
+```
+
+---
+
+## Theming
+
+New components must consume colors and typography from the MUI theme — **never hardcode values**.
+
+```jsx
+// ✅ CORRECT — theme-aware
+<Box sx={{ bgcolor: 'background.paper', color: 'text.primary', p: 2 }} />
+
+// ❌ WRONG — hardcoded
+<Box style={{ backgroundColor: '#ffffff', color: '#161616', padding: '16px' }} />
+```
+
+### Common Palette Tokens
+| Token | Usage |
+|---|---|
+| `primary.main` | Primary brand color |
+| `secondary.main` | Secondary brand color |
+| `background.default` | Page background |
+| `background.paper` | Card/surface background |
+| `text.primary` | Main text |
+| `text.secondary` | Supporting/muted text |
+| `error.main` | Error states |
+| `success.main` | Success states |
+
+---
+
+## Styling Approach
+
+Use the **`sx` prop** for one-off styles. Use `styled()` for reusable styled components.
+
+```jsx
+// sx prop — inline, theme-aware
+<Box sx={{ borderRadius: 2, boxShadow: 3, p: 3 }}>...</Box>
+
+// styled() — reusable
+import { styled } from '@mui/material/styles';
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius * 2,
+  padding: theme.spacing(3),
+  backgroundColor: theme.palette.background.paper,
+}));
+```
+
+---
+
+## Dark Mode
+
+MUI's `ThemeProvider` handles light/dark switching automatically via `palette.mode`. Do **not** manually switch colors for dark mode — use palette tokens and they will adapt.
+
+```jsx
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark', // or 'light'
+  },
+});
+
+<ThemeProvider theme={theme}>
+  <App />
+</ThemeProvider>
+```
+
+---
+
+## DO / DON'T Summary
+
+| ✅ DO | ❌ DON'T |
+|---|---|
+| Use MUI components (`Button`, `TextField`, etc.) | Use Carbon components (`cds--btn`, etc.) for new work |
+| Use `sx` prop or `styled()` for styles | Use inline `style={{}}` with raw values |
+| Use `theme.palette.*` color tokens | Hardcode hex colors |
+| Use `theme.spacing()` for spacing | Hardcode `px` values |
+| Test in both light and dark MUI themes | Only test in one theme |
+| Follow M3 elevation and shape guidelines | Create custom shadows that don't match M3 |
+
+---
+
+## Related Documentation
+- MUI docs: https://mui.com/material-ui/
+- Material Design 3: https://m3.material.io/
+- MUI theming: https://mui.com/material-ui/customization/theming/
+- MUI icons: https://mui.com/material-ui/material-icons/
