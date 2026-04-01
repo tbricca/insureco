@@ -124,39 +124,65 @@ export default function LandingPage() {
       {/* Car Insurance Section */}
       <section id="car-insurance" className="product-section car-insurance-section">
         <Grid>
-          <Column lg={8} md={4} sm={4}>
+          <Column lg={8} md={8} sm={4}>
             <div className="product-content">
-              <div className="product-icon">
-                <Car size={64} />
-              </div>
+              <span className="product-badge">Most Popular</span>
               <Heading className="product-heading">Car Insurance</Heading>
               <p className="product-description">
-                Drive with confidence knowing you're protected. Our comprehensive auto insurance 
-                covers collision, liability, and more. Get instant quotes and customize your 
-                coverage to match your needs.
+                Drive with total confidence. Our auto insurance wraps you in protection
+                from every angle — so you can focus on the road ahead, not what could
+                go wrong.
               </p>
-              <ul className="product-features">
+              <div className="car-stats-row">
+                <div className="car-stat-item">
+                  <span className="car-stat-number">500K+</span>
+                  <span className="car-stat-label">Drivers protected</span>
+                </div>
+                <div className="car-stat-divider" />
+                <div className="car-stat-item">
+                  <span className="car-stat-number">$400</span>
+                  <span className="car-stat-label">Avg. annual savings</span>
+                </div>
+                <div className="car-stat-divider" />
+                <div className="car-stat-item">
+                  <span className="car-stat-number">24hr</span>
+                  <span className="car-stat-label">Claims turnaround</span>
+                </div>
+              </div>
+              <ul className="product-features car-features-grid">
                 <li><CheckmarkFilled size={20} /> Collision coverage</li>
                 <li><CheckmarkFilled size={20} /> Liability protection</li>
                 <li><CheckmarkFilled size={20} /> Roadside assistance</li>
                 <li><CheckmarkFilled size={20} /> Rental car coverage</li>
+                <li><CheckmarkFilled size={20} /> Uninsured motorist</li>
+                <li><CheckmarkFilled size={20} /> Gap coverage</li>
               </ul>
-              <Button
-                kind="tertiary"
-                onClick={() => navigate('/signup')}
-                renderIcon={ArrowRight}
-              >
-                Learn More
-              </Button>
+              <div className="product-cta-group">
+                <Button
+                  kind="primary"
+                  size="lg"
+                  onClick={() => navigate('/signup')}
+                  renderIcon={ArrowRight}
+                >
+                  Get My Quote
+                </Button>
+                <p className="cta-reassurance">No commitment. Takes 2 minutes.</p>
+              </div>
             </div>
           </Column>
-          <Column lg={8} md={4} sm={4}>
-            <div className="product-image">
-              <img
-                src="https://images.pexels.com/photos/220309/pexels-photo-220309.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Modern blue sedan representing everyday auto insurance coverage"
-                loading="lazy"
-              />
+          <Column lg={8} md={8} sm={4}>
+            <div className="car-image-wrapper">
+              <div className="product-image">
+                <img
+                  src="https://images.pexels.com/photos/220309/pexels-photo-220309.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  alt="Modern blue sedan representing everyday auto insurance coverage"
+                  loading="lazy"
+                />
+              </div>
+              <div className="car-image-badge">
+                <span className="car-image-badge-stars">★★★★★</span>
+                <span className="car-image-badge-text">4.9 / 5 customer rating</span>
+              </div>
             </div>
           </Column>
         </Grid>
