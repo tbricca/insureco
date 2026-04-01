@@ -121,11 +121,30 @@ export default function LandingPage() {
         </Grid>
       </section>
 
-      {/* Car Insurance Section */}
+      {/*
+       * Car Insurance Section
+       * ----------------------
+       * This is a primary product showcase section anchored at #car-insurance so
+       * it can be reached via the footer navigation link and any in-page anchor.
+       *
+       * Layout: Two equal columns (Carbon lg={8}) — left holds all copy/CTA,
+       * right holds the photo with a floating rating badge.
+       *
+       * Design goals:
+       *  - Establish authority with the "Most Popular" badge
+       *  - Build trust through measurable social-proof stats
+       *  - Lower purchase friction with the reassurance line under the CTA
+       *  - Keep the visual focus on the image on larger viewports
+       */}
       <section id="car-insurance" className="product-section car-insurance-section">
         <Grid>
           <Column lg={8} md={8} sm={4}>
             <div className="product-content">
+              {/*
+               * "Most Popular" badge — signals this product has the highest uptake,
+               * nudging visitors toward it via social proof before they even read the copy.
+               * Styled as a red pill using --interactive-primary so it inherits theme color.
+               */}
               <span className="product-badge">Most Popular</span>
               <Heading className="product-heading">Car Insurance</Heading>
               <p className="product-description">
@@ -133,6 +152,17 @@ export default function LandingPage() {
                 from every angle — so you can focus on the road ahead, not what could
                 go wrong.
               </p>
+              {/*
+               * Stats Row
+               * ----------
+               * Three quantified proof-points separated by vertical dividers.
+               * Each stat consists of a large brand-colored number and a small
+               * supporting label. The entire row sits on a secondary background
+               * tile to visually separate it from the surrounding copy.
+               *
+               * Stats are intentionally brief (e.g. "500K+" not "500,000+") to
+               * maximise visual impact at a glance.
+               */}
               <div className="car-stats-row">
                 <div className="car-stat-item">
                   <span className="car-stat-number">500K+</span>
@@ -149,6 +179,15 @@ export default function LandingPage() {
                   <span className="car-stat-label">Claims turnaround</span>
                 </div>
               </div>
+              {/*
+               * Coverage Features Grid
+               * ----------------------
+               * Extends the base .product-features list with a two-column CSS grid
+               * layout via the .car-features-grid modifier class. Six features are
+               * shown instead of the original four, giving a richer sense of value
+               * without overwhelming the user. Each item uses the Carbon
+               * CheckmarkFilled icon coloured with --color-success for quick scanning.
+               */}
               <ul className="product-features car-features-grid">
                 <li><CheckmarkFilled size={20} /> Collision coverage</li>
                 <li><CheckmarkFilled size={20} /> Liability protection</li>
@@ -157,6 +196,14 @@ export default function LandingPage() {
                 <li><CheckmarkFilled size={20} /> Uninsured motorist</li>
                 <li><CheckmarkFilled size={20} /> Gap coverage</li>
               </ul>
+              {/*
+               * CTA Group
+               * ----------
+               * Upgraded from a ghost "Learn More" button to a full primary
+               * "Get My Quote" button to make the action more direct and conversion-
+               * oriented. The reassurance line below reduces hesitation by
+               * communicating zero commitment and a fast process.
+               */}
               <div className="product-cta-group">
                 <Button
                   kind="primary"
@@ -171,6 +218,14 @@ export default function LandingPage() {
             </div>
           </Column>
           <Column lg={8} md={8} sm={4}>
+            {/*
+             * Image Wrapper
+             * --------------
+             * Wraps the photo and the floating rating badge in a single relative
+             * container so the badge can be absolutely positioned over the image.
+             * The wrapper sets a min-height to maintain visual balance before the
+             * image loads and on smaller viewports.
+             */}
             <div className="car-image-wrapper">
               <div className="product-image">
                 <img
@@ -179,6 +234,15 @@ export default function LandingPage() {
                   loading="lazy"
                 />
               </div>
+              {/*
+               * Floating Rating Badge
+               * ----------------------
+               * A small card positioned over the bottom-left of the image that
+               * displays the average customer star rating. It uses
+               * --background-primary and --border-subtle so it adapts to both
+               * light and dark themes automatically. The badge reinforces trust
+               * at the exact moment the visitor's eye is drawn to the photo.
+               */}
               <div className="car-image-badge">
                 <span className="car-image-badge-stars">★★★★★</span>
                 <span className="car-image-badge-text">4.9 / 5 customer rating</span>

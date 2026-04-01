@@ -208,11 +208,40 @@
   }
 }
 
+// ============================================================
+// Car Insurance Section
+// ============================================================
+// Redesigned to be more compelling and conversion-focused.
+//
+// Layout (Carbon CSS Grid):
+//   - Left column  (lg:8 / md:8 / sm:4): all copy + CTA
+//   - Right column (lg:8 / md:8 / sm:4): photo + floating rating badge
+//
+// Visual hierarchy (top → bottom in left column):
+//   1. "Most Popular" badge     → establish authority instantly
+//   2. Heading                  → fluid clamp() type scale
+//   3. Description              → short, benefit-driven copy
+//   4. Stats row                → quantified social proof
+//   5. Coverage features grid   → 6 items in a 2-col grid
+//   6. CTA group                → primary button + reassurance text
+//
+// All colours use semantic design tokens so the section adapts
+// automatically to both the white (light) and g100 (dark) themes.
+// ============================================================
 .car-insurance-section {
   background: var(--background-primary);
+
+  // position: relative + overflow: hidden are both required here.
+  // The decorative ::before pseudo-element extends 120px outside the
+  // section bounds; overflow: hidden clips it so it doesn't cause
+  // unwanted horizontal scroll on small viewports.
   position: relative;
   overflow: hidden;
 
+  // Decorative radial glow anchored to the top-right corner.
+  // The very low opacity (0.07) keeps it subtle — it adds perceived
+  // depth without distracting from the content.
+  // pointer-events: none ensures it never captures clicks or hovers.
   &::before {
     content: '';
     position: absolute;
@@ -225,6 +254,13 @@
     pointer-events: none;
   }
 
+  // "Most Popular" pill badge.
+  // Uses --interactive-primary (brand red) as the background so it
+  // automatically adjusts between the lighter red in dark mode and
+  // the standard red in light mode, maintaining WCAG AA contrast.
+  // border-radius: 2rem creates a fully pill-shaped element regardless
+  // of how long the label text is. letter-spacing + uppercase add
+  // typographic weight at the small font size.
   .product-badge {
     display: inline-block;
     background: var(--interactive-primary);
@@ -238,6 +274,12 @@
     margin-bottom: var(--spacing-05);
   }
 
+  // Section heading — locally overrides the shared .product-heading rule
+  // with a larger fluid type size. clamp(2rem, 4vw, 2.75rem) means:
+  //   - Never smaller than 2rem (mobile floors)
+  //   - Scales linearly with viewport width at 4vw
+  //   - Never larger than 2.75rem (desktop ceiling)
+  // This avoids the need for breakpoint-specific font-size overrides.
   .product-heading {
     font-size: clamp(2rem, 4vw, 2.75rem);
     font-weight: var(--heading-h1-weight);
@@ -246,6 +288,10 @@
     color: var(--text-primary);
   }
 
+  // Lead paragraph beneath the heading.
+  // --body-lg-size and --line-height-loose give comfortable reading rhythm.
+  // max-width: 520px caps line length so lines don't stretch too wide on
+  // large viewports — long lines reduce readability significantly.
   .product-description {
     font-size: var(--body-lg-size);
     line-height: var(--line-height-loose);
@@ -254,6 +300,11 @@
     max-width: 520px;
   }
 
+  // Quantified social-proof stats container.
+  // Three stat items (number + label) are laid out in a flex row and
+  // separated by thin 1px vertical rules (.car-stat-divider).
+  // --background-secondary lifts the tile off the page background;
+  // --border-subtle gives it a lightweight outline in both themes.
   .car-stats-row {
     display: flex;
     align-items: center;
@@ -265,6 +316,8 @@
     border: 1px solid var(--border-subtle);
   }
 
+  // Individual stat cell (number stacked above its label).
+  // flex: 1 distributes all three cells equally across the container width.
   .car-stat-item {
     display: flex;
     flex-direction: column;
@@ -272,6 +325,10 @@
     flex: 1;
   }
 
+  // Large metric display value (e.g. "500K+", "$400", "24hr").
+  // Uses --interactive-primary so the colour token automatically switches
+  // between the standard brand red in light mode and the lighter accessible
+  // red variant in dark mode — no manual theme selectors needed.
   .car-stat-number {
     font-size: 1.75rem;
     font-weight: var(--heading-h1-weight);
@@ -280,12 +337,18 @@
     margin-bottom: var(--spacing-02);
   }
 
+  // Supporting descriptor beneath the stat number.
+  // --text-secondary ensures it's readable but visually subordinate to the
+  // bold number directly above it.
   .car-stat-label {
     font-size: var(--body-sm-size);
     color: var(--text-secondary);
     text-align: center;
   }
 
+  // Thin vertical separator between stat items in the stats row.
+  // flex-shrink: 0 prevents it from collapsing when the container is narrow;
+  // without this it would disappear before the breakpoint fires.
   .car-stat-divider {
     width: 1px;
     height: 40px;
@@ -293,6 +356,12 @@
     flex-shrink: 0;
   }
 
+  // Two-column feature list modifier applied on top of the shared
+  // .product-features styles. CSS Grid is used (vs. flex) so items
+  // snap into a clean two-column layout regardless of label length.
+  // Six features are shown (vs. four in other sections) to communicate
+  // greater coverage depth. The shared li rules still apply; we only
+  // reset margin-bottom because the grid row-gap handles vertical spacing.
   .car-features-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -304,6 +373,10 @@
     }
   }
 
+  // Wrapper that stacks the primary CTA button above the reassurance text.
+  // align-items: flex-start prevents the button from stretching to the full
+  // column width, keeping it feeling like a deliberate action rather than
+  // a passive form submit.
   .product-cta-group {
     display: flex;
     flex-direction: column;
@@ -311,12 +384,21 @@
     gap: var(--spacing-03);
   }
 
+  // Micro-copy below the CTA button ("No commitment. Takes 2 minutes.").
+  // Positioned directly under the button so it's read immediately after
+  // the user's eye lands on it. --text-secondary keeps it legible but
+  // visually subordinate so it doesn't compete with the button label.
   .cta-reassurance {
     font-size: var(--body-sm-size);
     color: var(--text-secondary);
     margin: 0;
   }
 
+  // Outer container for the right-column image + floating badge.
+  // position: relative is essential — the .car-image-badge child uses
+  // position: absolute and needs this as its positioning context.
+  // min-height + align-items: center keep the column visually balanced
+  // with the left column even before the image has fully loaded.
   .car-image-wrapper {
     position: relative;
     height: 100%;
@@ -324,6 +406,12 @@
     display: flex;
     align-items: center;
 
+    // Photo container nested inside .car-image-wrapper.
+    // overflow: hidden combined with border-radius clips the <img> to
+    // rounded corners. The elevated box-shadow (0 20px 60px) gives the
+    // image a "floating card" appearance — deeper than the standard
+    // --card-shadow token used elsewhere on the page.
+    // The img scale transition on :hover adds a polished zoom effect.
     .product-image {
       width: 100%;
       height: 100%;
@@ -336,6 +424,8 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        // Smooth 500ms ease (vs. the default --motion-hover duration) gives
+        // the zoom effect a more cinematic, premium feel.
         transition: transform 0.5s ease;
       }
 
@@ -343,6 +433,9 @@
         transform: scale(1.03);
       }
 
+      // Slightly darken the image in dark themes so it integrates
+      // naturally against the dark page background. brightness(0.85) reduces
+      // glare; contrast(1.05) compensates so colours stay vivid.
       :root[data-carbon-theme="g90"] &,
       :root[data-carbon-theme="g100"] & {
         img { filter: brightness(0.85) contrast(1.05); }
@@ -350,6 +443,17 @@
     }
   }
 
+  // Floating trust-signal card absolutely positioned over the lower-left
+  // of the photo. It overlaps the left column slightly (left: negative value)
+  // to feel integrated with the image rather than sitting beside it.
+  //
+  // Token usage:
+  //   --background-primary  → adapts to white in light / dark in dark theme
+  //   --border-subtle       → lightweight outline that respects both themes
+  //   --card-shadow-hover   → elevated shadow keeps it lifted above the photo
+  //
+  // white-space: nowrap on .car-image-badge-text prevents the rating string
+  // from wrapping, which would break the compact badge layout.
   .car-image-badge {
     position: absolute;
     bottom: var(--spacing-06);
@@ -363,12 +467,17 @@
     flex-direction: column;
     gap: var(--spacing-01);
 
+    // Star characters rendered in Carbon's gold (#f1c21b) — this is a static
+    // colour because gold stars are a universal visual convention and should
+    // not change with theme. letter-spacing opens up the glyphs slightly.
     .car-image-badge-stars {
       color: #f1c21b;
       font-size: 1rem;
       letter-spacing: 0.1em;
     }
 
+    // Rating label below the stars. white-space: nowrap is critical here —
+    // if the text wraps it will break the compact card proportions.
     .car-image-badge-text {
       font-size: var(--body-sm-size);
       font-weight: var(--font-weight-semibold);
@@ -377,22 +486,33 @@
     }
   }
 
+  // ── Mobile overrides (below $breakpoint-md) ─────────────────────────────
+  // The Carbon grid reflows to a single column at this breakpoint, so the
+  // image wrapper stacks above the content. We reduce heights and reset the
+  // badge offset so it doesn't overflow the viewport edge.
   @media (max-width: $breakpoint-md) {
     .car-stats-row {
+      // Tighter spacing so all three stats fit comfortably in a narrow row.
       gap: var(--spacing-04);
       padding: var(--spacing-05);
     }
 
     .car-stat-number {
+      // Slightly smaller number to prevent overflow at narrow widths.
       font-size: 1.4rem;
     }
 
     .car-features-grid {
+      // Collapse the 2-column feature grid to a single column on mobile
+      // so items remain readable without truncation.
       grid-template-columns: 1fr;
     }
 
     .car-image-wrapper {
+      // Reduce min-height since the image now spans full width on mobile.
       min-height: 280px;
+      // Add bottom margin so the image doesn't sit flush against the
+      // copy column that follows it in the stacked layout.
       margin-bottom: var(--spacing-07);
 
       .product-image {
@@ -401,6 +521,9 @@
     }
 
     .car-image-badge {
+      // Reset the negative left offset used on desktop — on mobile the badge
+      // is contained within the full-width image, so it doesn't need to
+      // overlap into the left column (which no longer exists at this size).
       left: var(--spacing-04);
     }
   }
