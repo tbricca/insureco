@@ -19,6 +19,8 @@ import {
   RadioTile,
   DatePicker,
   DatePickerInput,
+  Breadcrumb,
+  BreadcrumbItem,
 } from '@carbon/react';
 import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon, WarningAlt } from '@carbon/icons-react';
 import StepBreadcrumb from '../components/StepBreadcrumb';
@@ -738,6 +740,18 @@ export default function SignUpPage() {
   return (
     <Grid className="signup-page signup-container">
       <Column sm={4} md={8} lg={{ span: 12, offset: 2 }} xlg={{ span: 10, offset: 3 }}>
+        {/* Top Navigation Breadcrumbs */}
+        <div className="signup-top-nav">
+          <Breadcrumb noTrailingSlash aria-label="Page navigation">
+            <BreadcrumbItem>
+              <Link to="/">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>
+              Sign Up
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+
         {/* Red gradient header */}
         <header className="signup-header">
           <Heading className="signup-title">Sign Up for InsureCo</Heading>
