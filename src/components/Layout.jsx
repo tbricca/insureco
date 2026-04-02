@@ -56,7 +56,7 @@ export default function Layout({ children }) {
                 aria-expanded={isSideNavExpanded}
               />
               <HeaderName onClick={() => navigate("/")} prefix="InsureCo">
-                Insurance
+                New Age Insurance
               </HeaderName>
               <HeaderNavigation aria-label="InsureCo Navigation">
                 <HeaderMenuItem onClick={() => navigate("/")}>

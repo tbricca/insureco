@@ -127,7 +127,7 @@ export default function DashboardHome() {
       <Column lg={16} md={8} sm={4} className="dashboard-header">
         <Heading className="dashboard-title">My Dashboard</Heading>
         <p className="dashboard-subtitle">
-          Welcome back! Here's an overview of your insurance policies and recent activity.
+          Welcome back! Here's an overview of your New Age Insurance policies and recent activity.
         </p>
       </Column>
 
@@ -140,7 +140,7 @@ export default function DashboardHome() {
             </div>
             <div className="action-content">
               <h4>View Policies</h4>
-              <p>Manage your active insurance policies</p>
+              <p>Manage your active New Age Insurance policies</p>
             </div>
             <ArrowRight size={20} className="action-arrow" />
           </ClickableTile>
@@ -151,7 +151,7 @@ export default function DashboardHome() {
             </div>
             <div className="action-content">
               <h4>File a Claim</h4>
-              <p>Submit a new insurance claim</p>
+              <p>Submit a new New Age Insurance claim</p>
             </div>
             <ArrowRight size={20} className="action-arrow" />
           </ClickableTile>
@@ -320,14 +320,14 @@ export default function DashboardHome() {
       {/* Insurance Cards */}
       <Column lg={16} md={8} sm={4}>
         <Tile className="insurance-cards-section">
-          <Heading className="tile-title">Digital Insurance Cards</Heading>
+          <Heading className="tile-title">Digital New Age Insurance Cards</Heading>
           <p className="section-description">
-            Access and download your digital insurance cards for quick reference
+            Access and download your digital New Age Insurance cards for quick reference
           </p>
           <div className="insurance-cards">
             <Tile className="insurance-card">
               <div className="card-header">
-                <h4>Auto Insurance Card</h4>
+                <h4>Auto New Age Insurance Card</h4>
                 <Tag type="green">Active</Tag>
               </div>
               <div className="card-details">
@@ -343,7 +343,7 @@ export default function DashboardHome() {
 
             <Tile className="insurance-card">
               <div className="card-header">
-                <h4>Home Insurance Card</h4>
+                <h4>Home New Age Insurance Card</h4>
                 <Tag type="green">Active</Tag>
               </div>
               <div className="card-details">

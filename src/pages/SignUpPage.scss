@@ -63,6 +63,14 @@
   }
 }
 
+.signup-top-nav {
+  margin-bottom: var(--spacing-05);
+
+  .cds--breadcrumb {
+    padding: 0;
+  }
+}
+
 .signup-header {
   text-align: center;
   margin-bottom: var(--spacing-05);
@@ -118,168 +126,19 @@
 
 .signup-progress {
   margin-bottom: var(--spacing-06);
-  padding: 0 var(--spacing-03) var(--spacing-04) var(--spacing-03);
+  padding: var(--spacing-05) var(--spacing-04);
   border-radius: var(--radius-sm);
   background: var(--background-secondary);
+  border-left: 4px solid var(--interactive-primary);
   box-shadow:
     0 1px 2px 0 rgba(0, 0, 0, 0.1),
     0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  overflow-x: auto; // Allow horizontal scroll for progress bar
+  overflow-x: auto; // Allow horizontal scroll if needed on very small screens
   -webkit-overflow-scrolling: touch;
 
-  @media (min-width: 480px) {
-    padding: 0 var(--spacing-04) var(--spacing-04) var(--spacing-04);
-  }
-
   @media (min-width: 672px) {
-    padding: 0 var(--spacing-06) var(--spacing-05) var(--spacing-06);
+    padding: var(--spacing-06) var(--spacing-07);
     margin-bottom: var(--spacing-09);
-  }
-
-  // Carbon ProgressIndicator overrides for exact Figma match
-  .cds--progress-indicator {
-    gap: 0;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-
-    // Hide scrollbar but keep functionality
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-subtle) transparent;
-
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: var(--border-subtle);
-      border-radius: 2px;
-    }
-  }
-
-  // Target the actual progress line element instead of using border-top
-  // This prevents the double-line issue
-  .cds--progress-step--current .cds--progress-line {
-    background-color: #0f62fe !important;
-  }
-
-  .cds--progress-step--incomplete .cds--progress-line {
-    background-color: var(--border-subtle) !important;
-  }
-
-  .cds--progress-step--complete .cds--progress-line {
-    background-color: #0f62fe !important;
-  }
-
-  // Make labels appear below icons
-  .cds--progress-step-button {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: var(--spacing-03) !important;
-  }
-
-  // Icon and label layout
-  .cds--progress-step-button-icon {
-    margin: 0 !important;
-  }
-
-  // Current step styling
-  .cds--progress-step--current {
-    .cds--progress-label {
-      color: var(--text-primary) !important;
-      font-family: var(--font-family-sans);
-      font-size: 11px;
-      font-weight: var(--font-weight-semibold);
-      line-height: 1.2;
-      letter-spacing: 0.12px;
-
-      @media (min-width: 480px) {
-        font-size: var(--body-sm-size);
-        line-height: 1.29;
-        letter-spacing: 0.16px;
-      }
-    }
-
-    svg {
-      fill: #0f62fe;
-    }
-  }
-
-  // Incomplete step styling
-  .cds--progress-step--incomplete {
-    .cds--progress-label {
-      color: var(--text-primary) !important;
-      font-family: var(--font-family-sans);
-      font-size: 11px;
-      font-weight: var(--font-weight-regular);
-      line-height: 1.2;
-      letter-spacing: 0.12px;
-
-      @media (min-width: 480px) {
-        font-size: var(--body-sm-size);
-        line-height: 1.29;
-        letter-spacing: 0.16px;
-      }
-    }
-
-    svg {
-      fill: var(--text-primary);
-    }
-  }
-
-  // Complete step styling
-  .cds--progress-step--complete {
-    .cds--progress-label {
-      color: var(--text-primary) !important;
-      font-weight: var(--font-weight-semibold);
-    }
-
-    svg {
-      fill: #0f62fe;
-    }
-  }
-
-  // Optional label (description) styling - hide on mobile
-  .cds--progress-optional {
-    color: var(--text-secondary) !important;
-    font-family: var(--font-family-sans);
-    font-size: 10px;
-    font-weight: var(--font-weight-regular);
-    line-height: 1.2;
-    letter-spacing: 0.16px;
-    padding-left: 0 !important;
-    margin-top: var(--spacing-02);
-
-    @media (max-width: 671px) {
-      display: none; // Hide description on mobile to save space
-    }
-  }
-
-  // Ensure consistent spacing between steps
-  .cds--progress-step {
-    flex: 1 0 0;
-    min-width: 75px; // Further reduced for very small screens
-    padding: 10px 4px 0 4px; // Minimal horizontal padding on mobile
-
-    @media (min-width: 480px) {
-      min-width: 90px;
-      padding: 10px 8px 0 8px;
-    }
-
-    @media (min-width: 672px) {
-      min-width: 120px;
-      padding: 10px 12px 0 12px;
-    }
-
-    @media (min-width: 1056px) {
-      min-width: 140px;
-      padding: 10px 16px 0 16px;
-    }
   }
 }
 
@@ -402,10 +261,13 @@
 }
 
 .signup-actions {
+  display: flex;
+  align-items: center;
   padding-top: var(--spacing-06);
-  border-top: 2px solid var(--color-brand-red-20);
+  border-top: 1px solid var(--interactive-primary);
   margin-top: var(--spacing-06);
   flex-wrap: wrap;
+  gap: var(--spacing-04);
 
   // On smaller screens (tablet/medium): horizontal layout with Next to the right
   // Spacer pushes Next button to the right side
@@ -744,6 +606,315 @@
 }
 
 // ============================================
+// Warning Banner
+// ============================================
+
+.signup-warning-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 24px;
+  margin-bottom: var(--spacing-05);
+  border: 1px solid #000;
+  background: #fff4b4;
+  flex-wrap: wrap;
+  gap: var(--spacing-03);
+
+  @media (min-width: 480px) {
+    padding: 13px 34px;
+  }
+}
+
+.signup-warning-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signup-warning-banner__icon {
+  flex-shrink: 0;
+  color: #946c00;
+  fill: none;
+  stroke: #946c00;
+
+  path {
+    stroke: #946c00;
+  }
+}
+
+.signup-warning-banner__text {
+  color: #946c00;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.signup-warning-banner__dismiss {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #946c00;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid #946c00;
+    outline-offset: 2px;
+  }
+}
+
+// ============================================
+// Two-column layout: form + estimator panel
+// ============================================
+
+.signup-step-layout {
+  // Single column by default
+  display: block;
+
+  &--with-estimator {
+    @media (min-width: 1056px) {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-07);
+    }
+  }
+}
+
+.signup-step-layout__form {
+  flex: 1;
+  min-width: 0; // Allow flex child to shrink below content width
+}
+
+.signup-step-layout__panel {
+  flex-shrink: 0;
+  width: 300px;
+
+  @media (min-width: 1056px) {
+    position: sticky;
+    top: var(--spacing-07);
+  }
+
+  // Hidden on mobile — mobile gets the banner instead
+  @media (max-width: 1055px) {
+    display: none;
+  }
+}
+
+// ============================================
+// Estimator Panel (desktop sticky card)
+// ============================================
+
+.estimator-panel {
+  background: var(--background-secondary);
+  border-radius: var(--radius-lg);
+  border-top: 4px solid var(--interactive-primary);
+  padding: var(--spacing-06);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.estimator-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-04);
+}
+
+.estimator-panel__label {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.estimator-panel__bundle-badge {
+  display: inline-block;
+  background: #198038; // success green
+  color: #fff;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 2px var(--spacing-03);
+  border-radius: 99px;
+  letter-spacing: 0.02em;
+}
+
+.estimator-panel__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-02);
+  margin-bottom: var(--spacing-02);
+}
+
+.estimator-panel__price {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--interactive-primary);
+  line-height: 1;
+  // Animate on value change (triggered by React key change)
+  animation: estimator-price-pop 0.35s ease-out;
+}
+
+@keyframes estimator-price-pop {
+  from {
+    opacity: 0.4;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.estimator-panel__period {
+  font-size: var(--body-md-size);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.estimator-panel__annual {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-04) 0;
+}
+
+.estimator-panel__divider {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: var(--spacing-04) 0;
+}
+
+.estimator-panel__breakdown-title {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-03) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.estimator-panel__breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-02);
+}
+
+.estimator-panel__breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-03);
+
+  &--total {
+    margin-top: var(--spacing-03);
+    padding-top: var(--spacing-03);
+    border-top: 1px solid var(--border-subtle);
+
+    .estimator-panel__breakdown-label {
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+    }
+
+    .estimator-panel__breakdown-amount {
+      font-weight: var(--font-weight-semibold);
+      color: var(--interactive-primary);
+      font-size: var(--body-md-size);
+    }
+  }
+}
+
+.estimator-panel__breakdown-label {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.estimator-panel__breakdown-amount {
+  font-size: var(--body-sm-size);
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+
+  &--credit {
+    color: #198038; // success green for savings
+  }
+}
+
+.estimator-panel__disclaimer {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: var(--spacing-04) 0 0 0;
+  line-height: 1.4;
+}
+
+// ============================================
+// Mobile Estimator Banner
+// ============================================
+
+.estimator-mobile-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-03);
+  background: var(--background-selected);
+  border: 1px solid var(--interactive-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-04) var(--spacing-05);
+  margin: var(--spacing-06) 0 0 0;
+
+  // Only visible on mobile/tablet
+  @media (min-width: 1056px) {
+    display: none;
+  }
+}
+
+.estimator-mobile-banner__left {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-04);
+}
+
+.estimator-mobile-banner__amount {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--interactive-primary);
+  line-height: 1;
+}
+
+.estimator-mobile-banner__period {
+  font-size: var(--body-md-size);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-secondary);
+}
+
+.estimator-mobile-banner__annual {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.estimator-mobile-banner__badge {
+  display: inline-block;
+  background: #198038;
+  color: #fff;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 3px var(--spacing-03);
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+// ============================================
 // Insurance Type Tile Selection Styles
 // ============================================
 
@@ -770,23 +941,20 @@
   transition: all 0.2s ease;
   cursor: pointer;
 
-  // Mobile-first: Full width on small screens
   @media (max-width: 671px) {
-    min-height: 100px;
+    min-height: 80px;
   }
 
   @media (min-width: 672px) {
-    min-height: 120px;
+    min-height: 100px;
   }
 
-  // Hover state
   &:hover {
     border-color: var(--interactive-primary);
     box-shadow: 0 2px 8px rgba(218, 30, 40, 0.15);
     transform: translateY(-2px);
   }
 
-  // Selected state (Carbon applies .cds--tile--is-selected)
   &.cds--tile--is-selected {
     border-color: var(--interactive-primary);
     border-width: 3px;
@@ -795,23 +963,21 @@
       0 2px 8px rgba(218, 30, 40, 0.2),
       inset 0 0 0 1px var(--interactive-primary);
 
-    .tile-icon,
-    .tile-icon-group svg {
+    .signup-tile-icon,
+    .signup-tile-icon--dual svg {
       color: var(--interactive-primary);
     }
 
-    .tile-text h4 {
+    .signup-tile-title {
       color: var(--interactive-primary);
     }
   }
 
-  // Focus state for accessibility
   &:focus-within {
     outline: 2px solid var(--interactive-primary);
     outline-offset: 2px;
   }
 
-  // Disabled state
   &.cds--tile--disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -823,76 +989,65 @@
   }
 }
 
-// Tile content layout
-.tile-content {
+.signup-tile-content {
   display: flex;
   align-items: center;
-  gap: var(--spacing-05);
+  gap: 17px;
   padding: var(--spacing-05);
 
   @media (max-width: 671px) {
-    flex-direction: column;
-    text-align: center;
     gap: var(--spacing-04);
   }
 
   @media (min-width: 672px) {
-    flex-direction: row;
-    padding: var(--spacing-06);
+    padding: var(--spacing-05) var(--spacing-06);
   }
 }
 
-// Icon styling
-.tile-icon {
+.signup-tile-icon {
   flex-shrink: 0;
-  color: var(--text-secondary);
-  transition: color 0.2s ease;
-
-  @media (max-width: 671px) {
-    margin: 0 auto;
-  }
-}
-
-.tile-icon-group {
+  color: var(--text-primary);
   display: flex;
-  gap: var(--spacing-03);
-  flex-shrink: 0;
-  color: var(--text-secondary);
+  align-items: center;
   transition: color 0.2s ease;
+}
 
-  @media (max-width: 671px) {
-    justify-content: center;
-    margin: 0 auto;
-  }
+.signup-tile-icon--dual {
+  display: flex;
+  gap: var(--spacing-02);
+  flex-shrink: 0;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
 
   svg {
     transition: color 0.2s ease;
   }
 }
 
-// Text content styling
-.tile-text {
+.signup-tile-text {
   flex: 1;
+}
 
-  h4 {
+.signup-tile-title {
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-02) 0;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+
+  @media (max-width: 671px) {
     font-size: var(--body-lg-size);
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
-    margin: 0 0 var(--spacing-02) 0;
-    transition: color 0.2s ease;
-
-    @media (min-width: 672px) {
-      font-size: var(--heading-h5-size);
-    }
   }
+}
 
-  p {
-    font-size: var(--body-sm-size);
-    color: var(--text-secondary);
-    margin: 0;
+.signup-tile-desc {
+  font-size: var(--body-sm-size);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.43;
 
-    @media (min-width: 672px) {
-      font-size: var(--body-md-size);
-    }
+  @media (min-width: 672px) {
+    font-size: var(--body-md-size);
   }
 }

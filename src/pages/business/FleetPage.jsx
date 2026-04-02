@@ -110,7 +110,7 @@ export default function FleetPage() {
             <div>
               <Heading className="page-title">Fleet Management</Heading>
               <p className="page-subtitle">
-                Manage and monitor all commercial fleet vehicle insurance policies
+                Manage and monitor all commercial fleet vehicle New Age Insurance policies
               </p>
             </div>
           </div>

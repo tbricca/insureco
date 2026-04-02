@@ -4,7 +4,8 @@
   display: flex;
   align-items: center;
   width: 100%;
-  gap: var(--spacing-03);
+  gap: var(--spacing-04);
+  padding: var(--spacing-05) 0;
 
   &--equal {
     .step-breadcrumb__item {
@@ -16,34 +17,35 @@
 .step-breadcrumb__item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-03);
-  min-width: 0; // Allow text truncation
+  gap: var(--spacing-04);
+  min-width: 120px; // Ensure items don't bunch up too much
 
   // Mobile: stack vertically
   @media (max-width: 671px) {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: var(--spacing-02);
+    gap: var(--spacing-03);
+    min-width: 80px;
   }
 }
 
 .step-breadcrumb__marker {
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
   transition: all 0.2s ease;
 
   // Default (incomplete) state
-  background-color: transparent;
+  background-color: var(--background-primary);
   border: 2px solid var(--border-strong);
-  color: var(--text-secondary);
+  color: var(--text-primary);
 
   // Complete state
   .step-breadcrumb__item--complete & {
@@ -57,7 +59,8 @@
     background-color: var(--interactive-primary);
     border-color: var(--interactive-primary);
     color: var(--text-on-color);
-    box-shadow: 0 0 0 3px var(--background-selected);
+    box-shadow: 0 0 0 4px var(--background-selected);
+    transform: scale(1.1);
   }
 }
 
@@ -81,15 +84,13 @@
 }
 
 .step-breadcrumb__label {
-  font-size: var(--body-sm-size);
+  font-size: var(--body-md-size);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text-primary);
+  line-height: 1.2;
 
-  @media (min-width: 672px) {
-    font-size: var(--body-md-size);
+  @media (min-width: 1056px) {
+    font-size: var(--heading-h6-size);
   }
 
   // Complete state
@@ -99,7 +100,7 @@
 
   // Current state
   .step-breadcrumb__item--current & {
-    color: var(--interactive-primary);
+    color: var(--text-primary);
     font-weight: var(--font-weight-bold);
   }
 }
