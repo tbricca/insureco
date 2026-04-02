@@ -26,6 +26,197 @@ import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon, WarningAlt } f
 import StepBreadcrumb from '../components/StepBreadcrumb';
 import './SignUpPage.scss';
 
+// ─── Estimation Logic ─────────────────────────────────────────────────────────
+
+function getEstimate(formData) {
+  const {
+    insuranceType,
+    coverageLevel,
+    deductible,
+    additionalCoverage,
+    carYear,
+    carMilesPerYear,
+    homeValue,
+    homeYear,
+  } = formData;
+
+  if (!coverageLevel || !insuranceType) return null;
+
+  const carRates  = { basic: 85,  standard: 115, premium: 155 };
+  const homeRates = { basic: 95,  standard: 130, premium: 175 };
+
+  const capitalize = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+
+  const breakdown = [];
+  let carMonthly  = 0;
+  let homeMonthly = 0;
+
+  // ── Car ──────────────────────────────────────────────────────────────────────
+  if (insuranceType === 'car' || insuranceType === 'both') {
+    const base = carRates[coverageLevel] || 0;
+    let total  = base;
+    breakdown.push({ label: `Car ${capitalize(coverageLevel)} base`, amount: base });
+
+    if (carYear && parseInt(carYear) < 2010) {
+      const adj = Math.round(base * 0.10);
+      total += adj;
+      breakdown.push({ label: 'Older vehicle (pre-2010)', amount: adj });
+    }
+    if (parseInt(carMilesPerYear) > 15000) {
+      const adj = Math.round(base * 0.08);
+      total += adj;
+      breakdown.push({ label: 'High mileage (15k+/yr)', amount: adj });
+    }
+    if (deductible === '250') {
+      const adj = Math.round(base * 0.15);
+      total += adj;
+      breakdown.push({ label: 'Low deductible ($250)', amount: adj });
+    } else if (deductible === '1000') {
+      const adj = Math.round(base * 0.12);
+      total -= adj;
+      breakdown.push({ label: 'Higher deductible ($1k)', amount: -adj });
+    } else if (deductible === '2500') {
+      const adj = Math.round(base * 0.22);
+      total -= adj;
+      breakdown.push({ label: 'High deductible ($2.5k)', amount: -adj });
+    }
+    if (additionalCoverage.includes('roadside')) {
+      total += 5;
+      breakdown.push({ label: 'Roadside assistance', amount: 5 });
+    }
+    if (additionalCoverage.includes('rental')) {
+      total += 8;
+      breakdown.push({ label: 'Rental car coverage', amount: 8 });
+    }
+    if (additionalCoverage.includes('gap')) {
+      total += 10;
+      breakdown.push({ label: 'Gap insurance', amount: 10 });
+    }
+    carMonthly = total;
+  }
+
+  // ── Home ─────────────────────────────────────────────────────────────────────
+  if (insuranceType === 'home' || insuranceType === 'both') {
+    const base = homeRates[coverageLevel] || 0;
+    let total  = base;
+    breakdown.push({ label: `Home ${capitalize(coverageLevel)} base`, amount: base });
+
+    const hv = parseInt(homeValue) || 0;
+    if (hv > 500000) {
+      const adj = Math.round(base * 0.20);
+      total += adj;
+      breakdown.push({ label: 'High-value home (>$500k)', amount: adj });
+    } else if (hv > 300000) {
+      const adj = Math.round(base * 0.10);
+      total += adj;
+      breakdown.push({ label: 'Above-average value (>$300k)', amount: adj });
+    }
+    if (homeYear && parseInt(homeYear) < 1980) {
+      const adj = Math.round(base * 0.08);
+      total += adj;
+      breakdown.push({ label: 'Older home (pre-1980)', amount: adj });
+    }
+    if (deductible === '250') {
+      const adj = Math.round(base * 0.15);
+      total += adj;
+      breakdown.push({ label: 'Low deductible ($250)', amount: adj });
+    } else if (deductible === '1000') {
+      const adj = Math.round(base * 0.12);
+      total -= adj;
+      breakdown.push({ label: 'Higher deductible ($1k)', amount: -adj });
+    } else if (deductible === '2500') {
+      const adj = Math.round(base * 0.22);
+      total -= adj;
+      breakdown.push({ label: 'High deductible ($2.5k)', amount: -adj });
+    }
+    homeMonthly = total;
+  }
+
+  // ── Totals & bundle ───────────────────────────────────────────────────────────
+  let subtotal     = carMonthly + homeMonthly;
+  let bundleSavings = 0;
+
+  if (insuranceType === 'both') {
+    bundleSavings = Math.round(subtotal * 0.10);
+    subtotal -= bundleSavings;
+  }
+
+  const monthlyTotal  = Math.round(subtotal);
+  const annualTotal   = Math.round(monthlyTotal * 12 * 0.92); // 8% annual discount
+  const annualSavings = Math.round(monthlyTotal * 12) - annualTotal;
+
+  return {
+    monthlyTotal,
+    annualTotal,
+    annualSavings,
+    bundleSavings,
+    breakdown,
+    carMonthly:  Math.round(carMonthly),
+    homeMonthly: Math.round(homeMonthly),
+  };
+}
+
+// ─── Quote Estimator Panel ────────────────────────────────────────────────────
+
+function QuoteEstimator({ estimate }) {
+  if (!estimate) return null;
+
+  const { monthlyTotal, annualTotal, annualSavings, bundleSavings, breakdown } = estimate;
+
+  return (
+    <aside className="estimator-panel">
+      <div className="estimator-panel__header">
+        <p className="estimator-panel__label">Your Estimated Premium</p>
+        {bundleSavings > 0 && (
+          <span className="estimator-panel__bundle-badge">
+            Bundle saves ${bundleSavings}/mo
+          </span>
+        )}
+      </div>
+
+      <div className="estimator-panel__price-row">
+        <span className="estimator-panel__price" key={monthlyTotal}>
+          ${monthlyTotal}
+        </span>
+        <span className="estimator-panel__period">/month</span>
+      </div>
+
+      <p className="estimator-panel__annual">
+        ${annualTotal.toLocaleString()}/yr &middot; Save ${annualSavings}/yr with annual billing
+      </p>
+
+      <hr className="estimator-panel__divider" />
+
+      <p className="estimator-panel__breakdown-title">Coverage Breakdown</p>
+      <div className="estimator-panel__breakdown">
+        {breakdown.map((item, i) => (
+          <div key={i} className="estimator-panel__breakdown-row">
+            <span className="estimator-panel__breakdown-label">{item.label}</span>
+            <span
+              className={[
+                'estimator-panel__breakdown-amount',
+                item.amount < 0 ? 'estimator-panel__breakdown-amount--credit' : '',
+              ].join(' ').trim()}
+            >
+              {item.amount >= 0 ? `+$${item.amount}` : `-$${Math.abs(item.amount)}`}
+            </span>
+          </div>
+        ))}
+        <div className="estimator-panel__breakdown-row estimator-panel__breakdown-row--total">
+          <span className="estimator-panel__breakdown-label">Monthly Total</span>
+          <span className="estimator-panel__breakdown-amount">${monthlyTotal}</span>
+        </div>
+      </div>
+
+      <p className="estimator-panel__disclaimer">
+        * Estimate only. Final quote confirmed after review.
+      </p>
+    </aside>
+  );
+}
+
+// ─── Main Sign-Up Page ────────────────────────────────────────────────────────
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
@@ -40,16 +231,16 @@ export default function SignUpPage() {
     phone: '',
     alternatePhone: '',
     dateOfBirth: '',
-    
+
     // Step 2: Address
     streetAddress: '',
     city: '',
     state: '',
     zipCode: '',
-    
+
     // Step 3: Insurance Type
     insuranceType: '', // 'car', 'home', 'both'
-    
+
     // Step 4: Car Details
     carMake: '',
     carModel: '',
@@ -57,13 +248,13 @@ export default function SignUpPage() {
     carMileage: 1000,
     carMilesPerYear: 1000,
     carVin: '',
-    
+
     // Step 5: Home Details
     homeType: '',
     homeYear: '',
     homeSquareFeet: 1000,
     homeValue: 1000,
-    
+
     // Step 6: Coverage Preferences
     coverageLevel: '',
     deductible: '',
@@ -145,30 +336,33 @@ export default function SignUpPage() {
   const getSteps = () => {
     const baseSteps = [
       { index: 0, label: 'Personal Info', key: 'personal' },
-      { index: 1, label: 'Address', key: 'address' },
-      { index: 2, label: 'Insurance Type', key: 'type' },
+      { index: 1, label: 'Address',        key: 'address'  },
+      { index: 2, label: 'Insurance Type', key: 'type'     },
     ];
 
     const conditionalSteps = [];
-    
+
     if (formData.insuranceType === 'car' || formData.insuranceType === 'both') {
-      conditionalSteps.push({ index: 3, label: 'Car Details', key: 'car' });
+      conditionalSteps.push({ index: 3, label: 'Car Details',  key: 'car'  });
     }
-    
     if (formData.insuranceType === 'home' || formData.insuranceType === 'both') {
       conditionalSteps.push({ index: 4, label: 'Home Details', key: 'home' });
     }
 
     const finalSteps = [
       { index: 5, label: 'Coverage', key: 'coverage' },
-      { index: 6, label: 'Review', key: 'review' },
+      { index: 6, label: 'Review',   key: 'review'   },
     ];
 
     return [...baseSteps, ...conditionalSteps, ...finalSteps];
   };
 
-  const steps = getSteps();
+  const steps           = getSteps();
   const currentStepData = steps[currentStep];
+
+  // Estimator is shown on Coverage and Review steps
+  const showEstimator = currentStepData?.key === 'coverage' || currentStepData?.key === 'review';
+  const estimate      = showEstimator ? getEstimate(formData) : null;
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -193,25 +387,20 @@ export default function SignUpPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 10000);
+    const timestamp          = Date.now();
+    const random             = Math.floor(Math.random() * 10000);
     const confirmationNumber = `IC-${timestamp.toString().slice(-6)}-${random.toString().padStart(4, '0')}`;
 
-    console.log('Form submitted:', formData);
-    console.log('Confirmation Number:', confirmationNumber);
-
-    navigate('/signup/confirmation', {
-      state: { confirmationNumber }
-    });
+    navigate('/signup/confirmation', { state: { confirmationNumber } });
   };
 
   const isStepValid = () => {
     const stepFields = {
       personal: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth'],
-      address: ['streetAddress', 'city', 'state', 'zipCode'],
-      type: ['insuranceType'],
-      car: ['carMake', 'carModel', 'carYear'],
-      home: ['homeType', 'homeYear'],
+      address:  ['streetAddress', 'city', 'state', 'zipCode'],
+      type:     ['insuranceType'],
+      car:      ['carMake', 'carModel', 'carYear'],
+      home:     ['homeType', 'homeYear'],
       coverage: ['coverageLevel', 'deductible'],
     };
 
@@ -220,7 +409,6 @@ export default function SignUpPage() {
 
     const fieldsToValidate = stepFields[currentKey] || [];
 
-    // Check if any required field is empty or has an error
     return fieldsToValidate.every(field => {
       const value = formData[field];
       const error = validateField(field, value);
@@ -286,7 +474,7 @@ export default function SignUpPage() {
             />
             <TextInput
               id="alternatePhone"
-              labelText="Phone Number"
+              labelText="Alternate Phone (optional)"
               type="tel"
               placeholder="(555) 123-4567"
               value={formData.alternatePhone}
@@ -384,11 +572,7 @@ export default function SignUpPage() {
               valueSelected={formData.insuranceType}
               onChange={(value) => updateFormData('insuranceType', value)}
             >
-              <RadioTile
-                id="insurance-car"
-                value="car"
-                className="signup-radio-tile"
-              >
+              <RadioTile id="insurance-car" value="car" className="signup-radio-tile">
                 <div className="signup-tile-content">
                   <div className="signup-tile-icon">
                     <Car size={30} />
@@ -400,11 +584,7 @@ export default function SignUpPage() {
                 </div>
               </RadioTile>
 
-              <RadioTile
-                id="insurance-home"
-                value="home"
-                className="signup-radio-tile"
-              >
+              <RadioTile id="insurance-home" value="home" className="signup-radio-tile">
                 <div className="signup-tile-content">
                   <div className="signup-tile-icon">
                     <HomeIcon size={30} />
@@ -416,11 +596,7 @@ export default function SignUpPage() {
                 </div>
               </RadioTile>
 
-              <RadioTile
-                id="insurance-both"
-                value="both"
-                className="signup-radio-tile"
-              >
+              <RadioTile id="insurance-both" value="both" className="signup-radio-tile">
                 <div className="signup-tile-content">
                   <div className="signup-tile-icon signup-tile-icon--dual">
                     <Car size={30} />
@@ -524,10 +700,10 @@ export default function SignUpPage() {
             >
               <SelectItem value="" text="" />
               <SelectItem value="single-family" text="Single Family Home" />
-              <SelectItem value="condo" text="Condominium" />
-              <SelectItem value="townhouse" text="Townhouse" />
-              <SelectItem value="apartment" text="Apartment" />
-              <SelectItem value="mobile" text="Mobile Home" />
+              <SelectItem value="condo"         text="Condominium" />
+              <SelectItem value="townhouse"     text="Townhouse" />
+              <SelectItem value="apartment"     text="Apartment" />
+              <SelectItem value="mobile"        text="Mobile Home" />
             </Select>
             <Select
               id="homeYear"
@@ -581,17 +757,17 @@ export default function SignUpPage() {
               {...getInvalidState('coverageLevel')}
             >
               <RadioButton
-                labelText="Basic - Essential coverage at lower cost"
+                labelText="Basic — Essential coverage at lower cost"
                 value="basic"
                 id="coverage-basic"
               />
               <RadioButton
-                labelText="Standard - Recommended coverage for most"
+                labelText="Standard — Recommended coverage for most"
                 value="standard"
                 id="coverage-standard"
               />
               <RadioButton
-                labelText="Premium - Comprehensive protection"
+                labelText="Premium — Comprehensive protection"
                 value="premium"
                 id="coverage-premium"
               />
@@ -606,9 +782,9 @@ export default function SignUpPage() {
               required
               {...getInvalidState('deductible')}
             >
-              <SelectItem value="" text="Select deductible" />
-              <SelectItem value="250" text="$250" />
-              <SelectItem value="500" text="$500" />
+              <SelectItem value=""     text="Select deductible" />
+              <SelectItem value="250"  text="$250" />
+              <SelectItem value="500"  text="$500" />
               <SelectItem value="1000" text="$1,000" />
               <SelectItem value="2500" text="$2,500" />
             </Select>
@@ -618,19 +794,19 @@ export default function SignUpPage() {
               <Stack gap={3}>
                 <Checkbox
                   id="roadside"
-                  labelText="Roadside Assistance"
+                  labelText="Roadside Assistance (+$5/mo)"
                   checked={formData.additionalCoverage.includes('roadside')}
                   onChange={(e) => handleCheckboxChange(e.target.checked, 'roadside')}
                 />
                 <Checkbox
                   id="rental"
-                  labelText="Rental Car Coverage"
+                  labelText="Rental Car Coverage (+$8/mo)"
                   checked={formData.additionalCoverage.includes('rental')}
                   onChange={(e) => handleCheckboxChange(e.target.checked, 'rental')}
                 />
                 <Checkbox
                   id="gap"
-                  labelText="Gap Insurance"
+                  labelText="Gap Insurance (+$10/mo)"
                   checked={formData.additionalCoverage.includes('gap')}
                   onChange={(e) => handleCheckboxChange(e.target.checked, 'gap')}
                 />
@@ -642,7 +818,7 @@ export default function SignUpPage() {
       case 'review':
         return (
           <Stack gap={6}>
-            <Heading className="signup-step-heading">Review & Confirm</Heading>
+            <Heading className="signup-step-heading">Review &amp; Confirm</Heading>
             <p className="signup-step-description">
               Please review your information before submitting.
             </p>
@@ -650,24 +826,16 @@ export default function SignUpPage() {
             <Tile className="signup-review-section">
               <h4 className="signup-review-title">Personal Information</h4>
               <div className="signup-review-grid">
-                <div>
-                  <strong>Name:</strong> {formData.firstName} {formData.lastName}
-                </div>
-                <div>
-                  <strong>Email:</strong> {formData.email}
-                </div>
-                <div>
-                  <strong>Phone:</strong> {formData.phone}
-                </div>
+                <div><strong>Name:</strong> {formData.firstName} {formData.lastName}</div>
+                <div><strong>Email:</strong> {formData.email}</div>
+                <div><strong>Phone:</strong> {formData.phone}</div>
               </div>
             </Tile>
 
             <Tile className="signup-review-section">
               <h4 className="signup-review-title">Address</h4>
               <div className="signup-review-grid">
-                <div>
-                  {formData.streetAddress}, {formData.city}, {formData.state} {formData.zipCode}
-                </div>
+                <div>{formData.streetAddress}, {formData.city}, {formData.state} {formData.zipCode}</div>
               </div>
             </Tile>
 
@@ -675,7 +843,7 @@ export default function SignUpPage() {
               <h4 className="signup-review-title">Insurance Type</h4>
               <div className="signup-review-grid">
                 <div>
-                  {formData.insuranceType === 'car' && 'Car Insurance Only'}
+                  {formData.insuranceType === 'car'  && 'Car Insurance Only'}
                   {formData.insuranceType === 'home' && 'Home Insurance Only'}
                   {formData.insuranceType === 'both' && 'Car and Home Insurance'}
                 </div>
@@ -686,12 +854,8 @@ export default function SignUpPage() {
               <Tile className="signup-review-section">
                 <h4 className="signup-review-title">Car Details</h4>
                 <div className="signup-review-grid">
-                  <div>
-                    <strong>Vehicle:</strong> {formData.carYear} {formData.carMake} {formData.carModel}
-                  </div>
-                  <div>
-                    <strong>Mileage:</strong> {formData.carMileage?.toLocaleString()} mi
-                  </div>
+                  <div><strong>Vehicle:</strong> {formData.carYear} {formData.carMake} {formData.carModel}</div>
+                  <div><strong>Mileage:</strong> {formData.carMileage?.toLocaleString()} mi</div>
                 </div>
               </Tile>
             )}
@@ -700,15 +864,9 @@ export default function SignUpPage() {
               <Tile className="signup-review-section">
                 <h4 className="signup-review-title">Property Details</h4>
                 <div className="signup-review-grid">
-                  <div>
-                    <strong>Type:</strong> {formData.homeType}
-                  </div>
-                  <div>
-                    <strong>Size:</strong> {formData.homeSquareFeet} sq ft
-                  </div>
-                  <div>
-                    <strong>Year Built:</strong> {formData.homeYear}
-                  </div>
+                  <div><strong>Type:</strong> {formData.homeType}</div>
+                  <div><strong>Size:</strong> {formData.homeSquareFeet} sq ft</div>
+                  <div><strong>Year Built:</strong> {formData.homeYear}</div>
                 </div>
               </Tile>
             )}
@@ -716,16 +874,10 @@ export default function SignUpPage() {
             <Tile className="signup-review-section">
               <h4 className="signup-review-title">Coverage</h4>
               <div className="signup-review-grid">
-                <div>
-                  <strong>Level:</strong> {formData.coverageLevel}
-                </div>
-                <div>
-                  <strong>Deductible:</strong> ${formData.deductible}
-                </div>
+                <div><strong>Level:</strong> {formData.coverageLevel}</div>
+                <div><strong>Deductible:</strong> ${formData.deductible}</div>
                 {formData.additionalCoverage.length > 0 && (
-                  <div>
-                    <strong>Additional:</strong> {formData.additionalCoverage.join(', ')}
-                  </div>
+                  <div><strong>Additional:</strong> {formData.additionalCoverage.join(', ')}</div>
                 )}
               </div>
             </Tile>
@@ -746,9 +898,7 @@ export default function SignUpPage() {
             <BreadcrumbItem>
               <Link to="/">Home</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
-              Sign Up
-            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>Sign Up</BreadcrumbItem>
           </Breadcrumb>
         </div>
 
@@ -769,75 +919,107 @@ export default function SignUpPage() {
           />
         </div>
 
-        {/* Warning banner — shown only on Car Details step */}
-        {currentStepData?.key === 'car' && showWarning && (
-          <div className="signup-warning-banner">
-            <div className="signup-warning-banner__content">
-              <WarningAlt size={16} className="signup-warning-banner__icon" />
-              <span className="signup-warning-banner__text">This is a warning message</span>
+        {/* Two-column layout on Coverage + Review steps (estimator panel) */}
+        <div className={`signup-step-layout${showEstimator ? ' signup-step-layout--with-estimator' : ''}`}>
+
+          <div className="signup-step-layout__form">
+            {/* Warning banner — shown only on Car Details step */}
+            {currentStepData?.key === 'car' && showWarning && (
+              <div className="signup-warning-banner">
+                <div className="signup-warning-banner__content">
+                  <WarningAlt size={16} className="signup-warning-banner__icon" />
+                  <span className="signup-warning-banner__text">This is a warning message</span>
+                </div>
+                <button
+                  className="signup-warning-banner__dismiss"
+                  onClick={() => setShowWarning(false)}
+                  type="button"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+
+            <Form className="signup-form" onSubmit={handleSubmit}>
+              <Stack gap={7} className="signup-step-content">
+                {renderStepContent()}
+              </Stack>
+
+              {/* Mobile estimator banner — visible only on small screens */}
+              {showEstimator && estimate && (
+                <div className="estimator-mobile-banner">
+                  <div className="estimator-mobile-banner__left">
+                    <span className="estimator-mobile-banner__amount">
+                      ${estimate.monthlyTotal}<span className="estimator-mobile-banner__period">/mo</span>
+                    </span>
+                    <span className="estimator-mobile-banner__annual">
+                      ${estimate.annualTotal.toLocaleString()}/yr est.
+                    </span>
+                  </div>
+                  {estimate.bundleSavings > 0 && (
+                    <span className="estimator-mobile-banner__badge">
+                      Bundle saves ${estimate.bundleSavings}/mo
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <div className="signup-actions">
+                {/* Cancel button only on car step */}
+                {currentStepData?.key === 'car' && (
+                  <Button
+                    kind="tertiary"
+                    onClick={handleCancel}
+                    renderIcon={ArrowLeft}
+                    iconDescription="Cancel"
+                  >
+                    Cancel
+                  </Button>
+                )}
+
+                {currentStep > 0 && (
+                  <Button
+                    kind="secondary"
+                    onClick={handleBack}
+                    renderIcon={ArrowLeft}
+                    iconDescription="Go back"
+                  >
+                    Back
+                  </Button>
+                )}
+
+                <span className="signup-actions-spacer" />
+
+                {currentStep < steps.length - 1 ? (
+                  <Button
+                    onClick={handleNext}
+                    disabled={!isStepValid()}
+                    renderIcon={ArrowRight}
+                    iconDescription="Continue"
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={!isStepValid()}
+                    renderIcon={Checkmark}
+                    iconDescription="Submit"
+                  >
+                    Complete Sign Up
+                  </Button>
+                )}
+              </div>
+            </Form>
+          </div>
+
+          {/* Desktop estimator panel */}
+          {showEstimator && (
+            <div className="signup-step-layout__panel">
+              <QuoteEstimator estimate={estimate} insuranceType={formData.insuranceType} />
             </div>
-            <button
-              className="signup-warning-banner__dismiss"
-              onClick={() => setShowWarning(false)}
-              type="button"
-            >
-              Dismiss
-            </button>
-          </div>
-        )}
-
-        <Form className="signup-form" onSubmit={handleSubmit}>
-          <Stack gap={7} className="signup-step-content">
-            {renderStepContent()}
-          </Stack>
-
-          <div className="signup-actions">
-            {/* Cancel button only on car step */}
-            {currentStepData?.key === 'car' && (
-              <Button
-                kind="tertiary"
-                onClick={handleCancel}
-                renderIcon={ArrowLeft}
-                iconDescription="Cancel"
-              >
-                Cancel
-              </Button>
-            )}
-
-            {currentStep > 0 && (
-              <Button
-                kind="secondary"
-                onClick={handleBack}
-                renderIcon={ArrowLeft}
-                iconDescription="Go back"
-              >
-                Back
-              </Button>
-            )}
-
-            <span className="signup-actions-spacer" />
-
-            {currentStep < steps.length - 1 ? (
-              <Button
-                onClick={handleNext}
-                disabled={!isStepValid()}
-                renderIcon={ArrowRight}
-                iconDescription="Continue"
-              >
-                Next
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={!isStepValid()}
-                renderIcon={Checkmark}
-                iconDescription="Submit"
-              >
-                Complete Sign Up
-              </Button>
-            )}
-          </div>
-        </Form>
+          )}
+        </div>
       </Column>
     </Grid>
   );

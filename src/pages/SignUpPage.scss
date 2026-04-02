@@ -671,6 +671,250 @@
 }
 
 // ============================================
+// Two-column layout: form + estimator panel
+// ============================================
+
+.signup-step-layout {
+  // Single column by default
+  display: block;
+
+  &--with-estimator {
+    @media (min-width: 1056px) {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-07);
+    }
+  }
+}
+
+.signup-step-layout__form {
+  flex: 1;
+  min-width: 0; // Allow flex child to shrink below content width
+}
+
+.signup-step-layout__panel {
+  flex-shrink: 0;
+  width: 300px;
+
+  @media (min-width: 1056px) {
+    position: sticky;
+    top: var(--spacing-07);
+  }
+
+  // Hidden on mobile — mobile gets the banner instead
+  @media (max-width: 1055px) {
+    display: none;
+  }
+}
+
+// ============================================
+// Estimator Panel (desktop sticky card)
+// ============================================
+
+.estimator-panel {
+  background: var(--background-secondary);
+  border-radius: var(--radius-lg);
+  border-top: 4px solid var(--interactive-primary);
+  padding: var(--spacing-06);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.estimator-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-04);
+}
+
+.estimator-panel__label {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.estimator-panel__bundle-badge {
+  display: inline-block;
+  background: #198038; // success green
+  color: #fff;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 2px var(--spacing-03);
+  border-radius: 99px;
+  letter-spacing: 0.02em;
+}
+
+.estimator-panel__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-02);
+  margin-bottom: var(--spacing-02);
+}
+
+.estimator-panel__price {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--interactive-primary);
+  line-height: 1;
+  // Animate on value change (triggered by React key change)
+  animation: estimator-price-pop 0.35s ease-out;
+}
+
+@keyframes estimator-price-pop {
+  from {
+    opacity: 0.4;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.estimator-panel__period {
+  font-size: var(--body-md-size);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.estimator-panel__annual {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-04) 0;
+}
+
+.estimator-panel__divider {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: var(--spacing-04) 0;
+}
+
+.estimator-panel__breakdown-title {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-03) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.estimator-panel__breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-02);
+}
+
+.estimator-panel__breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-03);
+
+  &--total {
+    margin-top: var(--spacing-03);
+    padding-top: var(--spacing-03);
+    border-top: 1px solid var(--border-subtle);
+
+    .estimator-panel__breakdown-label {
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+    }
+
+    .estimator-panel__breakdown-amount {
+      font-weight: var(--font-weight-semibold);
+      color: var(--interactive-primary);
+      font-size: var(--body-md-size);
+    }
+  }
+}
+
+.estimator-panel__breakdown-label {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.estimator-panel__breakdown-amount {
+  font-size: var(--body-sm-size);
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+
+  &--credit {
+    color: #198038; // success green for savings
+  }
+}
+
+.estimator-panel__disclaimer {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: var(--spacing-04) 0 0 0;
+  line-height: 1.4;
+}
+
+// ============================================
+// Mobile Estimator Banner
+// ============================================
+
+.estimator-mobile-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-03);
+  background: var(--background-selected);
+  border: 1px solid var(--interactive-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-04) var(--spacing-05);
+  margin: var(--spacing-06) 0 0 0;
+
+  // Only visible on mobile/tablet
+  @media (min-width: 1056px) {
+    display: none;
+  }
+}
+
+.estimator-mobile-banner__left {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-04);
+}
+
+.estimator-mobile-banner__amount {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--interactive-primary);
+  line-height: 1;
+}
+
+.estimator-mobile-banner__period {
+  font-size: var(--body-md-size);
+  font-weight: var(--font-weight-regular);
+  color: var(--text-secondary);
+}
+
+.estimator-mobile-banner__annual {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.estimator-mobile-banner__badge {
+  display: inline-block;
+  background: #198038;
+  color: #fff;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  padding: 3px var(--spacing-03);
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+// ============================================
 // Insurance Type Tile Selection Styles
 // ============================================
 
