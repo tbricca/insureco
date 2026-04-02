@@ -28,6 +28,8 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [showWarning, setShowWarning] = useState(true);
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     // Step 1: Personal Info
     firstName: '',
@@ -66,8 +68,66 @@ export default function SignUpPage() {
     additionalCoverage: [],
   });
 
+  const validateField = (name, value) => {
+    let error = '';
+
+    switch (name) {
+      case 'firstName':
+      case 'lastName':
+      case 'streetAddress':
+      case 'city':
+      case 'state':
+      case 'insuranceType':
+      case 'carMake':
+      case 'carModel':
+      case 'carYear':
+      case 'homeType':
+      case 'homeYear':
+      case 'coverageLevel':
+      case 'deductible':
+      case 'dateOfBirth':
+        if (!value || (typeof value === 'string' && value.trim() === '')) {
+          error = 'This field is required';
+        }
+        break;
+      case 'email':
+        if (!value) {
+          error = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          error = 'Please enter a valid email address';
+        }
+        break;
+      case 'phone':
+        if (!value) {
+          error = 'Phone number is required';
+        } else if (!/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(value)) {
+          error = 'Please enter a valid 10-digit phone number';
+        }
+        break;
+      case 'zipCode':
+        if (!value) {
+          error = 'Zip code is required';
+        } else if (!/^\d{5}(-\d{4})?$/.test(value)) {
+          error = 'Please enter a valid zip code (5 digits)';
+        }
+        break;
+      default:
+        break;
+    }
+
+    return error;
+  };
+
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    const error = validateField(field, value);
+    setErrors(prev => ({ ...prev, [field]: error }));
+  };
+
+  const handleBlur = (field) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+    const error = validateField(field, formData[field]);
+    setErrors(prev => ({ ...prev, [field]: error }));
   };
 
   const handleCheckboxChange = (checked, value) => {
@@ -144,24 +204,31 @@ export default function SignUpPage() {
   };
 
   const isStepValid = () => {
-    switch (currentStepData?.key) {
-      case 'personal':
-        return formData.firstName && formData.lastName && formData.email && formData.phone;
-      case 'address':
-        return formData.streetAddress && formData.city && formData.state && formData.zipCode;
-      case 'type':
-        return formData.insuranceType;
-      case 'car':
-        return formData.carMake && formData.carModel && formData.carYear;
-      case 'home':
-        return formData.homeType && formData.homeYear;
-      case 'coverage':
-        return formData.coverageLevel && formData.deductible;
-      case 'review':
-        return true;
-      default:
-        return false;
-    }
+    const stepFields = {
+      personal: ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth'],
+      address: ['streetAddress', 'city', 'state', 'zipCode'],
+      type: ['insuranceType'],
+      car: ['carMake', 'carModel', 'carYear'],
+      home: ['homeType', 'homeYear'],
+      coverage: ['coverageLevel', 'deductible'],
+    };
+
+    const currentKey = currentStepData?.key;
+    if (!currentKey || currentKey === 'review') return true;
+
+    const fieldsToValidate = stepFields[currentKey] || [];
+
+    // Check if any required field is empty or has an error
+    return fieldsToValidate.every(field => {
+      const value = formData[field];
+      const error = validateField(field, value);
+      return value && !error;
+    });
+  };
+
+  const getInvalidState = (field) => {
+    const error = errors[field] || validateField(field, formData[field]);
+    return touched[field] && !!error ? { invalid: true, invalidText: error } : {};
   };
 
   const renderStepContent = () => {
@@ -179,7 +246,9 @@ export default function SignUpPage() {
               placeholder="Enter your first name"
               value={formData.firstName}
               onChange={(e) => updateFormData('firstName', e.target.value)}
+              onBlur={() => handleBlur('firstName')}
               required
+              {...getInvalidState('firstName')}
             />
             <TextInput
               id="lastName"
@@ -187,7 +256,9 @@ export default function SignUpPage() {
               placeholder="Enter your last name"
               value={formData.lastName}
               onChange={(e) => updateFormData('lastName', e.target.value)}
+              onBlur={() => handleBlur('lastName')}
               required
+              {...getInvalidState('lastName')}
             />
             <TextInput
               id="email"
@@ -196,7 +267,9 @@ export default function SignUpPage() {
               placeholder="your.email@example.com"
               value={formData.email}
               onChange={(e) => updateFormData('email', e.target.value)}
+              onBlur={() => handleBlur('email')}
               required
+              {...getInvalidState('email')}
             />
             <TextInput
               id="phone"
@@ -205,7 +278,9 @@ export default function SignUpPage() {
               placeholder="(555) 123-4567"
               value={formData.phone}
               onChange={(e) => updateFormData('phone', e.target.value)}
+              onBlur={() => handleBlur('phone')}
               required
+              {...getInvalidState('phone')}
             />
             <TextInput
               id="alternatePhone"
@@ -218,12 +293,15 @@ export default function SignUpPage() {
             <DatePicker
               datePickerType="single"
               onChange={(dates) => updateFormData('dateOfBirth', dates?.[0] || '')}
+              onClose={() => handleBlur('dateOfBirth')}
             >
               <DatePickerInput
                 id="dateOfBirth"
                 labelText="Date of Birth"
                 placeholder="mm/dd/yyyy"
                 value={formData.dateOfBirth}
+                onBlur={() => handleBlur('dateOfBirth')}
+                {...getInvalidState('dateOfBirth')}
               />
             </DatePicker>
           </Stack>
@@ -242,7 +320,9 @@ export default function SignUpPage() {
               placeholder="123 Main Street"
               value={formData.streetAddress}
               onChange={(e) => updateFormData('streetAddress', e.target.value)}
+              onBlur={() => handleBlur('streetAddress')}
               required
+              {...getInvalidState('streetAddress')}
             />
             <TextInput
               id="city"
@@ -250,14 +330,18 @@ export default function SignUpPage() {
               placeholder="Your city"
               value={formData.city}
               onChange={(e) => updateFormData('city', e.target.value)}
+              onBlur={() => handleBlur('city')}
               required
+              {...getInvalidState('city')}
             />
             <Select
               id="state"
               labelText="State"
               value={formData.state}
               onChange={(e) => updateFormData('state', e.target.value)}
+              onBlur={() => handleBlur('state')}
               required
+              {...getInvalidState('state')}
             >
               <SelectItem value="" text="Select a state" />
               <SelectItem value="AL" text="Alabama" />
@@ -277,7 +361,9 @@ export default function SignUpPage() {
               placeholder="12345"
               value={formData.zipCode}
               onChange={(e) => updateFormData('zipCode', e.target.value)}
+              onBlur={() => handleBlur('zipCode')}
               required
+              {...getInvalidState('zipCode')}
             />
           </Stack>
         );
@@ -361,7 +447,9 @@ export default function SignUpPage() {
               placeholder="e.g. Toyota, Ford"
               value={formData.carMake}
               onChange={(e) => updateFormData('carMake', e.target.value)}
+              onBlur={() => handleBlur('carMake')}
               required
+              {...getInvalidState('carMake')}
             />
             <TextInput
               id="carModel"
@@ -369,14 +457,18 @@ export default function SignUpPage() {
               placeholder="e.g. Corolla, Bronco"
               value={formData.carModel}
               onChange={(e) => updateFormData('carModel', e.target.value)}
+              onBlur={() => handleBlur('carModel')}
               required
+              {...getInvalidState('carModel')}
             />
             <Select
               id="carYear"
               labelText="Year"
               value={formData.carYear}
               onChange={(e) => updateFormData('carYear', e.target.value)}
+              onBlur={() => handleBlur('carYear')}
               required
+              {...getInvalidState('carYear')}
             >
               <SelectItem value="" text="" />
               {Array.from({ length: 2025 - 1960 + 1 }, (_, i) => 2025 - i).map(year => (
@@ -424,7 +516,9 @@ export default function SignUpPage() {
               labelText="Home Type"
               value={formData.homeType}
               onChange={(e) => updateFormData('homeType', e.target.value)}
+              onBlur={() => handleBlur('homeType')}
               required
+              {...getInvalidState('homeType')}
             >
               <SelectItem value="" text="" />
               <SelectItem value="single-family" text="Single Family Home" />
@@ -438,7 +532,9 @@ export default function SignUpPage() {
               labelText="Year Built"
               value={formData.homeYear}
               onChange={(e) => updateFormData('homeYear', e.target.value)}
+              onBlur={() => handleBlur('homeYear')}
               required
+              {...getInvalidState('homeYear')}
             >
               <SelectItem value="" text="" />
               {Array.from({ length: 2025 - 1800 + 1 }, (_, i) => 2025 - i).map(year => (
@@ -480,6 +576,7 @@ export default function SignUpPage() {
               orientation="vertical"
               valueSelected={formData.coverageLevel}
               onChange={(value) => updateFormData('coverageLevel', value)}
+              {...getInvalidState('coverageLevel')}
             >
               <RadioButton
                 labelText="Basic - Essential coverage at lower cost"
@@ -503,7 +600,9 @@ export default function SignUpPage() {
               labelText="Deductible"
               value={formData.deductible}
               onChange={(e) => updateFormData('deductible', e.target.value)}
+              onBlur={() => handleBlur('deductible')}
               required
+              {...getInvalidState('deductible')}
             >
               <SelectItem value="" text="Select deductible" />
               <SelectItem value="250" text="$250" />
