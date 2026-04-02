@@ -23,7 +23,7 @@ import {
   DatePickerInput,
   InlineNotification,
 } from '@carbon/react';
-import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon } from '@carbon/icons-react';
+import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon, Security } from '@carbon/icons-react';
 import './SignUpPage.scss';
 
 // ─── Validators ─────────────────────────────────────────────────────────────
@@ -72,6 +72,60 @@ const stepRequiredFields = {
   home:     ['homeType', 'homeYear'],
   coverage: ['coverageLevel', 'deductible'],
 };
+
+// ─── Premium estimate calculator ───────────────────────────────────────────
+function calculateEstimate(formData) {
+  const { insuranceType, carYear, carMilesDriven,
+          homeType, homeValue, coverageLevel,
+          deductible, additionalCoverage } = formData;
+
+  const hasCar  = insuranceType === 'car'  || insuranceType === 'both';
+  const hasHome = insuranceType === 'home' || insuranceType === 'both';
+
+  let carBase  = hasCar  ? 89 : 0;
+  let homeBase = hasHome ? 75 : 0;
+
+  if (hasCar && carYear) {
+    const age = 2025 - parseInt(carYear);
+    if (age < 3)  carBase += 18;
+    if (age > 10) carBase -= 12;
+  }
+  if (hasCar && carMilesDriven) {
+    const miles = parseInt(carMilesDriven) || 10000;
+    if (miles > 15000) carBase += 14;
+    if (miles <  5000) carBase -= 12;
+  }
+
+  if (hasHome && homeValue) {
+    const val = parseInt(homeValue) || 300000;
+    if (val > 500000) homeBase += 35;
+    else if (val > 250000) homeBase += 15;
+  }
+  if (homeType === 'condo')  homeBase -= 15;
+  if (homeType === 'mobile') homeBase -= 12;
+
+  if (coverageLevel === 'standard') { carBase += 12; homeBase += 10; }
+  if (coverageLevel === 'premium')  { carBase += 28; homeBase += 22; }
+
+  if (deductible === '250')  { carBase += 18; homeBase += 15; }
+  if (deductible === '2500') { carBase -= 12; homeBase -= 10; }
+
+  if (additionalCoverage.includes('roadside')) carBase += 5;
+  if (additionalCoverage.includes('rental'))   carBase += 8;
+  if (additionalCoverage.includes('gap'))      carBase += 12;
+
+  const gross   = Math.max(0, carBase) + Math.max(0, homeBase);
+  const savings = insuranceType === 'both' ? Math.round(gross * 0.10) : 0;
+  const total   = gross - savings;
+
+  return {
+    carEstimate:  Math.max(0, Math.round(carBase)),
+    homeEstimate: Math.max(0, Math.round(homeBase)),
+    savings,
+    total:        Math.max(0, Math.round(total)),
+    hasEstimate:  !!insuranceType,
+  };
+}
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -709,6 +763,77 @@ export default function SignUpPage() {
             ))}
           </ProgressIndicator>
         </Tile>
+
+        {/* ── Premium Estimate Card ─────────────────────────────────── */}
+        {(() => {
+          const stepKey = currentStepData?.key;
+          const estimate = calculateEstimate(formData);
+          const isTeaser = stepKey === 'personal' || stepKey === 'address';
+          const isTypeStep = stepKey === 'type';
+          const isConfirmed = stepKey === 'review';
+
+          return (
+            <div className="estimate-card">
+              <div className="estimate-header">
+                <span className="estimate-label">Your estimated monthly premium</span>
+                <span className="estimate-security-badge">
+                  <Security size={14} />
+                  Secure
+                </span>
+              </div>
+
+              {isTeaser || isTypeStep ? (
+                <div className="estimate-placeholder">
+                  <div className="estimate-placeholder-amount">—</div>
+                  <p className="estimate-placeholder-text">
+                    {isTypeStep
+                      ? 'Select a coverage type to see your estimate'
+                      : 'Complete your details to see your personalised estimate'}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="estimate-amount">
+                    <span className="estimate-currency">$</span>
+                    <span className="estimate-total">{estimate.total}</span>
+                    <span className="estimate-period">/mo</span>
+                  </div>
+
+                  {estimate.savings > 0 && (
+                    <div className="estimate-savings-chip">
+                      Bundle savings: −${estimate.savings}/mo
+                    </div>
+                  )}
+
+                  <div className="estimate-breakdown">
+                    {estimate.carEstimate > 0 && (
+                      <div className="estimate-breakdown-row">
+                        <Car size={16} />
+                        <span className="estimate-breakdown-label">Car insurance</span>
+                        <span className="estimate-breakdown-amount">${estimate.carEstimate}/mo</span>
+                      </div>
+                    )}
+                    {estimate.homeEstimate > 0 && (
+                      <div className="estimate-breakdown-row">
+                        <HomeIcon size={16} />
+                        <span className="estimate-breakdown-label">Home insurance</span>
+                        <span className="estimate-breakdown-amount">${estimate.homeEstimate}/mo</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {isConfirmed && (
+                    <div className="estimate-confirmed-badge">Rate confirmed at review</div>
+                  )}
+                </>
+              )}
+
+              <p className="estimate-disclaimer">
+                Estimate only · Final rate set at review
+              </p>
+            </div>
+          );
+        })()}
 
         <Form className="signup-form" onSubmit={handleSubmit}>
           <Stack gap={7} className="signup-step-content">

@@ -832,6 +832,191 @@
   }
 }
 
+// ============================================
+// Premium Estimate Card
+// ============================================
+
+.estimate-card {
+  background: var(--background-primary);
+  border-left: 4px solid var(--interactive-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-05);
+  margin-bottom: var(--spacing-06);
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.1),
+    0 2px 6px 0 rgba(0, 0, 0, 0.08);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-06);
+    margin-bottom: var(--spacing-07);
+  }
+}
+
+.estimate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-05);
+}
+
+.estimate-label {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  @media (min-width: 672px) {
+    font-size: var(--body-md-size);
+  }
+}
+
+.estimate-security-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-02);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  background: var(--background-secondary);
+  padding: var(--spacing-02) var(--spacing-03);
+  border-radius: var(--radius-sm);
+
+  svg {
+    flex-shrink: 0;
+    fill: var(--text-tertiary);
+  }
+}
+
+.estimate-amount {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-02);
+  margin-bottom: var(--spacing-04);
+  transition: color 0.3s ease;
+}
+
+.estimate-currency {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.estimate-total {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  transition: all 0.3s ease;
+  font-variant-numeric: tabular-nums;
+}
+
+.estimate-period {
+  font-size: var(--body-md-size);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-regular);
+}
+
+.estimate-savings-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-02);
+  background: var(--color-success);
+  color: var(--text-on-color);
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-02) var(--spacing-04);
+  border-radius: 1rem;
+  margin-bottom: var(--spacing-05);
+}
+
+.estimate-breakdown {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--spacing-04);
+  margin-bottom: var(--spacing-04);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+}
+
+.estimate-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+
+  svg {
+    flex-shrink: 0;
+    fill: var(--text-secondary);
+  }
+}
+
+.estimate-breakdown-label {
+  flex: 1;
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+}
+
+.estimate-breakdown-amount {
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.estimate-confirmed-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--background-selected);
+  color: var(--interactive-primary);
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-02) var(--spacing-04);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--interactive-primary);
+  margin-bottom: var(--spacing-04);
+}
+
+.estimate-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-04) 0;
+  gap: var(--spacing-03);
+  text-align: center;
+}
+
+.estimate-placeholder-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  line-height: 1;
+  letter-spacing: 0.1em;
+}
+
+.estimate-placeholder-text {
+  font-size: var(--body-sm-size);
+  color: var(--text-tertiary);
+  margin: 0;
+  max-width: 320px;
+
+  @media (min-width: 672px) {
+    font-size: var(--body-md-size);
+  }
+}
+
+.estimate-disclaimer {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 0;
+  padding-top: var(--spacing-03);
+  border-top: 1px solid var(--border-subtle);
+
+  @media (min-width: 672px) {
+    font-size: var(--body-sm-size);
+  }
+}
+
 // Tile content layout
 .tile-content {
   display: flex;
