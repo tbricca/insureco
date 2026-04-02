@@ -21,6 +21,7 @@ import {
   ProgressStep,
   DatePicker,
   DatePickerInput,
+  InlineNotification,
 } from '@carbon/react';
 import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon } from '@carbon/icons-react';
 import './SignUpPage.scss';
@@ -34,34 +35,39 @@ export default function SignUpPage() {
     lastName: '',
     email: '',
     phone: '',
+    alternatePhone: '',
     dateOfBirth: '',
-    
+
     // Step 2: Address
     streetAddress: '',
     city: '',
     state: '',
     zipCode: '',
-    
+
     // Step 3: Insurance Type
     insuranceType: '', // 'car', 'home', 'both'
-    
+
     // Step 4: Car Details
     carMake: '',
     carModel: '',
     carYear: '',
+    carMileage: 1000,
+    carMilesDriven: 1000,
     carVin: '',
-    
+
     // Step 5: Home Details
     homeType: '',
     homeYear: '',
-    homeSquareFeet: '',
-    homeValue: '',
-    
+    homeSquareFeet: 1000,
+    homeValue: 1000,
+
     // Step 6: Coverage Preferences
     coverageLevel: '',
     deductible: '',
     additionalCoverage: [],
   });
+
+  const [showCarWarning, setShowCarWarning] = useState(true);
 
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -165,7 +171,7 @@ export default function SignUpPage() {
           <Stack gap={6}>
             <Heading className="signup-step-heading">Personal Information</Heading>
             <p className="signup-step-description">
-              Your basic info
+              Let's start with some basic information about you.
             </p>
             <TextInput
               id="firstName"
@@ -200,6 +206,14 @@ export default function SignUpPage() {
               value={formData.phone}
               onChange={(e) => updateFormData('phone', e.target.value)}
               required
+            />
+            <TextInput
+              id="alternatePhone"
+              labelText="Phone Number"
+              type="tel"
+              placeholder="(555) 123-4567"
+              value={formData.alternatePhone}
+              onChange={(e) => updateFormData('alternatePhone', e.target.value)}
             />
             <DatePicker
               datePickerType="single"
@@ -333,6 +347,14 @@ export default function SignUpPage() {
       case 'car':
         return (
           <Stack gap={6}>
+            {showCarWarning && (
+              <InlineNotification
+                kind="warning"
+                title="This is a warning message"
+                onClose={() => setShowCarWarning(false)}
+                lowContrast
+              />
+            )}
             <Heading className="signup-step-heading">Car Details</Heading>
             <p className="signup-step-description">
               Tell us about your car
@@ -365,6 +387,22 @@ export default function SignUpPage() {
                 <SelectItem key={year} value={year.toString()} text={year.toString()} />
               ))}
             </Select>
+            <NumberInput
+              id="carMileage"
+              label="Mileage"
+              min={0}
+              max={999999}
+              value={formData.carMileage}
+              onChange={(e, { value }) => updateFormData('carMileage', value ?? 0)}
+            />
+            <NumberInput
+              id="carMilesDriven"
+              label="Miles driven per year"
+              min={0}
+              max={999999}
+              value={formData.carMilesDriven}
+              onChange={(e, { value }) => updateFormData('carMilesDriven', value ?? 0)}
+            />
             <TextInput
               id="carVin"
               labelText="VIN (optional)"
@@ -379,7 +417,7 @@ export default function SignUpPage() {
       case 'home':
         return (
           <Stack gap={6}>
-            <Heading className="signup-step-heading">Home Details</Heading>
+            <Heading className="signup-step-heading">Property Details</Heading>
             <p className="signup-step-description">
               Tell us about your home
             </p>
@@ -634,6 +672,16 @@ export default function SignUpPage() {
           </Stack>
 
           <Stack gap={5} orientation="horizontal" className="signup-actions">
+            {currentStepData?.key === 'car' && (
+              <Button
+                kind="tertiary"
+                onClick={() => navigate('/')}
+                iconDescription="Cancel"
+              >
+                Cancel
+              </Button>
+            )}
+
             {currentStep > 0 && (
               <Button
                 kind="secondary"
