@@ -9,7 +9,7 @@
 
 .signup-page {
   min-height: 100vh;
-  padding: 0;
+  padding: 3rem 0 0; // 3rem = Carbon fixed header height; prevents hero clipping
   background: var(--background-primary);
   overflow-x: hidden;
   width: 100%;
