@@ -1,26 +1,19 @@
 @use '../styles/tokens' as *;
 
+// Pull the signup page flush with the viewport edges by cancelling the
+// main content wrapper's built-in padding from Layout.jsx.
+#main-content:has(.signup-page) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 .signup-page {
   min-height: 100vh;
-  padding: var(--spacing-03);
+  padding: 0;
   background: var(--background-primary);
-  overflow-x: hidden; // Prevent horizontal scroll
+  overflow-x: hidden;
   width: 100%;
-  max-width: 100vw;
   box-sizing: border-box;
-
-  // Mobile-first: More padding on larger screens
-  @media (min-width: 480px) {
-    padding: var(--spacing-05);
-  }
-
-  @media (min-width: 672px) {
-    padding: var(--spacing-07);
-  }
-
-  @media (min-width: 1056px) {
-    padding: var(--spacing-09);
-  }
 
   // Force all children to respect container width
   * {
@@ -29,51 +22,30 @@
   }
 }
 
-.signup-container {
-  max-width: 1200px;
+// Centred content column inside the full-bleed page
+.signup-content-wrap {
+  width: 100%;
+  max-width: 760px;
   margin: 0 auto;
-  width: 100% !important;
-  overflow-x: hidden;
+  padding: var(--spacing-05) var(--spacing-05) var(--spacing-09);
   box-sizing: border-box;
 
-  // Ensure columns don't overflow on ANY screen size
-  .cds--col,
-  .cds--css-grid-column {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
+  @media (min-width: 672px) {
+    padding: var(--spacing-07) var(--spacing-07) var(--spacing-09);
   }
 
-  // Override Carbon Grid gutters on very small screens
-  @media (max-width: 479px) {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-
-    .cds--col {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
-
-    // Ensure the grid itself doesn't overflow
-    .cds--grid {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
+  @media (min-width: 1056px) {
+    padding: var(--spacing-07) 0 var(--spacing-09);
   }
 }
 
 .signup-header {
   text-align: center;
   margin-bottom: var(--spacing-05);
-  padding: var(--spacing-05) var(--spacing-04);
+  padding: var(--spacing-07) var(--spacing-05);
   background: linear-gradient(135deg, #a2191f 70.71%, #da1e28 0%);
-  border-radius: var(--radius-lg);
+  border-radius: 0;         // flush edge-to-edge
   box-shadow: 0 4px 12px 0 rgba(218, 30, 40, 0.15);
-
-  @media (min-width: 480px) {
-    padding: var(--spacing-06) var(--spacing-05);
-  }
 
   @media (min-width: 672px) {
     margin-bottom: var(--spacing-09);

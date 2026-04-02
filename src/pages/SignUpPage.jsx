@@ -685,15 +685,17 @@ export default function SignUpPage() {
 
   // ─── Render ──────────────────────────────────────────────────────────────
   return (
-    <Grid className="signup-page signup-container">
-      <Column sm={4} md={8} lg={{ span: 12, offset: 2 }} xlg={{ span: 10, offset: 3 }}>
-        <header className="signup-header">
-          <Heading className="signup-title">Sign Up for InsureCo</Heading>
-          <p className="signup-subtitle">
-            Get started with your insurance coverage in just a few steps
-          </p>
-        </header>
+    <div className="signup-page">
+      {/* Full-bleed header — spans the entire viewport width */}
+      <header className="signup-header">
+        <Heading className="signup-title">Sign Up for InsureCo</Heading>
+        <p className="signup-subtitle">
+          Get started with your insurance coverage in just a few steps
+        </p>
+      </header>
 
+      {/* Centred content column */}
+      <div className="signup-content-wrap">
         <Tile className="signup-progress">
           <ProgressIndicator currentIndex={currentStep} spaceEqually>
             {steps.map((step, index) => (
@@ -739,7 +741,7 @@ export default function SignUpPage() {
             )}
           </Stack>
         </Form>
-      </Column>
-    </Grid>
+      </div>
+    </div>
   );
 }
