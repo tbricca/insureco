@@ -402,6 +402,42 @@
   }
 }
 
+// ── Validation error helpers ─────────────────────────────────────────────────
+
+// Error text shown below the insurance-type tile group
+.signup-tile-error {
+  font-size: var(--body-sm-size);
+  color: var(--text-error);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+  margin-top: calc(-1 * var(--spacing-04));
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23da1e28' d='M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm-.5 3h1v5h-1V4zm.5 8a.75.75 0 1 1 0-1.5A.75.75 0 0 1 8.5 12H8z'/%3E%3C/svg%3E") center/contain no-repeat;
+    flex-shrink: 0;
+  }
+}
+
+// Wrapper that highlights a RadioButtonGroup when invalid
+.signup-radio-invalid {
+  padding: var(--spacing-04);
+  border: 1px solid var(--text-error);
+  border-radius: var(--radius-sm);
+}
+
+// Error text shown below an invalid RadioButtonGroup
+.signup-radio-error {
+  font-size: var(--body-sm-size);
+  color: var(--text-error);
+  margin-top: var(--spacing-03);
+  padding-left: var(--spacing-02);
+}
+
 .signup-actions {
   padding-top: var(--spacing-06);
   border-top: 1px solid var(--interactive-primary);
