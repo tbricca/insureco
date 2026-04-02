@@ -28,7 +28,7 @@ export default function BusinessComingSoon() {
     if (path.includes('/make-payment')) return 'Make a Payment';
     if (path.includes('/claims')) return 'Claims';
     if (path.includes('/payments')) return 'Payments';
-    return 'Business Insurance';
+    return 'Business New Age Insurance';
   };
 
   return (

@@ -69,6 +69,16 @@ export default function LandingPage() {
     <div className="landing-page">
       {/* Hero Section */}
       <section className="hero-section">
+        <video
+          className="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        >
+          <source src="https://videos.pexels.com/video-files/31901324/13588982_640_360_30fps.mp4" type="video/mp4" />
+        </video>
         <Grid>
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
@@ -76,7 +86,7 @@ export default function LandingPage() {
                 Protect Your Future with Confidence
               </Heading>
               <p className="hero-tagline">
-                Comprehensive car and home insurance designed for the modern world. 
+                Comprehensive car and home New Age Insurance designed for the modern world.
                 Get covered in minutes with InsureCo.
               </p>
               <div className="hero-actions">
@@ -129,10 +139,10 @@ export default function LandingPage() {
               <div className="product-icon">
                 <Car size={64} />
               </div>
-              <Heading className="product-heading">Car Insurance</Heading>
+              <Heading className="product-heading">Car New Age Insurance</Heading>
               <p className="product-description">
-                Drive with confidence knowing you're protected. Our comprehensive auto insurance 
-                covers collision, liability, and more. Get instant quotes and customize your 
+                Drive with confidence knowing you're protected. Our comprehensive auto New Age Insurance
+                covers collision, liability, and more. Get instant quotes and customize your
                 coverage to match your needs.
               </p>
               <ul className="product-features">
@@ -179,10 +189,10 @@ export default function LandingPage() {
               <div className="product-icon">
                 <HomeIcon size={64} />
               </div>
-              <Heading className="product-heading">Home Insurance</Heading>
+              <Heading className="product-heading">Home New Age Insurance</Heading>
               <p className="product-description">
-                Protect your home and belongings with our comprehensive homeowners insurance. 
-                Coverage for property damage, personal liability, and more. Your peace of mind 
+                Protect your home and belongings with our comprehensive New Age homeowners Insurance.
+                Coverage for property damage, personal liability, and more. Your peace of mind
                 is our priority.
               </p>
               <ul className="product-features">
@@ -234,7 +244,7 @@ export default function LandingPage() {
                 Ready to Get Started?
               </Heading>
               <p className="cta-text">
-                Join thousands of satisfied customers who trust InsureCo for their insurance needs.
+                Join thousands of satisfied customers who trust InsureCo for their New Age Insurance needs.
               </p>
               <Button
                 kind="primary"

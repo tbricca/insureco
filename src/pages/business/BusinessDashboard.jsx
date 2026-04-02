@@ -46,9 +46,9 @@ export default function BusinessDashboard() {
     <Grid fullWidth className="business-dashboard">
       {/* Header Section */}
       <Column lg={16} md={8} sm={4} className="dashboard-header">
-        <Heading className="dashboard-title">Business Insurance Dashboard</Heading>
+        <Heading className="dashboard-title">Business New Age Insurance Dashboard</Heading>
         <p className="dashboard-subtitle">
-          Manage your business insurance portfolio and view your coverage at a glance
+          Manage your business New Age Insurance portfolio and view your coverage at a glance
         </p>
       </Column>
 
@@ -106,7 +106,7 @@ export default function BusinessDashboard() {
             </div>
             <div className="action-content">
               <h4>File a Claim</h4>
-              <p>Submit insurance claim</p>
+              <p>Submit New Age Insurance claim</p>
             </div>
             <ArrowRight size={20} className="action-arrow" />
           </ClickableTile>

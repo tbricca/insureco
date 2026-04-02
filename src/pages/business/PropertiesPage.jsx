@@ -108,7 +108,7 @@ export default function PropertiesPage() {
             <div>
               <Heading className="page-title">Commercial Properties</Heading>
               <p className="page-subtitle">
-                Manage and monitor all commercial property insurance policies
+                Manage and monitor all commercial property New Age Insurance policies
               </p>
             </div>
           </div>

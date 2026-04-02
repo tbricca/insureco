@@ -563,7 +563,7 @@ export default function SignUpPage() {
           <Stack gap={6}>
             <Heading className="signup-step-heading">What Will You Insure</Heading>
             <p className="signup-step-description">
-              Which insurance coverage are you looking for
+              Which New Age Insurance coverage are you looking for
             </p>
             <TileGroup
               className="signup-tile-group"
@@ -578,7 +578,7 @@ export default function SignUpPage() {
                     <Car size={30} />
                   </div>
                   <div className="signup-tile-text">
-                    <h4 className="signup-tile-title">Car Insurance</h4>
+                    <h4 className="signup-tile-title">Car New Age Insurance</h4>
                     <p className="signup-tile-desc">Get comprehensive coverage for your vehicle</p>
                   </div>
                 </div>
@@ -590,7 +590,7 @@ export default function SignUpPage() {
                     <HomeIcon size={30} />
                   </div>
                   <div className="signup-tile-text">
-                    <h4 className="signup-tile-title">Home Insurance</h4>
+                    <h4 className="signup-tile-title">Home New Age Insurance</h4>
                     <p className="signup-tile-desc">Protect your most important asset for your family</p>
                   </div>
                 </div>
@@ -906,7 +906,7 @@ export default function SignUpPage() {
         <header className="signup-header">
           <Heading className="signup-title">Sign Up for InsureCo</Heading>
           <p className="signup-subtitle">
-            Get started with your insurance coverage in just a few steps
+            Get started with your New Age Insurance coverage in just a few steps
           </p>
         </header>
 
