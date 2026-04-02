@@ -17,23 +17,24 @@ import {
   NumberInput,
   TileGroup,
   RadioTile,
-  ProgressIndicator,
-  ProgressStep,
   DatePicker,
   DatePickerInput,
 } from '@carbon/react';
-import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon } from '@carbon/icons-react';
+import { ArrowRight, ArrowLeft, Checkmark, Car, Home as HomeIcon, WarningAlt } from '@carbon/icons-react';
+import StepBreadcrumb from '../components/StepBreadcrumb';
 import './SignUpPage.scss';
 
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+  const [showWarning, setShowWarning] = useState(true);
   const [formData, setFormData] = useState({
     // Step 1: Personal Info
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
+    alternatePhone: '',
     dateOfBirth: '',
     
     // Step 2: Address
@@ -49,13 +50,15 @@ export default function SignUpPage() {
     carMake: '',
     carModel: '',
     carYear: '',
+    carMileage: 1000,
+    carMilesPerYear: 1000,
     carVin: '',
     
     // Step 5: Home Details
     homeType: '',
     homeYear: '',
-    homeSquareFeet: '',
-    homeValue: '',
+    homeSquareFeet: 1000,
+    homeValue: 1000,
     
     // Step 6: Coverage Preferences
     coverageLevel: '',
@@ -108,6 +111,7 @@ export default function SignUpPage() {
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(prev => prev + 1);
+      setShowWarning(true);
       window.scrollTo(0, 0);
     }
   };
@@ -115,23 +119,25 @@ export default function SignUpPage() {
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1);
+      setShowWarning(true);
       window.scrollTo(0, 0);
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Generate confirmation number
     const timestamp = Date.now();
     const random = Math.floor(Math.random() * 10000);
     const confirmationNumber = `IC-${timestamp.toString().slice(-6)}-${random.toString().padStart(4, '0')}`;
 
-    // Mock submission - in real app would send to backend
     console.log('Form submitted:', formData);
     console.log('Confirmation Number:', confirmationNumber);
 
-    // Navigate to confirmation page with confirmation number
     navigate('/signup/confirmation', {
       state: { confirmationNumber }
     });
@@ -148,7 +154,7 @@ export default function SignUpPage() {
       case 'car':
         return formData.carMake && formData.carModel && formData.carYear;
       case 'home':
-        return formData.homeType && formData.homeYear && formData.homeSquareFeet;
+        return formData.homeType && formData.homeYear;
       case 'coverage':
         return formData.coverageLevel && formData.deductible;
       case 'review':
@@ -165,7 +171,7 @@ export default function SignUpPage() {
           <Stack gap={6}>
             <Heading className="signup-step-heading">Personal Information</Heading>
             <p className="signup-step-description">
-              Your basic info
+              Let's start with some basic information about you.
             </p>
             <TextInput
               id="firstName"
@@ -200,6 +206,14 @@ export default function SignUpPage() {
               value={formData.phone}
               onChange={(e) => updateFormData('phone', e.target.value)}
               required
+            />
+            <TextInput
+              id="alternatePhone"
+              labelText="Phone Number"
+              type="tel"
+              placeholder="(555) 123-4567"
+              value={formData.alternatePhone}
+              onChange={(e) => updateFormData('alternatePhone', e.target.value)}
             />
             <DatePicker
               datePickerType="single"
@@ -287,11 +301,13 @@ export default function SignUpPage() {
                 value="car"
                 className="signup-radio-tile"
               >
-                <div className="tile-content">
-                  <Car size={32} className="tile-icon" />
-                  <div className="tile-text">
-                    <h4>Car Insurance</h4>
-                    <p>Get comprehensive coverage for your vehicle</p>
+                <div className="signup-tile-content">
+                  <div className="signup-tile-icon">
+                    <Car size={30} />
+                  </div>
+                  <div className="signup-tile-text">
+                    <h4 className="signup-tile-title">Car Insurance</h4>
+                    <p className="signup-tile-desc">Get comprehensive coverage for your vehicle</p>
                   </div>
                 </div>
               </RadioTile>
@@ -301,11 +317,13 @@ export default function SignUpPage() {
                 value="home"
                 className="signup-radio-tile"
               >
-                <div className="tile-content">
-                  <HomeIcon size={32} className="tile-icon" />
-                  <div className="tile-text">
-                    <h4>Home Insurance</h4>
-                    <p>Protect your most important asset for your family</p>
+                <div className="signup-tile-content">
+                  <div className="signup-tile-icon">
+                    <HomeIcon size={30} />
+                  </div>
+                  <div className="signup-tile-text">
+                    <h4 className="signup-tile-title">Home Insurance</h4>
+                    <p className="signup-tile-desc">Protect your most important asset for your family</p>
                   </div>
                 </div>
               </RadioTile>
@@ -315,14 +333,14 @@ export default function SignUpPage() {
                 value="both"
                 className="signup-radio-tile"
               >
-                <div className="tile-content">
-                  <div className="tile-icon-group">
-                    <Car size={24} />
-                    <HomeIcon size={24} />
+                <div className="signup-tile-content">
+                  <div className="signup-tile-icon signup-tile-icon--dual">
+                    <Car size={30} />
+                    <HomeIcon size={30} />
                   </div>
-                  <div className="tile-text">
-                    <h4>Both Home and Car</h4>
-                    <p>Insure both and get bundle savings</p>
+                  <div className="signup-tile-text">
+                    <h4 className="signup-tile-title">Both Home and Car</h4>
+                    <p className="signup-tile-desc">Insure both and get bundle savings</p>
                   </div>
                 </div>
               </RadioTile>
@@ -365,6 +383,24 @@ export default function SignUpPage() {
                 <SelectItem key={year} value={year.toString()} text={year.toString()} />
               ))}
             </Select>
+            <NumberInput
+              id="carMileage"
+              label="Mileage"
+              min={0}
+              max={999999}
+              step={1000}
+              value={formData.carMileage}
+              onChange={(e, { value }) => updateFormData('carMileage', value ?? 0)}
+            />
+            <NumberInput
+              id="carMilesPerYear"
+              label="Miles driven per year"
+              min={0}
+              max={100000}
+              step={1000}
+              value={formData.carMilesPerYear}
+              onChange={(e, { value }) => updateFormData('carMilesPerYear', value ?? 0)}
+            />
             <TextInput
               id="carVin"
               labelText="VIN (optional)"
@@ -379,7 +415,7 @@ export default function SignUpPage() {
       case 'home':
         return (
           <Stack gap={6}>
-            <Heading className="signup-step-heading">Home Details</Heading>
+            <Heading className="signup-step-heading">Property Details</Heading>
             <p className="signup-step-description">
               Tell us about your home
             </p>
@@ -415,9 +451,8 @@ export default function SignUpPage() {
               min={100}
               max={50000}
               value={formData.homeSquareFeet}
-              onChange={(e, { value }) => updateFormData('homeSquareFeet', value ?? '')}
+              onChange={(e, { value }) => updateFormData('homeSquareFeet', value ?? 0)}
               helperText="We'll confirm this more accurately later"
-              required
             />
             <NumberInput
               id="homeValue"
@@ -426,7 +461,7 @@ export default function SignUpPage() {
               max={10000000}
               step={1000}
               value={formData.homeValue}
-              onChange={(e, { value }) => updateFormData('homeValue', value ?? '')}
+              onChange={(e, { value }) => updateFormData('homeValue', value ?? 0)}
               helperText="We'll confirm this more accurately later"
             />
           </Stack>
@@ -553,13 +588,16 @@ export default function SignUpPage() {
                   <div>
                     <strong>Vehicle:</strong> {formData.carYear} {formData.carMake} {formData.carModel}
                   </div>
+                  <div>
+                    <strong>Mileage:</strong> {formData.carMileage?.toLocaleString()} mi
+                  </div>
                 </div>
               </Tile>
             )}
 
             {(formData.insuranceType === 'home' || formData.insuranceType === 'both') && (
               <Tile className="signup-review-section">
-                <h4 className="signup-review-title">Home Details</h4>
+                <h4 className="signup-review-title">Property Details</h4>
                 <div className="signup-review-grid">
                   <div>
                     <strong>Type:</strong> {formData.homeType}
@@ -601,6 +639,7 @@ export default function SignUpPage() {
   return (
     <Grid className="signup-page signup-container">
       <Column sm={4} md={8} lg={{ span: 12, offset: 2 }} xlg={{ span: 10, offset: 3 }}>
+        {/* Red gradient header */}
         <header className="signup-header">
           <Heading className="signup-title">Sign Up for InsureCo</Heading>
           <p className="signup-subtitle">
@@ -608,32 +647,50 @@ export default function SignUpPage() {
           </p>
         </header>
 
-        <Tile className="signup-progress">
-          <ProgressIndicator currentIndex={currentStep} spaceEqually>
-            {steps.map((step, index) => (
-              <ProgressStep
-                key={step.key}
-                label={step.label}
-                description={
-                  index < currentStep
-                    ? 'Complete'
-                    : index === currentStep
-                    ? 'Current'
-                    : ''
-                }
-                complete={index < currentStep}
-                current={index === currentStep}
-              />
-            ))}
-          </ProgressIndicator>
-        </Tile>
+        {/* Step progress indicator */}
+        <div className="signup-progress">
+          <StepBreadcrumb
+            steps={steps.map(s => ({ label: s.label, key: s.key }))}
+            currentIndex={currentStep}
+            spaceEqually
+          />
+        </div>
+
+        {/* Warning banner — shown only on Car Details step */}
+        {currentStepData?.key === 'car' && showWarning && (
+          <div className="signup-warning-banner">
+            <div className="signup-warning-banner__content">
+              <WarningAlt size={16} className="signup-warning-banner__icon" />
+              <span className="signup-warning-banner__text">This is a warning message</span>
+            </div>
+            <button
+              className="signup-warning-banner__dismiss"
+              onClick={() => setShowWarning(false)}
+              type="button"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
 
         <Form className="signup-form" onSubmit={handleSubmit}>
           <Stack gap={7} className="signup-step-content">
             {renderStepContent()}
           </Stack>
 
-          <Stack gap={5} orientation="horizontal" className="signup-actions">
+          <div className="signup-actions">
+            {/* Cancel button only on car step */}
+            {currentStepData?.key === 'car' && (
+              <Button
+                kind="tertiary"
+                onClick={handleCancel}
+                renderIcon={ArrowLeft}
+                iconDescription="Cancel"
+              >
+                Cancel
+              </Button>
+            )}
+
             {currentStep > 0 && (
               <Button
                 kind="secondary"
@@ -666,7 +723,7 @@ export default function SignUpPage() {
                 Complete Sign Up
               </Button>
             )}
-          </Stack>
+          </div>
         </Form>
       </Column>
     </Grid>
