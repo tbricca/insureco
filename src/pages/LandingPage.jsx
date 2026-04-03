@@ -69,6 +69,16 @@ export default function LandingPage() {
     <div className="landing-page">
       {/* Hero Section */}
       <section className="hero-section">
+        <video
+          className="hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="https://videos.pexels.com/video-files/9518191/9518191-hd_720_1366_25fps.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-overlay" />
         <Grid>
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
@@ -76,7 +86,7 @@ export default function LandingPage() {
                 Protect Your Future with Confidence
               </Heading>
               <p className="hero-tagline">
-                Comprehensive car and home insurance designed for the modern world. 
+                Comprehensive car and home insurance designed for the modern world.
                 Get covered in minutes with InsureCo.
               </p>
               <div className="hero-actions">
