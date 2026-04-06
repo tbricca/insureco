@@ -1,0 +1,388 @@
+@use '../../styles/tokens' as *;
+
+.v2-dashboard {
+  background: var(--background-secondary);
+  min-height: 100vh;
+  padding-bottom: var(--spacing-09);
+}
+
+// Header
+.v2-page-header {
+  padding-top: var(--spacing-07);
+  padding-bottom: var(--spacing-05);
+}
+
+.v2-page-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--interactive-primary);
+  margin: 0 0 var(--spacing-02);
+}
+
+.v2-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-02);
+}
+
+.v2-page-subtitle {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.v2-header-right {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-top: var(--spacing-07);
+  padding-bottom: var(--spacing-05);
+}
+
+.v2-mode-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+}
+
+.v2-mode-label {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// KPI Cards
+.v2-kpi-card {
+  background: var(--background-primary);
+  border-left: 4px solid var(--border-subtle);
+  padding: var(--spacing-05);
+  min-height: 145px;
+  margin-bottom: var(--spacing-05);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  &.v2-kpi-card--premium-total {
+    border-left-color: var(--color-success);
+  }
+
+  &.v2-kpi-card--claims-total {
+    border-left-color: var(--color-brand-red-60);
+  }
+
+  &.v2-kpi-card--property {
+    border-left-color: var(--color-brand-blue-60);
+  }
+
+  &.v2-kpi-card--auto {
+    border-left-color: var(--color-warning);
+  }
+}
+
+.v2-kpi-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-02);
+}
+
+.v2-kpi-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-02);
+  font-variant-numeric: tabular-nums;
+
+  &.v2-kpi-value--red {
+    color: var(--color-brand-red-60);
+
+    :root[data-carbon-theme="g90"] &,
+    :root[data-carbon-theme="g100"] & {
+      color: var(--color-brand-red-50);
+    }
+  }
+}
+
+.v2-kpi-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-01);
+  margin-bottom: var(--spacing-03);
+}
+
+.v2-breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-02);
+  font-size: var(--body-sm-size);
+
+  &.v2-breakdown-property { color: var(--color-success); }
+  &.v2-breakdown-auto     { color: var(--color-brand-blue-60); }
+  &.v2-breakdown-property-claims { color: var(--color-brand-red-70); }
+  &.v2-breakdown-auto-claims     { color: var(--color-brand-red-50); }
+}
+
+.v2-kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-01);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px var(--spacing-02);
+  border-radius: 10px;
+
+  &.v2-kpi-badge--green {
+    background: rgba(24, 128, 56, 0.12);
+    color: var(--color-success);
+  }
+
+  &.v2-kpi-badge--red {
+    background: rgba(218, 30, 40, 0.1);
+    color: var(--color-brand-red-60);
+
+    :root[data-carbon-theme="g90"] &,
+    :root[data-carbon-theme="g100"] & {
+      color: var(--color-brand-red-40);
+    }
+  }
+}
+
+.v2-loss-bar-wrapper {
+  height: 6px;
+  background: var(--background-tertiary);
+  border-radius: 3px;
+  margin-bottom: var(--spacing-02);
+  overflow: hidden;
+}
+
+.v2-loss-bar {
+  height: 100%;
+  background: var(--color-brand-blue-60);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+
+  &.v2-loss-bar--auto {
+    background: var(--color-warning);
+  }
+}
+
+.v2-kpi-sub-detail {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+// Chart
+.v2-chart-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-06);
+  margin-bottom: var(--spacing-05);
+}
+
+.v2-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-04);
+}
+
+.v2-chart-title {
+  font-size: var(--heading-h4-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-01);
+}
+
+.v2-chart-desc {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.v2-series-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-05);
+}
+
+.v2-series-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-02);
+  padding: var(--spacing-02) var(--spacing-03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: var(--body-sm-size);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+
+  &.v2-series-toggle--active {
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  &:hover {
+    background: var(--background-hover);
+  }
+}
+
+.v2-series-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.v2-chart-container {
+  width: 100%;
+}
+
+// Table
+.v2-table-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-06) var(--spacing-05) var(--spacing-05);
+  margin-bottom: var(--spacing-05);
+}
+
+.v2-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-04);
+  flex-wrap: wrap;
+  gap: var(--spacing-04);
+}
+
+.v2-table-title {
+  font-size: var(--heading-h4-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-01);
+}
+
+.v2-table-desc {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.v2-category-filters {
+  display: flex;
+  gap: var(--spacing-02);
+  flex-shrink: 0;
+}
+
+.v2-filter-btn {
+  padding: var(--spacing-02) var(--spacing-04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--body-sm-size);
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--background-hover);
+    color: var(--text-primary);
+  }
+
+  &.v2-filter-btn--active {
+    background: var(--interactive-primary);
+    color: var(--text-on-color);
+    border-color: var(--interactive-primary);
+  }
+}
+
+.v2-sort-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-03);
+}
+
+.v2-sort-label {
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.v2-table-row {
+  cursor: pointer;
+
+  &:hover td {
+    background: var(--background-hover) !important;
+  }
+}
+
+// Loss ratio badges
+.v2-ratio-badge {
+  display: inline-block;
+  padding: 2px var(--spacing-02);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.v2-ratio--high {
+    background: rgba(218, 30, 40, 0.12);
+    color: var(--color-brand-red-60);
+  }
+
+  &.v2-ratio--medium {
+    background: rgba(214, 160, 0, 0.15);
+    color: var(--color-warning);
+  }
+
+  &.v2-ratio--low {
+    background: rgba(24, 128, 56, 0.12);
+    color: var(--color-success);
+  }
+}
+
+// Claim values
+.v2-no-claims {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.v2-has-claims {
+  color: var(--color-brand-red-60);
+  font-weight: 600;
+
+  :root[data-carbon-theme="g90"] &,
+  :root[data-carbon-theme="g100"] & {
+    color: var(--color-brand-red-40);
+  }
+}
+
+// Carbon overrides
+.cds--data-table td,
+.cds--data-table th {
+  color: var(--text-primary) !important;
+  background: var(--background-primary) !important;
+}
+
+.cds--data-table thead th {
+  background: var(--background-secondary) !important;
+  color: var(--text-secondary) !important;
+}
+
+.cds--table-toolbar {
+  background: var(--background-primary) !important;
+}
