@@ -22,8 +22,8 @@ import {
   Button,
 } from '@carbon/react';
 import {
-  TrendingUp,
-  TrendingDown,
+  ArrowUp,
+  ArrowDown,
   ArrowRight,
   Building,
   CarFront,
@@ -73,7 +73,7 @@ function TrendBadge({ value, label }) {
   const isPositive = value > 0;
   return (
     <span className={`v2-trend-badge ${isPositive ? 'v2-trend-badge--up' : 'v2-trend-badge--down'}`}>
-      {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+      {isPositive ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
       {Math.abs(value)}% {label}
     </span>
   );
@@ -219,7 +219,7 @@ export default function FinancialDashboardV2() {
               </span>
             </div>
             <div className="v2-kpi-badge v2-kpi-badge--green">
-              <TrendingUp size={12} /> Premiums
+              <ArrowUp size={12} /> Premiums
             </div>
           </Tile>
         </Column>
@@ -239,7 +239,7 @@ export default function FinancialDashboardV2() {
               </span>
             </div>
             <div className="v2-kpi-badge v2-kpi-badge--red">
-              <TrendingDown size={12} /> Claims
+              <ArrowDown size={12} /> Claims
             </div>
           </Tile>
         </Column>
