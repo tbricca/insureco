@@ -20,7 +20,7 @@ import {
   ArrowLeft,
   Building,
   CarFront,
-  DocumentText,
+  Document,
   Camera,
   Warning,
   CheckmarkFilled,
@@ -194,7 +194,7 @@ export default function AssetDetailView() {
         <Column lg={8} md={4} sm={4}>
           <Tile className="asset-info-tile">
             <div className="asset-info-title-row">
-              <DocumentText size={20} />
+              <Document size={20} />
               <Heading className="asset-info-title">Policy & Coverage Details</Heading>
             </div>
             <div className="asset-info-grid">
@@ -283,15 +283,15 @@ export default function AssetDetailView() {
                 </div>
               ))}
               <div className="asset-media-placeholder asset-media-placeholder--doc">
-                <DocumentText size={24} className="asset-media-icon" />
+                <Document size={24} className="asset-media-icon" />
                 <span className="asset-media-label">Underwriting Doc</span>
               </div>
               <div className="asset-media-placeholder asset-media-placeholder--doc">
-                <DocumentText size={24} className="asset-media-icon" />
+                <Document size={24} className="asset-media-icon" />
                 <span className="asset-media-label">Policy Agreement</span>
               </div>
               <div className="asset-media-placeholder asset-media-placeholder--doc">
-                <DocumentText size={24} className="asset-media-icon" />
+                <Document size={24} className="asset-media-icon" />
                 <span className="asset-media-label">Inspection Report</span>
               </div>
             </div>
