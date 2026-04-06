@@ -1,0 +1,299 @@
+@use '../../styles/tokens' as *;
+
+.asset-detail {
+  background: var(--background-secondary);
+  min-height: 100vh;
+  padding-bottom: var(--spacing-09);
+}
+
+.asset-detail-not-found {
+  padding: var(--spacing-09);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+// Back nav bar
+.asset-detail-nav {
+  background: var(--background-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--spacing-03) var(--spacing-05);
+}
+
+// Header
+.asset-detail-header {
+  padding-top: var(--spacing-06);
+  padding-bottom: var(--spacing-05);
+}
+
+.asset-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-05);
+}
+
+.asset-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--background-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--interactive-primary);
+  flex-shrink: 0;
+}
+
+.asset-header-info {
+  flex: 1;
+}
+
+.asset-header-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-02);
+  margin-bottom: var(--spacing-03);
+}
+
+.asset-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-01);
+}
+
+.asset-id-text {
+  font-size: var(--body-sm-size);
+  color: var(--text-tertiary);
+  font-family: monospace;
+  margin: 0;
+}
+
+// Risk badge
+.asset-risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px var(--spacing-02);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+
+  &.risk-high {
+    background: rgba(218, 30, 40, 0.1);
+    color: var(--color-brand-red-60);
+  }
+
+  &.risk-medium {
+    background: rgba(214, 160, 0, 0.12);
+    color: var(--color-warning);
+  }
+
+  &.risk-low {
+    background: rgba(24, 128, 56, 0.1);
+    color: var(--color-success);
+  }
+}
+
+// Stat tiles
+.asset-stat-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-05);
+  margin-bottom: var(--spacing-05);
+  border-top: 3px solid var(--border-subtle);
+
+  &.asset-stat-tile--claims {
+    border-top-color: var(--color-brand-red-60);
+  }
+}
+
+.asset-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-02);
+}
+
+.asset-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-01);
+  font-variant-numeric: tabular-nums;
+}
+
+.asset-stat-sub {
+  font-size: var(--body-sm-size);
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.asset-ratio-bar-wrap {
+  height: 6px;
+  background: var(--background-tertiary);
+  border-radius: 3px;
+  margin-top: var(--spacing-03);
+  overflow: hidden;
+}
+
+.asset-ratio-bar {
+  height: 100%;
+  background: var(--interactive-primary);
+  border-radius: 3px;
+}
+
+// Info tile
+.asset-info-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-05);
+  margin-bottom: var(--spacing-05);
+  min-height: 100%;
+}
+
+.asset-info-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-04);
+  color: var(--text-primary);
+
+  svg {
+    color: var(--interactive-primary);
+    flex-shrink: 0;
+  }
+}
+
+.asset-info-title {
+  font-size: var(--heading-h5-size, 1rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.asset-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-03) var(--spacing-05);
+}
+
+.asset-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.asset-info-key {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.asset-info-val {
+  font-size: var(--body-sm-size);
+  color: var(--text-primary);
+  font-weight: 500;
+
+  &.asset-info-val--mono {
+    font-family: monospace;
+    font-size: 12px;
+  }
+}
+
+// Media tile
+.asset-media-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-05);
+  margin-bottom: var(--spacing-05);
+  min-height: 100%;
+}
+
+.asset-media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-03);
+}
+
+.asset-media-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-02);
+  padding: var(--spacing-05);
+  border: 1px dashed var(--border-subtle);
+  border-radius: 6px;
+  background: var(--background-secondary);
+  min-height: 90px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--background-hover);
+  }
+
+  &.asset-media-placeholder--doc {
+    border-color: var(--border-subtle);
+    background: var(--background-secondary);
+  }
+}
+
+.asset-media-icon {
+  color: var(--text-tertiary);
+}
+
+.asset-media-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+// Claims history
+.asset-claims-tile {
+  background: var(--background-primary);
+  padding: var(--spacing-06) var(--spacing-05) var(--spacing-05);
+  margin-bottom: var(--spacing-05);
+}
+
+.asset-claims-title {
+  font-size: var(--heading-h4-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-05);
+}
+
+.asset-no-claims {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+  padding: var(--spacing-05);
+  background: var(--background-secondary);
+  border-radius: 6px;
+  color: var(--text-secondary);
+}
+
+.asset-no-claims-icon {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+// Footer
+.asset-detail-footer {
+  padding-top: var(--spacing-04);
+  padding-bottom: var(--spacing-07);
+}
+
+// Carbon DataTable overrides
+.cds--data-table td,
+.cds--data-table th {
+  color: var(--text-primary) !important;
+  background: var(--background-primary) !important;
+}
+
+.cds--data-table thead th {
+  background: var(--background-secondary) !important;
+  color: var(--text-secondary) !important;
+}
