@@ -1,0 +1,440 @@
+@use '../styles/tokens' as *;
+
+// ============================================================
+// Sign-Up Page — matches Figma frames 1-5 (all 5 step screens)
+// Layout: outer gradient wrapper → hero card → progress bar → form card
+// ============================================================
+
+.signup-page {
+  min-height: 100%;
+  background: var(--background-primary);
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-07) var(--spacing-05);
+}
+
+.signup-wrapper {
+  width: 100%;
+  max-width: 703px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: linear-gradient(135deg, #f4f4f4 70.71%, #fff 0%);
+  padding: 16px 32px 0;
+}
+
+// ── Hero Header Card ──────────────────────────────────────────
+.signup-hero-card {
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a2191f 70.71%, #da1e28 0%);
+  box-shadow: 0 4px 12px 0 rgba(218, 30, 40, 0.15);
+  padding: 31px 16px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 36px;
+
+  &__title {
+    color: #fff;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  &__subtitle {
+    color: #fff;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.95;
+    margin: 0;
+    max-width: 460px;
+  }
+}
+
+// ── Progress Bar ──────────────────────────────────────────────
+.signup-progress-bar {
+  border-radius: 4px;
+  border-top: 1px solid #da1e28;
+  background: #f4f4f4;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  margin-bottom: 0;
+
+  // Override StepBreadcrumb: Figma uses top-border per step, not connector lines
+  .step-breadcrumb {
+    gap: 0;
+    align-items: flex-start;
+  }
+
+  // Hide the connector lines between steps
+  .step-breadcrumb__line {
+    display: none;
+  }
+
+  // Each step item gets a top border (Figma: 2px solid, color varies by state)
+  .step-breadcrumb__item {
+    border-top: 2px solid #e0e0e0;
+    padding-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    &--current {
+      border-top-color: #0f62fe;
+    }
+
+    &--complete {
+      border-top-color: #0f62fe;
+    }
+  }
+
+  .step-breadcrumb__marker {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+
+  .step-breadcrumb__content {
+    padding-left: 0;
+  }
+
+  .step-breadcrumb__label {
+    font-family: 'IBM Plex Sans', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-primary);
+    white-space: normal;
+
+    .step-breadcrumb__item--current & {
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+  }
+
+  .step-breadcrumb__description {
+    font-family: 'IBM Plex Sans', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+}
+
+// ── Alert Banner (Car Details step) ───────────────────────────
+.signup-alert-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 34px 13px 33px;
+  border: 1px solid #000;
+  background: #fff4b4;
+  margin-bottom: 0;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__message {
+    color: #946c00;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.57;
+  }
+
+  &__dismiss {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #946c00;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.57;
+    padding: 0;
+    flex-shrink: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Form Card ─────────────────────────────────────────────────
+.signup-form-card {
+  border-top: 5px solid #fb0c0c;
+  background: #f4f4f4;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  overflow: hidden;
+
+  &__header {
+    border-bottom: 1px solid #fc0404;
+    padding-bottom: 11px;
+    margin-bottom: 0;
+  }
+}
+
+// ── Step content ──────────────────────────────────────────────
+.signup-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.signup-section-title {
+  color: #000;
+  font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.signup-section-description {
+  color: #000;
+  font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 24px 0 24px;
+}
+
+// ── Form Fields ───────────────────────────────────────────────
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+
+  // Carbon TextInput / NumberInput / Select — ensure full width
+  .cds--form-item,
+  .cds--text-input-wrapper,
+  .cds--number,
+  .cds--select {
+    width: 100%;
+  }
+}
+
+// ── Insurance Type Tiles ──────────────────────────────────────
+.signup-insurance-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.insurance-tile {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding: 16px;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: #da1e28;
+  }
+
+  &--selected {
+    border-color: #da1e28;
+    background: #fff8f8;
+  }
+
+  &__icons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-primary);
+    flex-shrink: 0;
+
+    svg {
+      color: var(--text-primary);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  &__title {
+    color: #000;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: block;
+  }
+
+  &__description {
+    color: #000;
+    font-family: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.43;
+    display: block;
+  }
+}
+
+// ── Footer Buttons ────────────────────────────────────────────
+.signup-form-footer {
+  border-top: 1px solid #da1e28;
+  padding-top: 26px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+
+  &--right {
+    justify-content: flex-end;
+  }
+}
+
+// ── Dark Theme Overrides ───────────────────────────────────────
+:root[data-carbon-theme='g90'],
+:root[data-carbon-theme='g100'] {
+  .signup-wrapper {
+    background: linear-gradient(135deg, #262626 70.71%, #161616 0%);
+  }
+
+  .signup-form-card {
+    background: #262626;
+    border-top-color: #fa4d56;
+  }
+
+  .signup-form-card__header {
+    border-bottom-color: #fa4d56;
+  }
+
+  .signup-section-title,
+  .signup-section-description {
+    color: var(--text-primary);
+  }
+
+  .signup-progress-bar {
+    background: #262626;
+    border-top-color: #fa4d56;
+
+    .step-breadcrumb__item {
+      border-top-color: #393939;
+
+      &--current,
+      &--complete {
+        border-top-color: #4589ff;
+      }
+    }
+  }
+
+  .signup-form-footer {
+    border-top-color: #fa4d56;
+  }
+
+  .signup-alert-banner {
+    border-color: #946c00;
+  }
+
+  .insurance-tile {
+    background: #393939;
+
+    &--selected {
+      background: #3d1a1a;
+      border-color: #fa4d56;
+    }
+
+    &:hover {
+      border-color: #fa4d56;
+    }
+
+    &__title,
+    &__description {
+      color: var(--text-primary);
+    }
+
+    &__icons svg {
+      color: var(--text-primary);
+    }
+  }
+
+  .signup-alert-banner {
+    background: #3d2f00;
+    border-color: #946c00;
+
+    &__message,
+    &__dismiss {
+      color: #f1c21b;
+    }
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 672px) {
+  .signup-page {
+    padding: 0;
+  }
+
+  .signup-wrapper {
+    padding: 12px 16px 0;
+  }
+
+  .signup-hero-card {
+    padding: 24px 12px;
+    margin-bottom: 24px;
+
+    &__title {
+      font-size: 22px;
+    }
+
+    &__subtitle {
+      font-size: 14px;
+    }
+  }
+
+  .signup-progress-bar {
+    padding: 12px;
+  }
+
+  .signup-form-card {
+    padding: 16px;
+  }
+
+  .signup-alert-banner {
+    padding: 12px 16px;
+  }
+
+  .signup-form-footer {
+    gap: 10px;
+
+    .cds--btn {
+      flex: 1;
+      justify-content: center;
+      min-width: auto;
+    }
+  }
+
+  .insurance-tile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 673px) and (max-width: 1055px) {
+  .signup-wrapper {
+    padding: 16px 24px 0;
+  }
+}
