@@ -4,6 +4,18 @@
 // ============================================
 // Buttons
 // ============================================
+
+// Back navigation buttons: reverse icon to appear on the left side.
+// Carbon's renderIcon always appends the icon after text (right side).
+// row-reverse flips the visual order; margin adjustments correct the spacing.
+.back-btn {
+  flex-direction: row-reverse;
+
+  .cds--btn__icon {
+    margin-left: 0 !important;
+    margin-right: var(--cds-spacing-03, 0.5rem);
+  }
+}
 .cds--btn--primary {
   background-color: var(--interactive-primary);
   border-color: var(--interactive-primary);

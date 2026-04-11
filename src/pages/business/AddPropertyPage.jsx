@@ -488,6 +488,7 @@ export default function AddPropertyPage() {
           <Button
             kind="secondary"
             renderIcon={ArrowLeft}
+            className="back-btn"
             onClick={handleBack}
             disabled={currentStep === 0}
           >
