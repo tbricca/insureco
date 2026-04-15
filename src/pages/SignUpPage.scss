@@ -199,6 +199,19 @@
 
 // ─── Coverage Selection Tiles ─────────────────────────────────────────────────
 
+.signup-coverage-error {
+  color: var(--text-error);
+  font-size: var(--body-sm-size);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &::before {
+    content: '⚠';
+  }
+}
+
 .signup-coverage-options {
   display: flex;
   flex-direction: column;

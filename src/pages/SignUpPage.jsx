@@ -62,37 +62,89 @@ const US_STATES = [
 ];
 
 const CAR_YEARS = Array.from({ length: 2025 - 1980 + 1 }, (_, i) => String(2025 - i));
-
 const HOME_YEARS = Array.from({ length: 2025 - 1800 + 1 }, (_, i) => String(2025 - i));
-
 const HOME_TYPES = ['Single Family', 'Condo', 'Townhouse', 'Multi-Family', 'Mobile Home'];
 
-// ─── Step Definitions ─────────────────────────────────────────────────────────
+// ─── Validation Rules ──────────────────────────────────────────────────────────
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+const ZIP_RE   = /^\d{5}(-\d{4})?$/;
+const DOB_RE   = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+
+function validatePersonal(data) {
+  const errors = {};
+  if (!data.firstName.trim())   errors.firstName   = 'First name is required';
+  if (!data.lastName.trim())    errors.lastName    = 'Last name is required';
+  if (!data.email.trim())       errors.email       = 'Email address is required';
+  else if (!EMAIL_RE.test(data.email.trim())) errors.email = 'Enter a valid email address';
+  if (!data.phone.trim())       errors.phone       = 'Phone number is required';
+  else if (!PHONE_RE.test(data.phone.trim())) errors.phone = 'Enter a valid 10-digit phone number';
+  if (!data.dob.trim())         errors.dob         = 'Date of birth is required';
+  else if (!DOB_RE.test(data.dob.trim())) errors.dob = 'Enter a valid date (mm/dd/yyyy)';
+  else {
+    const parsed = new Date(data.dob);
+    const now = new Date();
+    const age = now.getFullYear() - parsed.getFullYear();
+    if (age < 18) errors.dob = 'You must be at least 18 years old';
+    if (parsed > now) errors.dob = 'Date of birth cannot be in the future';
+  }
+  return errors;
+}
+
+function validateAddress(data) {
+  const errors = {};
+  if (!data.streetAddress.trim()) errors.streetAddress = 'Street address is required';
+  if (!data.city.trim())          errors.city          = 'City is required';
+  if (!data.state)                errors.state         = 'State is required';
+  if (!data.zip.trim())           errors.zip           = 'ZIP code is required';
+  else if (!ZIP_RE.test(data.zip.trim())) errors.zip   = 'Enter a valid 5-digit ZIP code';
+  return errors;
+}
+
+function validateCar(data) {
+  const errors = {};
+  if (!data.make.trim())  errors.make  = 'Vehicle make is required';
+  if (!data.model.trim()) errors.model = 'Vehicle model is required';
+  if (!data.year)         errors.year  = 'Vehicle year is required';
+  if (!data.mileage || Number(data.mileage) <= 0) errors.mileage = 'Enter a valid mileage (must be greater than 0)';
+  if (!data.milesPerYear || Number(data.milesPerYear) <= 0) errors.milesPerYear = 'Enter annual mileage greater than 0';
+  if (data.vin && data.vin.trim().length !== 17) errors.vin = 'VIN must be exactly 17 characters';
+  return errors;
+}
+
+function validateProperty(data) {
+  const errors = {};
+  if (!data.homeType)  errors.homeType  = 'Home type is required';
+  if (!data.yearBuilt) errors.yearBuilt = 'Year built is required';
+  if (!data.squareFeet || Number(data.squareFeet) <= 0) errors.squareFeet = 'Enter a valid square footage greater than 0';
+  if (!data.homeValue  || Number(data.homeValue)  <= 0) errors.homeValue  = 'Enter a valid estimated home value greater than 0';
+  return errors;
+}
+
+// ─── Step Definitions ──────────────────────────────────────────────────────────
 
 function getSteps(coverage) {
   const base = [
     { key: 'coverage', label: 'Coverage' },
     { key: 'personal', label: 'Personal Info' },
-    { key: 'address', label: 'Address' },
+    { key: 'address',  label: 'Address' },
   ];
-  if (coverage === 'car' || coverage === 'both') {
-    base.push({ key: 'car', label: 'Car Details' });
-  }
-  if (coverage === 'home' || coverage === 'both') {
-    base.push({ key: 'home', label: 'Property Details' });
-  }
+  if (coverage === 'car'  || coverage === 'both') base.push({ key: 'car',  label: 'Car Details' });
+  if (coverage === 'home' || coverage === 'both') base.push({ key: 'home', label: 'Property Details' });
   return base;
 }
 
-// ─── Form Step Components ──────────────────────────────────────────────────────
+// ─── Step Components ───────────────────────────────────────────────────────────
 
-function CoverageStep({ selected, onChange }) {
+function CoverageStep({ selected, onChange, error }) {
   return (
     <div className="signup-form-section">
       <div className="signup-form-header">
         <h2 className="signup-form-title">What Will You Insure</h2>
       </div>
       <p className="signup-form-description">Which insurance coverage are you looking for</p>
+      {error && <p className="signup-coverage-error">{error}</p>}
       <div className="signup-coverage-options">
         {COVERAGE_OPTIONS.map((option) => (
           <button
@@ -115,7 +167,7 @@ function CoverageStep({ selected, onChange }) {
   );
 }
 
-function PersonalInfoStep({ data, onChange }) {
+function PersonalInfoStep({ data, onChange, errors }) {
   return (
     <div className="signup-form-section">
       <div className="signup-form-header">
@@ -129,6 +181,8 @@ function PersonalInfoStep({ data, onChange }) {
           placeholder="Enter your first name"
           value={data.firstName}
           onChange={(e) => onChange('firstName', e.target.value)}
+          invalid={!!errors.firstName}
+          invalidText={errors.firstName}
           size="lg"
         />
         <TextInput
@@ -137,6 +191,8 @@ function PersonalInfoStep({ data, onChange }) {
           placeholder="Enter your last name"
           value={data.lastName}
           onChange={(e) => onChange('lastName', e.target.value)}
+          invalid={!!errors.lastName}
+          invalidText={errors.lastName}
           size="lg"
         />
         <TextInput
@@ -146,6 +202,8 @@ function PersonalInfoStep({ data, onChange }) {
           type="email"
           value={data.email}
           onChange={(e) => onChange('email', e.target.value)}
+          invalid={!!errors.email}
+          invalidText={errors.email}
           size="lg"
         />
         <TextInput
@@ -155,16 +213,30 @@ function PersonalInfoStep({ data, onChange }) {
           type="tel"
           value={data.phone}
           onChange={(e) => onChange('phone', e.target.value)}
+          invalid={!!errors.phone}
+          invalidText={errors.phone}
           size="lg"
         />
-        <DatePicker datePickerType="single" dateFormat="m/d/Y">
+        <DatePicker
+          datePickerType="single"
+          dateFormat="m/d/Y"
+          onChange={(dates) => {
+            if (dates[0]) {
+              const d = dates[0];
+              const mm = String(d.getMonth() + 1).padStart(2, '0');
+              const dd = String(d.getDate()).padStart(2, '0');
+              const yyyy = d.getFullYear();
+              onChange('dob', `${mm}/${dd}/${yyyy}`);
+            }
+          }}
+        >
           <DatePickerInput
             id="dob"
             labelText="Date of Birth"
             placeholder="mm/dd/yyyy"
             size="lg"
-            value={data.dob}
-            onChange={(e) => onChange('dob', e.target.value)}
+            invalid={!!errors.dob}
+            invalidText={errors.dob}
           />
         </DatePicker>
       </div>
@@ -172,7 +244,7 @@ function PersonalInfoStep({ data, onChange }) {
   );
 }
 
-function AddressStep({ data, onChange }) {
+function AddressStep({ data, onChange, errors }) {
   return (
     <div className="signup-form-section">
       <div className="signup-form-header">
@@ -186,6 +258,8 @@ function AddressStep({ data, onChange }) {
           placeholder="123 Main Street"
           value={data.streetAddress}
           onChange={(e) => onChange('streetAddress', e.target.value)}
+          invalid={!!errors.streetAddress}
+          invalidText={errors.streetAddress}
           size="lg"
         />
         <TextInput
@@ -194,6 +268,8 @@ function AddressStep({ data, onChange }) {
           placeholder="Your city"
           value={data.city}
           onChange={(e) => onChange('city', e.target.value)}
+          invalid={!!errors.city}
+          invalidText={errors.city}
           size="lg"
         />
         <Select
@@ -201,6 +277,8 @@ function AddressStep({ data, onChange }) {
           labelText="State"
           value={data.state}
           onChange={(e) => onChange('state', e.target.value)}
+          invalid={!!errors.state}
+          invalidText={errors.state}
           size="lg"
         >
           <SelectItem value="" text="" />
@@ -214,6 +292,8 @@ function AddressStep({ data, onChange }) {
           placeholder="12345"
           value={data.zip}
           onChange={(e) => onChange('zip', e.target.value)}
+          invalid={!!errors.zip}
+          invalidText={errors.zip}
           size="lg"
         />
       </div>
@@ -221,7 +301,7 @@ function AddressStep({ data, onChange }) {
   );
 }
 
-function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
+function CarDetailsStep({ data, onChange, errors, showWarning, onDismissWarning }) {
   return (
     <div className="signup-form-section">
       {showWarning && (
@@ -235,11 +315,7 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
             </svg>
             <span>Please double-check your vehicle information before proceeding.</span>
           </div>
-          <button
-            type="button"
-            className="signup-warning-banner__dismiss"
-            onClick={onDismissWarning}
-          >
+          <button type="button" className="signup-warning-banner__dismiss" onClick={onDismissWarning}>
             Dismiss
           </button>
         </div>
@@ -255,6 +331,8 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
           placeholder="e.g. Toyota, Ford"
           value={data.make}
           onChange={(e) => onChange('make', e.target.value)}
+          invalid={!!errors.make}
+          invalidText={errors.make}
           size="lg"
         />
         <TextInput
@@ -263,6 +341,8 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
           placeholder="e.g. Corolla, Bronco"
           value={data.model}
           onChange={(e) => onChange('model', e.target.value)}
+          invalid={!!errors.model}
+          invalidText={errors.model}
           size="lg"
         />
         <Select
@@ -270,6 +350,8 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
           labelText="Year"
           value={data.year}
           onChange={(e) => onChange('year', e.target.value)}
+          invalid={!!errors.year}
+          invalidText={errors.year}
           size="lg"
         >
           <SelectItem value="" text="" />
@@ -284,6 +366,8 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
           min={0}
           step={1000}
           onChange={(e, { value } = {}) => onChange('mileage', value ?? e.target.value)}
+          invalid={!!errors.mileage}
+          invalidText={errors.mileage}
           size="lg"
         />
         <NumberInput
@@ -293,15 +377,19 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
           min={0}
           step={1000}
           onChange={(e, { value } = {}) => onChange('milesPerYear', value ?? e.target.value)}
+          invalid={!!errors.milesPerYear}
+          invalidText={errors.milesPerYear}
           size="lg"
         />
         <TextInput
           id="vin"
           labelText="VIN (optional)"
           placeholder=""
-          helperText="17 digits"
+          helperText="17 characters"
           value={data.vin}
           onChange={(e) => onChange('vin', e.target.value)}
+          invalid={!!errors.vin}
+          invalidText={errors.vin}
           size="lg"
         />
       </div>
@@ -309,7 +397,7 @@ function CarDetailsStep({ data, onChange, showWarning, onDismissWarning }) {
   );
 }
 
-function PropertyDetailsStep({ data, onChange }) {
+function PropertyDetailsStep({ data, onChange, errors }) {
   return (
     <div className="signup-form-section">
       <div className="signup-form-header">
@@ -322,6 +410,8 @@ function PropertyDetailsStep({ data, onChange }) {
           labelText="Home Type"
           value={data.homeType}
           onChange={(e) => onChange('homeType', e.target.value)}
+          invalid={!!errors.homeType}
+          invalidText={errors.homeType}
           size="lg"
         >
           <SelectItem value="" text="" />
@@ -334,6 +424,8 @@ function PropertyDetailsStep({ data, onChange }) {
           labelText="Year Built"
           value={data.yearBuilt}
           onChange={(e) => onChange('yearBuilt', e.target.value)}
+          invalid={!!errors.yearBuilt}
+          invalidText={errors.yearBuilt}
           size="lg"
         >
           <SelectItem value="" text="" />
@@ -349,6 +441,8 @@ function PropertyDetailsStep({ data, onChange }) {
           min={0}
           step={100}
           onChange={(e, { value } = {}) => onChange('squareFeet', value ?? e.target.value)}
+          invalid={!!errors.squareFeet}
+          invalidText={errors.squareFeet}
           size="lg"
         />
         <NumberInput
@@ -359,6 +453,8 @@ function PropertyDetailsStep({ data, onChange }) {
           min={0}
           step={10000}
           onChange={(e, { value } = {}) => onChange('homeValue', value ?? e.target.value)}
+          invalid={!!errors.homeValue}
+          invalidText={errors.homeValue}
           size="lg"
         />
       </div>
@@ -371,9 +467,9 @@ function PropertyDetailsStep({ data, onChange }) {
 export default function SignUpPage() {
   const navigate = useNavigate();
 
-  const [coverage, setCoverage] = useState('');
+  const [coverage, setCoverage]               = useState('');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [showWarning, setShowWarning] = useState(true);
+  const [showWarning, setShowWarning]          = useState(true);
 
   const [personalData, setPersonalData] = useState({
     firstName: '', lastName: '', email: '', phone: '', dob: '',
@@ -388,14 +484,57 @@ export default function SignUpPage() {
     homeType: '', yearBuilt: '', squareFeet: 1000, homeValue: 1000,
   });
 
-  const steps = getSteps(coverage);
+  // Per-step error state
+  const [personalErrors,  setPersonalErrors]  = useState({});
+  const [addressErrors,   setAddressErrors]   = useState({});
+  const [carErrors,       setCarErrors]       = useState({});
+  const [propertyErrors,  setPropertyErrors]  = useState({});
+  const [coverageError,   setCoverageError]   = useState('');
+
+  const steps       = getSteps(coverage);
   const currentStep = steps[currentStepIndex];
   const isFirstStep = currentStepIndex === 0;
-  const isLastStep = currentStepIndex === steps.length - 1;
+  const isLastStep  = currentStepIndex === steps.length - 1;
+
+  // ── Validate current step and return whether it passed ──
+  function validateCurrentStep() {
+    switch (currentStep?.key) {
+      case 'coverage': {
+        if (!coverage) {
+          setCoverageError('Please select a coverage type to continue');
+          return false;
+        }
+        setCoverageError('');
+        return true;
+      }
+      case 'personal': {
+        const errs = validatePersonal(personalData);
+        setPersonalErrors(errs);
+        return Object.keys(errs).length === 0;
+      }
+      case 'address': {
+        const errs = validateAddress(addressData);
+        setAddressErrors(errs);
+        return Object.keys(errs).length === 0;
+      }
+      case 'car': {
+        const errs = validateCar(carData);
+        setCarErrors(errs);
+        return Object.keys(errs).length === 0;
+      }
+      case 'home': {
+        const errs = validateProperty(propertyData);
+        setPropertyErrors(errs);
+        return Object.keys(errs).length === 0;
+      }
+      default:
+        return true;
+    }
+  }
 
   function handleNext() {
+    if (!validateCurrentStep()) return;
     if (isLastStep) {
-      // Submit - navigate to dashboard or confirmation
       navigate('/dashboard');
     } else {
       setCurrentStepIndex((i) => i + 1);
@@ -410,41 +549,76 @@ export default function SignUpPage() {
     navigate('/');
   }
 
+  // Clear field-level error as user edits
   function handlePersonalChange(field, value) {
     setPersonalData((d) => ({ ...d, [field]: value }));
+    if (personalErrors[field]) setPersonalErrors((e) => ({ ...e, [field]: '' }));
   }
 
   function handleAddressChange(field, value) {
     setAddressData((d) => ({ ...d, [field]: value }));
+    if (addressErrors[field]) setAddressErrors((e) => ({ ...e, [field]: '' }));
   }
 
   function handleCarChange(field, value) {
     setCarData((d) => ({ ...d, [field]: value }));
+    if (carErrors[field]) setCarErrors((e) => ({ ...e, [field]: '' }));
   }
 
   function handlePropertyChange(field, value) {
     setPropertyData((d) => ({ ...d, [field]: value }));
+    if (propertyErrors[field]) setPropertyErrors((e) => ({ ...e, [field]: '' }));
+  }
+
+  function handleCoverageChange(val) {
+    setCoverage(val);
+    setCoverageError('');
   }
 
   function renderStep() {
     switch (currentStep?.key) {
       case 'coverage':
-        return <CoverageStep selected={coverage} onChange={setCoverage} />;
+        return (
+          <CoverageStep
+            selected={coverage}
+            onChange={handleCoverageChange}
+            error={coverageError}
+          />
+        );
       case 'personal':
-        return <PersonalInfoStep data={personalData} onChange={handlePersonalChange} />;
+        return (
+          <PersonalInfoStep
+            data={personalData}
+            onChange={handlePersonalChange}
+            errors={personalErrors}
+          />
+        );
       case 'address':
-        return <AddressStep data={addressData} onChange={handleAddressChange} />;
+        return (
+          <AddressStep
+            data={addressData}
+            onChange={handleAddressChange}
+            errors={addressErrors}
+          />
+        );
       case 'car':
         return (
           <CarDetailsStep
             data={carData}
             onChange={handleCarChange}
+            errors={carErrors}
             showWarning={showWarning}
             onDismissWarning={() => setShowWarning(false)}
           />
         );
       case 'home':
-        return <PropertyDetailsStep data={propertyData} onChange={handlePropertyChange} />;
+        return (
+          <PropertyDetailsStep
+            data={propertyData}
+            onChange={handlePropertyChange}
+            errors={propertyErrors}
+          />
+        );
       default:
         return null;
     }
@@ -470,7 +644,6 @@ export default function SignUpPage() {
 
         {/* Form Card */}
         <div className="signup-card">
-          {/* Step Content */}
           {renderStep()}
 
           {/* Navigation Buttons */}
@@ -503,7 +676,6 @@ export default function SignUpPage() {
               iconDescription="Next"
               onClick={handleNext}
               size="lg"
-              disabled={currentStep?.key === 'coverage' && !coverage}
             >
               {isLastStep ? 'Submit' : 'Next'}
             </Button>
