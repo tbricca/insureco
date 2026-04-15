@@ -1,0 +1,340 @@
+@use '../styles/tokens' as *;
+
+// ─── Page Wrapper ─────────────────────────────────────────────────────────────
+
+.signup-page {
+  min-height: calc(100vh - 3rem);
+  background: linear-gradient(135deg, #f4f4f4 70.71%, #fff 0%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px 32px;
+
+  @media (max-width: 671px) {
+    padding: 12px 16px;
+  }
+}
+
+.signup-page__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 700px;
+}
+
+// ─── Header Banner ────────────────────────────────────────────────────────────
+
+.signup-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 31px 24px 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #a2191f 70.71%, #da1e28 0%);
+  box-shadow: 0 4px 12px 0 rgba(218, 30, 40, 0.15);
+  text-align: center;
+}
+
+.signup-header__title {
+  color: #fff;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+
+  @media (max-width: 671px) {
+    font-size: 22px;
+  }
+}
+
+.signup-header__subtitle {
+  color: #fff;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.95;
+
+  @media (max-width: 671px) {
+    font-size: 14px;
+  }
+}
+
+// ─── Progress Indicator ───────────────────────────────────────────────────────
+
+.signup-progress {
+  padding: 18px;
+  border-radius: 4px;
+  border-top: 1px solid #da1e28;
+  background: var(--background-secondary);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+// ─── Form Card ────────────────────────────────────────────────────────────────
+
+.signup-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 5px solid #da1e28;
+  background: var(--background-secondary);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+// ─── Warning Banner ───────────────────────────────────────────────────────────
+
+.signup-warning-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 24px;
+  background: #fff4b4;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.signup-warning-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #946c00;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.57;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.signup-warning-banner__dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #946c00;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.57;
+  padding: 0;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ─── Form Section ─────────────────────────────────────────────────────────────
+
+.signup-form-section {
+  padding: 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.signup-form-header {
+  padding-bottom: 11px;
+  border-bottom: 1px solid #da1e28;
+  margin-bottom: 24px;
+}
+
+.signup-form-title {
+  color: var(--text-primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+
+  @media (max-width: 671px) {
+    font-size: 20px;
+  }
+}
+
+.signup-form-description {
+  color: var(--text-primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+// ─── Form Fields ──────────────────────────────────────────────────────────────
+
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 16px;
+
+  // Carbon component overrides for consistent sizing
+  .cds--form-item,
+  .cds--text-input-wrapper,
+  .cds--select,
+  .cds--number {
+    width: 100%;
+  }
+
+  // Ensure date picker stretches full width
+  .cds--date-picker,
+  .cds--date-picker-container {
+    width: 100%;
+
+    .cds--date-picker-input__wrapper,
+    input {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}
+
+// ─── Coverage Selection Tiles ─────────────────────────────────────────────────
+
+.signup-coverage-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.signup-coverage-tile {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding: 16px;
+  background: var(--background-primary);
+  border: 2px solid var(--border-subtle);
+  border-radius: 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    background: var(--background-hover);
+    border-color: var(--border-interactive);
+  }
+
+  &--selected {
+    border-color: var(--interactive-primary);
+    background: var(--background-selected);
+  }
+}
+
+.signup-coverage-tile__icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-primary);
+  flex-shrink: 0;
+
+  svg {
+    color: var(--text-primary);
+  }
+}
+
+.signup-coverage-tile__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.signup-coverage-tile__title {
+  color: var(--text-primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+
+  @media (max-width: 671px) {
+    font-size: 17px;
+  }
+}
+
+.signup-coverage-tile__description {
+  color: var(--text-primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+}
+
+// ─── Navigation Actions ───────────────────────────────────────────────────────
+
+.signup-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid #da1e28;
+  flex-wrap: wrap;
+
+  @media (max-width: 671px) {
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    .cds--btn {
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+    }
+  }
+
+  // Button sizing
+  .cds--btn {
+    padding-inline: 16px 64px;
+  }
+}
+
+// ─── Carbon Field Theme Overrides ─────────────────────────────────────────────
+
+.signup-card {
+  // Text inputs
+  .cds--text-input {
+    background: var(--field-background) !important;
+    color: var(--field-text) !important;
+    border-bottom-color: var(--border-strong) !important;
+  }
+
+  // Select
+  .cds--select-input {
+    background: var(--field-background) !important;
+    color: var(--field-text) !important;
+    border-bottom-color: var(--border-strong) !important;
+  }
+
+  // Number input
+  .cds--number input {
+    background: var(--field-background) !important;
+    color: var(--field-text) !important;
+    border-bottom-color: var(--border-strong) !important;
+  }
+
+  // Date picker
+  .cds--date-picker__input {
+    background: var(--field-background) !important;
+    color: var(--field-text) !important;
+    border-bottom-color: var(--border-strong) !important;
+  }
+
+  // Labels
+  .cds--label {
+    color: var(--text-primary) !important;
+  }
+
+  // Helper text
+  .cds--form__helper-text {
+    color: var(--text-helper) !important;
+  }
+}
