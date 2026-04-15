@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TextInput,
@@ -11,6 +11,7 @@ import {
 } from '@carbon/react';
 import { ArrowLeft, ArrowRight } from '@carbon/icons-react';
 import StepBreadcrumb from '../components/StepBreadcrumb';
+import { calculateEstimate } from '../utils/quoteEstimator';
 import './SignUpPage.scss';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -462,6 +463,34 @@ function PropertyDetailsStep({ data, onChange, errors }) {
   );
 }
 
+// ─── Quote Estimate Panel ────────────────────────────────────────────────────
+
+function QuoteEstimatePanel({ estimate, coverage }) {
+  if (!coverage || coverage === '') return null;
+
+  const hasRange = estimate && !estimate.isPartial;
+
+  return (
+    <div className="quote-estimate-panel">
+      <div className="quote-estimate-panel__label-group">
+        {/* Tag icon */}
+        <svg className="quote-estimate-panel__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.9375 1H9.0625C8.89674 1 8.73777 1.06585 8.62056 1.18306L1.68306 8.12056C1.44868 8.35493 1.44868 8.73507 1.68306 8.96944L6.03056 13.3169C6.26493 13.5513 6.64507 13.5513 6.87944 13.3169L13.8169 6.37944C13.9342 6.26223 14 6.10326 14 5.9375V1.0625C14 1.02772 13.9723 1 13.9375 1ZM11.5 4.75C11.0858 4.75 10.75 4.41421 10.75 4C10.75 3.58579 11.0858 3.25 11.5 3.25C11.9142 3.25 12.25 3.58579 12.25 4C12.25 4.41421 11.9142 4.75 11.5 4.75Z" fill="currentColor"/>
+        </svg>
+        <span className="quote-estimate-panel__label">Estimated Monthly Premium</span>
+      </div>
+      <div className="quote-estimate-panel__price">
+        {hasRange
+          ? <>${estimate.low} &ndash; ${estimate.high}<span className="quote-estimate-panel__per-mo">/mo</span></>
+          : <>Starting from ${estimate?.base ?? '--'}<span className="quote-estimate-panel__per-mo">/mo</span></>}
+      </div>
+      {!hasRange && (
+        <span className="quote-estimate-panel__note">Updates as you fill in details</span>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Component ────────────────────────────────────────────────────────────
 
 export default function SignUpPage() {
@@ -625,6 +654,16 @@ export default function SignUpPage() {
   }
 
   const isCarStep = currentStep?.key === 'car';
+  const showEstimate = currentStepIndex > 0;
+
+  // Live estimate — recalculates whenever any form field changes
+  const estimate = useMemo(
+    () =>
+      showEstimate
+        ? calculateEstimate(coverage, personalData, addressData, carData, propertyData)
+        : null,
+    [showEstimate, coverage, personalData, addressData, carData, propertyData],
+  );
 
   return (
     <div className="signup-page">
@@ -645,6 +684,11 @@ export default function SignUpPage() {
         {/* Form Card */}
         <div className="signup-card">
           {renderStep()}
+
+          {/* Live Quote Estimate */}
+          {showEstimate && (
+            <QuoteEstimatePanel estimate={estimate} coverage={coverage} />
+          )}
 
           {/* Navigation Buttons */}
           <div className="signup-actions">
