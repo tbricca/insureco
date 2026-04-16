@@ -1,0 +1,408 @@
+@use '../styles/tokens' as *;
+
+// ============================================
+// Sign Up Page - Full flow
+// Matches the Figma design with gradient header,
+// step breadcrumb, and form card with red accent
+// ============================================
+
+.signup-page {
+  min-height: 100%;
+  background: var(--background-primary);
+  padding: var(--spacing-05);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-07);
+  }
+}
+
+.signup-page__wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--background-primary);
+  overflow: hidden;
+}
+
+// ─────────────────────────────────────────────
+// Header / Hero Banner
+// ─────────────────────────────────────────────
+
+.signup-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-06);
+  padding: var(--spacing-05);
+  background: linear-gradient(135deg, var(--background-secondary) 70.71%, var(--background-primary) 0%);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-05) var(--spacing-07);
+  }
+}
+
+.signup-header__banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-03);
+  padding: var(--spacing-07) var(--spacing-05);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--color-brand-red-70) 70.71%, var(--color-brand-red-60) 0%);
+  box-shadow: 0 4px 12px rgba(218, 30, 40, 0.15);
+  text-align: center;
+}
+
+.signup-header__title {
+  color: #fff;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+
+  @media (min-width: 672px) {
+    font-size: 2rem;
+  }
+}
+
+.signup-header__subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 480px;
+}
+
+// ─────────────────────────────────────────────
+// Step Progress Container
+// ─────────────────────────────────────────────
+
+.signup-progress {
+  background: var(--background-secondary);
+  border-radius: 4px;
+  border-top: 1px solid var(--interactive-primary);
+  padding: var(--spacing-05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// ─────────────────────────────────────────────
+// Warning Banner
+// ─────────────────────────────────────────────
+
+.signup-warning {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-05);
+  padding: var(--spacing-04) var(--spacing-05);
+  background: #fff4b4;
+  border: 1px solid #000;
+  flex-wrap: wrap;
+}
+
+.signup-warning__content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-03);
+  color: #946c00;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.57;
+}
+
+.signup-warning__text {
+  color: #946c00;
+}
+
+.signup-warning__dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #946c00;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.57;
+  padding: 0;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Form Card
+// ─────────────────────────────────────────────
+
+.signup-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-06);
+  padding: var(--spacing-06) var(--spacing-05) var(--spacing-06);
+  background: var(--background-secondary);
+  border-top: 5px solid var(--interactive-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-07) var(--spacing-06) var(--spacing-07);
+  }
+}
+
+.signup-form-card__header {
+  border-bottom: 1px solid var(--interactive-primary);
+  padding-bottom: var(--spacing-03);
+}
+
+.signup-form-card__title {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.signup-form-card__subtitle {
+  color: var(--text-primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.signup-form-card__fields {
+  display: flex;
+  flex-direction: column;
+}
+
+// ─────────────────────────────────────────────
+// Form Fields Stack
+// ─────────────────────────────────────────────
+
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-06);
+
+  // Override Carbon field backgrounds to match design
+  .cds--text-input-wrapper,
+  .cds--select,
+  .cds--number {
+    width: 100%;
+  }
+
+  .cds--text-input,
+  .cds--select-input,
+  .cds--number-input {
+    background-color: var(--field-background) !important;
+    color: var(--field-text) !important;
+    border-bottom-color: var(--border-strong) !important;
+    font-size: 1rem; // Prevents iOS zoom
+  }
+
+  .cds--label {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+  }
+
+  .cds--form__helper-text {
+    color: var(--text-tertiary) !important;
+  }
+
+  // DatePicker
+  .cds--date-picker {
+    width: 100%;
+  }
+
+  .cds--date-picker-container {
+    width: 100%;
+  }
+
+  .cds--date-picker__input {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Insurance Type Options (custom radio tiles)
+// ─────────────────────────────────────────────
+
+.signup-insurance-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-04);
+}
+
+.signup-insurance-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-05);
+  width: 100%;
+  padding: var(--spacing-05);
+  background: var(--background-primary);
+  border: 2px solid var(--border-subtle);
+  border-radius: 2px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+
+  &--selected {
+    border-color: var(--interactive-primary);
+    background: var(--background-selected);
+
+    .signup-insurance-option__icon {
+      color: var(--interactive-primary);
+    }
+
+    .signup-insurance-option__title {
+      color: var(--interactive-primary);
+    }
+  }
+}
+
+.signup-insurance-option__icon {
+  flex-shrink: 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+}
+
+.signup-insurance-option__dual-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-02);
+}
+
+.signup-insurance-option__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-02);
+  flex: 1;
+}
+
+.signup-insurance-option__title {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.signup-insurance-option__description {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  color: var(--text-secondary);
+}
+
+// ─────────────────────────────────────────────
+// Footer Navigation
+// ─────────────────────────────────────────────
+
+.signup-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-04);
+  border-top: 1px solid var(--interactive-primary);
+  padding-top: var(--spacing-06);
+  flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .signup-footer__btn {
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+.signup-footer__btn {
+  min-width: 120px;
+
+  // Override button sizes for consistent width with icons
+  &.signup-footer__btn--cancel {
+    &.cds--btn--tertiary {
+      border-color: var(--color-brand-blue-60) !important;
+      color: var(--color-brand-blue-60) !important;
+
+      &:hover {
+        background: var(--color-brand-blue-10) !important;
+      }
+    }
+  }
+
+  &.signup-footer__btn--back {
+    &.cds--btn--secondary {
+      background-color: #393939 !important;
+      color: #fff !important;
+
+      :root[data-carbon-theme="g90"] &,
+      :root[data-carbon-theme="g100"] & {
+        background-color: var(--background-tertiary) !important;
+      }
+
+      &:hover {
+        background-color: #4c4c4c !important;
+      }
+    }
+  }
+
+  &.signup-footer__btn--next {
+    &.cds--btn--primary {
+      background-color: var(--interactive-primary) !important;
+
+      &:hover {
+        background-color: var(--interactive-hover) !important;
+      }
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
+// Carbon overrides for form fields in this page
+// ─────────────────────────────────────────────
+
+.signup-page {
+  // NumberInput layout fix
+  .cds--number {
+    width: 100%;
+  }
+
+  .cds--number__input-wrapper {
+    width: 100%;
+  }
+
+  // Select sizing
+  .cds--select-input__wrapper {
+    width: 100%;
+  }
+
+  // Ensure labels are bold as per design
+  .cds--label {
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+  }
+}
