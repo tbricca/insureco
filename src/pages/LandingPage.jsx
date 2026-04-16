@@ -69,15 +69,11 @@ export default function LandingPage() {
     <div className="landing-page">
       {/* Hero Section */}
       <section className="hero-section">
-        <video
-          className="hero-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="https://videos.pexels.com/video-files/9518191/9518191-hd_720_1366_25fps.mp4" type="video/mp4" />
-        </video>
+        <img
+          className="hero-image"
+          src="https://images.pexels.com/photos/4145355/pexels-photo-4145355.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          alt="Insurance hero"
+        />
         <div className="hero-overlay" />
         <Grid>
           <Column lg={16} md={8} sm={4}>
