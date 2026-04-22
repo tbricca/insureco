@@ -9,6 +9,8 @@ import {
   TextArea,
   Heading,
   Stack,
+  UnorderedList,
+  ListItem,
 } from '@carbon/react';
 import {
   Security,
@@ -72,7 +74,7 @@ export default function LandingPage() {
         <img
           className="hero-image"
           src="https://images.pexels.com/photos/4145355/pexels-photo-4145355.jpeg?auto=compress&cs=tinysrgb&w=1920"
-          alt="Protect your future with InsureCo"
+          alt="Insurance hero"
         />
         <div className="hero-overlay" />
         <Grid>
@@ -119,7 +121,7 @@ export default function LandingPage() {
             <Column lg={4} md={4} sm={4} key={index}>
               <Tile className="feature-tile">
                 <div className="feature-icon">{feature.icon}</div>
-                <h3 className="feature-title">{feature.title}</h3>
+                <Heading as="h3" className="feature-title">{feature.title}</Heading>
                 <p className="feature-description">{feature.description}</p>
               </Tile>
             </Column>
@@ -141,12 +143,12 @@ export default function LandingPage() {
                 covers collision, liability, and more. Get instant quotes and customize your 
                 coverage to match your needs.
               </p>
-              <ul className="product-features">
-                <li><CheckmarkFilled size={20} /> Collision coverage</li>
-                <li><CheckmarkFilled size={20} /> Liability protection</li>
-                <li><CheckmarkFilled size={20} /> Roadside assistance</li>
-                <li><CheckmarkFilled size={20} /> Rental car coverage</li>
-              </ul>
+              <UnorderedList className="product-features">
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Collision coverage</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Liability protection</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Roadside assistance</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Rental car coverage</ListItem>
+              </UnorderedList>
               <Button
                 kind="tertiary"
                 onClick={() => navigate('/signup')}
@@ -191,12 +193,12 @@ export default function LandingPage() {
                 Coverage for property damage, personal liability, and more. Your peace of mind 
                 is our priority.
               </p>
-              <ul className="product-features">
-                <li><CheckmarkFilled size={20} /> Property damage coverage</li>
-                <li><CheckmarkFilled size={20} /> Personal liability protection</li>
-                <li><CheckmarkFilled size={20} /> Natural disaster coverage</li>
-                <li><CheckmarkFilled size={20} /> Personal property protection</li>
-              </ul>
+              <UnorderedList className="product-features">
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Property damage coverage</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Personal liability protection</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Natural disaster coverage</ListItem>
+                <ListItem><CheckmarkFilled size={20} aria-hidden="true" /> Personal property protection</ListItem>
+              </UnorderedList>
               <Button
                 kind="tertiary"
                 onClick={() => navigate('/signup')}
@@ -243,7 +245,7 @@ export default function LandingPage() {
                 Join thousands of satisfied customers who trust InsureCo for their insurance needs.
               </p>
               <Button
-                kind="primary"
+                kind="tertiary"
                 size="lg"
                 onClick={() => navigate('/signup')}
                 renderIcon={ArrowRight}
@@ -260,7 +262,7 @@ export default function LandingPage() {
         <Grid>
           <Column lg={4} md={2} sm={4}>
             <div className="footer-section">
-              <h4 className="footer-heading">InsureCo</h4>
+              <Heading as="h4" className="footer-heading">InsureCo</Heading>
               <p className="footer-description">
                 Protecting what matters most since 2020.
               </p>
@@ -268,7 +270,7 @@ export default function LandingPage() {
           </Column>
           <Column lg={3} md={2} sm={4}>
             <div className="footer-section">
-              <h4 className="footer-heading">Products</h4>
+              <Heading as="h4" className="footer-heading">Products</Heading>
               <ul className="footer-links">
                 <li><a href="#car-insurance">Car Insurance</a></li>
                 <li><a href="#home-insurance">Home Insurance</a></li>
@@ -278,7 +280,7 @@ export default function LandingPage() {
           </Column>
           <Column lg={3} md={2} sm={4}>
             <div className="footer-section">
-              <h4 className="footer-heading">Company</h4>
+              <Heading as="h4" className="footer-heading">Company</Heading>
               <ul className="footer-links">
                 <li><button onClick={() => navigate('/about')} className="footer-link-button">About Us</button></li>
                 <li><a href="#careers">Careers</a></li>
@@ -288,7 +290,7 @@ export default function LandingPage() {
           </Column>
           <Column lg={3} md={2} sm={4}>
             <div className="footer-section">
-              <h4 className="footer-heading">Support</h4>
+              <Heading as="h4" className="footer-heading">Support</Heading>
               <ul className="footer-links">
                 <li><a href="#help">Help Center</a></li>
                 <li><button onClick={() => navigate('/dashboard')} className="footer-link-button">File a Claim</button></li>
@@ -298,7 +300,7 @@ export default function LandingPage() {
           </Column>
           <Column lg={3} md={2} sm={4}>
             <div className="footer-section">
-              <h4 className="footer-heading">Legal</h4>
+              <Heading as="h4" className="footer-heading">Legal</Heading>
               <ul className="footer-links">
                 <li><a href="#privacy">Privacy Policy</a></li>
                 <li><a href="#terms">Terms of Service</a></li>

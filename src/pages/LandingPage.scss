@@ -152,13 +152,25 @@
     padding: 0;
     margin: 0 0 var(--spacing-06) 0;
 
-    li {
+    // Carbon UnorderedList / ListItem classes
+    &.cds--list--unordered {
+      padding-left: 0;
+    }
+
+    li,
+    .cds--list__item {
       display: flex;
       align-items: center;
       gap: var(--spacing-03);
       margin-bottom: var(--spacing-03);
       font-size: var(--body-md-size);
       color: var(--text-primary);
+      padding-left: 0;
+
+      // Remove Carbon's default bullet since we use icons
+      &::before {
+        content: none !important;
+      }
 
       svg {
         color: var(--color-success);
@@ -285,6 +297,26 @@
     font-size: var(--body-lg-size);
     margin-bottom: var(--spacing-07);
     opacity: 0.95;
+  }
+
+  // Tertiary button on red background - force white styling for contrast
+  .cds--btn--tertiary {
+    border-color: #fff !important;
+    color: #fff !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: #fff !important;
+      color: #fff !important;
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    svg {
+      fill: #fff !important;
+    }
   }
 }
 
