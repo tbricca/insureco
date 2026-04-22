@@ -1,0 +1,155 @@
+---
+description: Unit test system — stack, file locations, patterns, and how to write new tests
+globs:
+alwaysApply: false
+---
+
+# Unit Testing
+
+## 🚫 NEVER Write Tests Unless Explicitly Asked
+
+> **This is the most important rule in this document. It overrides any instinct to be helpful by adding tests.**
+
+**Do NOT write, add, modify, or suggest unit tests at any point unless the user's message explicitly and directly requests it.**
+
+This means:
+- ❌ Do not add tests when building new features or components
+- ❌ Do not add tests when fixing bugs
+- ❌ Do not update existing tests when changing code they cover
+- ❌ Do not mention tests as a next step, suggestion, or recommendation
+- ❌ Do not ask if the user wants tests added
+
+✅ **Only write tests when the request clearly calls for it**, such as:
+- "Write a test for..."
+- "Add test coverage for..."
+- "Can you test this component?"
+
+If there is any ambiguity about whether the user wants tests, **do not write them**.
+
+---
+
+## Stack
+
+| Tool | Role |
+|---|---|
+| **Vitest v4** | Test runner and assertion library |
+| **@testing-library/react** | Component rendering and queries |
+| **@testing-library/user-event** | Simulating real user interactions |
+| **@testing-library/jest-dom** | Extra matchers (`toBeInTheDocument`, etc.) |
+| **jsdom** | Simulated browser environment (no real browser) |
+
+## Commands
+
+
+npm run test:run      # Single run with coverage (use in CI or to check results)
+npm test              # Watch mode — re-runs on file save
+npm run test:coverage # Coverage only
+```
+
+## File Structure
+
+```
+src/__tests__/
+├── setup.js                          # Loads jest-dom matchers globally
+├── utils/
+│   └── businessHelpers.test.js       # Pure utility function tests
+├── components/
+│   ├── StepBreadcrumb.test.jsx
+│   └── ThemeToggle.test.jsx
+└── pages/
+    └── SignUpPage.test.jsx
+```
+
+Test files must match `**/*.{test,spec}.{js,jsx}` to be picked up by Vitest.
+
+CSS and SCSS imports are automatically ignored (`css: false` in `vite.config.js`).
+
+## Required Wrappers
+
+### Components that use ThemeContext
+```jsx
+import { ThemeProvider } from '../../contexts/ThemeContext';
+
+render(
+  <ThemeProvider>
+    <MyComponent />
+  </ThemeProvider>
+);
+```
+
+### Pages that use React Router
+```jsx
+import { MemoryRouter } from 'react-router-dom';
+
+render(
+  <MemoryRouter>
+    <ThemeProvider>
+      <MyPage />
+    </ThemeProvider>
+  </MemoryRouter>
+);
+```
+
+### Pre-seeding the theme via localStorage
+```js
+localStorage.setItem('insureco-theme', 'g100'); // set before render
+```
+Always call `localStorage.clear()` in `beforeEach` to avoid test bleed.
+
+## Mocking Carbon Icons
+
+Carbon icons are SVG components that add no test value. Always mock them:
+
+```js
+vi.mock('@carbon/icons-react', () => ({
+  Checkmark: ({ className }) => <span data-testid="icon-checkmark" className={className} />,
+  ArrowRight: () => <span />,
+  Asleep: () => <span data-testid="icon-moon" />,
+  Light: () => <span data-testid="icon-sun" />,
+}));
+```
+
+Only add `data-testid` when the test needs to assert the icon's presence.
+
+## Mocking useNavigate
+
+```js
+const mockNavigate = vi.hoisted(() => vi.fn());
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal();
+  return { ...actual, useNavigate: () => mockNavigate };
+});
+```
+
+## Mocking Browser APIs Not in jsdom
+
+```js
+// window.scrollTo is not implemented in jsdom
+Object.defineProperty(window, 'scrollTo', { value: vi.fn(), writable: true });
+```
+
+## User Interaction Pattern
+
+```jsx
+import userEvent from '@testing-library/user-event';
+
+it('submits the form', async () => {
+  const user = userEvent.setup();
+  render(<MyForm />);
+  await user.type(screen.getByLabelText(/email/i), 'test@example.com');
+  await user.click(screen.getByRole('button', { name: /submit/i }));
+  expect(mockNavigate).toHaveBeenCalledWith('/success');
+});
+```
+
+Always `await` userEvent calls — they are async.
+
+## What to Test
+
+- **Utils**: Test all branches and edge cases of pure functions
+- **Components**: Test rendering, props, user interaction, and state changes
+- **Pages**: Test multi-step flows, field validation, navigation, and conditional rendering
+
+## Coverage
+
+Run `npm run test:run` to see coverage. The report shows per-file statement/branch/function/line coverage. Current overall coverage is low (~10%) because most pages and business components are not yet tested.

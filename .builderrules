@@ -1,3 +1,20 @@
+
+## Unit Tests ##
+
+## ⚠️ Important: Do Not Write Tests Unprompted
+
+**Never write, add, or modify unit tests unless the user explicitly asks for them.**
+
+This includes:
+- Do not add tests when implementing new features or components
+- Do not add tests when fixing bugs
+- Do not suggest adding tests as a follow-up step unless asked
+- Do not update existing tests unless explicitly requested
+
+Only write tests when the user's request clearly and directly asks for them (e.g. "write a test for...", "add test coverage for...").
+
+############
+
 # Documentation
 Whenever making updates in this app be in the mindset that a different LLM or developer may need to come and make updates to this app later. So always document your work in the appropriate files in the .builder/rules files. To create/update a rules file for Builder's AI:
 
@@ -11,6 +28,18 @@ globs:
 alwaysApply: false
 ---
 <add whatever documentation is needed>
+
+############################
+
+## Components Usage
+
+- ALWAYS try to use Carbon components whenever building in this app. 
+
+- When importing from Figma especially try to find an equivalent component for the figma designs. If there isn't a suitable component notify the user in the summary after you've built that you made something custom.
+
+- When changing colors ALWAYS check for suitable variants of components. Carbon components often have built-in `kind` or variant props (e.g. `kind="warning"`, `kind="error"`, `kind="success"`) that already apply the correct color — use those instead of overriding styles.
+
+- NEVER override a Carbon component's color via inline styles or CSS if a built-in `kind`/variant already produces the desired color. For example, `<InlineNotification kind="warning" lowContrast />` already renders with a yellow background — no CSS override needed.
 
 ############################
 

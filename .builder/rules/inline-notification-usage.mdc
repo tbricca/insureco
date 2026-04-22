@@ -10,6 +10,60 @@ alwaysApply: false
 
 This document provides guidelines for using Carbon's `InlineNotification` component in the InsureCo application.
 
+---
+
+## 🚨🚨🚨 ABSOLUTE RULE — NO EXCEPTIONS 🚨🚨🚨
+
+### NEVER override the background color of `<InlineNotification>`
+
+This is a **hard, non-negotiable rule**. It applies to every situation, including when a user explicitly requests a specific color.
+
+
+// ❌❌❌ FORBIDDEN — NEVER DO THIS ❌❌❌
+<InlineNotification kind="warning" style={{ backgroundColor: 'rgba(208, 2, 27, 1)' }} ... />
+<InlineNotification kind="warning" style={{ backgroundColor: '#ff0000' }} ... />
+<InlineNotification kind="warning" style={{ backgroundColor: 'red' }} ... />
+
+// ❌❌❌ ALSO FORBIDDEN — wrapping with a custom background ❌❌❌
+<div style={{ backgroundColor: '#custom' }}>
+  <InlineNotification ... />
+</div>
+
+
+**If a user requests a red notification → use `kind="error"`**
+**If a user requests a yellow/orange notification → use `kind="warning"`**
+**If a user requests a blue notification → use `kind="info"`**
+**If a user requests a green notification → use `kind="success"`**
+
+The `kind` prop is the ONLY correct mechanism to change notification color. Carbon handles background color, text color, icon color, and dark/light theme adaptation automatically. Any inline style or CSS override bypasses all of that and breaks theming.
+
+> **Why this rule exists**: In a previous incident, a user requested `background-color: rgba(208, 2, 27, 1)` (red) on a `kind="warning"` notification. Instead of switching to `kind="error"`, an inline style override was applied. This broke dark mode theming, removed accessible contrast handling, and violated Carbon's design system contract. The correct fix was simply changing `kind="warning"` to `kind="error"`.
+
+---
+
+## ⚠️ Critical: `lowContrast` Prop Required for Colored Backgrounds
+
+**Carbon's `InlineNotification` has two contrast modes:**
+
+| Mode | Background | When to use |
+|---|---|---|
+| **Default (high contrast)** | Dark/inverse (`#393939`) | Notifications on colored/dark page backgrounds |
+| **`lowContrast` (low contrast)** | Colored (yellow, green, red, blue) | Notifications on white/light page backgrounds |
+
+**On light-mode pages, always use `lowContrast`** — otherwise the notification will appear with a dark background regardless of the `kind` prop:
+
+
+// ❌ WRONG — dark background even in light mode
+<InlineNotification kind="warning" title="Title" subtitle="Message" />
+
+// ✅ CORRECT — yellow background in light mode
+<InlineNotification kind="warning" lowContrast title="Title" subtitle="Message" />
+
+
+This was a hard-won lesson: a `kind="warning"` notification showing a dark `#393939` background on a light page is **not** a theming bug or a CSS load-order problem — it is simply the default high-contrast behavior. The fix is always `lowContrast`, not inline style overrides or CSS hacks.
+
+---
+
 ## Overview
 
 `InlineNotification` is a Carbon Design System component used to display contextual feedback messages inline within page content. These notifications are theme-aware and automatically adapt colors for both light and dark modes.
@@ -422,15 +476,61 @@ function DataDisplay() {
 
 ## What to Do If User Requests Custom Colors
 
-**If a user asks to use a custom background color or text color:**
+**If a user requests a custom background color that does NOT map to one of the built-in `kind` variants — STOP. Do not apply it. Ask for confirmation first.**
 
-1. **Do not apply the custom color**
-2. **Select the closest matching variant** from the available kinds
-3. **Inform the user** which variant you used instead
-4. **Explain why** - maintain theme consistency and ensure proper contrast in both light and dark modes
+### Decision Flow
 
-**Example response to user:**
-> "I've updated the notification to use the `kind="warning"` variant instead of the custom color you suggested. This ensures the notification has proper contrast in both light and dark modes and maintains consistency with the design system. The warning variant provides the closest visual appearance to what you requested."
+```
+User requests a color change on InlineNotification
+│
+├─ Does the color map to a built-in kind?
+│   ├─ Red / danger  → kind="error"    ✅ Apply without asking
+│   ├─ Yellow / amber → kind="warning" ✅ Apply without asking
+│   ├─ Blue          → kind="info"     ✅ Apply without asking
+│   └─ Green         → kind="success"  ✅ Apply without asking
+│
+└─ Custom color (e.g. brand purple, lime green, hex code, rgba) that has no matching kind?
+    → STOP. Do not apply. Ask the user first. (see script below)
+```
+
+### Required Confirmation Script
+
+When a color doesn't match a built-in variant, respond with something like:
+
+> "The color you've requested (`rgba(126, 211, 33, 1)`) doesn't correspond to any of Carbon's built-in notification variants. Applying a custom background color is **not recommended** because it:
+>
+> - Breaks dark mode theming (the notification will not adapt)
+> - Bypasses Carbon's built-in contrast and accessibility guarantees
+> - Creates visual inconsistency with the design system
+>
+> The closest built-in option is `kind="success"` (green). Would you like me to use that instead, or do you still want to proceed with the custom color override knowing these trade-offs?"
+
+**Only apply the custom color if the user explicitly confirms they want to proceed after being warned.**
+
+### If User Confirms Custom Color After Warning
+
+If the user says "yes, proceed anyway" after seeing the warning:
+1. Apply it using an inline `style` prop: `style={{ backgroundColor: 'rgba(...)' }}`
+2. Add a comment in the code explaining why the override exists and that the user confirmed it
+3. Document the deviation — note it in your response so the user is reminded of the trade-offs
+
+```jsx
+{/* ⚠️ Custom background override — user confirmed this intentional deviation
+    from Carbon's built-in variants. Dark mode theming will not adapt. */}
+<InlineNotification
+  kind="warning"
+  style={{ backgroundColor: 'rgba(126, 211, 33, 1)' }}
+  ...
+/>
+```
+
+| Requested color | Use this `kind` (no confirmation needed) |
+|---|---|
+| Red / danger | `kind="error"` |
+| Yellow / orange / amber | `kind="warning"` |
+| Blue | `kind="info"` |
+| Green (standard) | `kind="success"` |
+| Any other custom color | ⛔ Stop — ask for confirmation first |
 
 ## Implementation Checklist
 
