@@ -4,6 +4,35 @@
 // ============================================
 // Buttons
 // ============================================
+
+// .back-btn — Back navigation button icon placement fix
+//
+// Problem:
+//   Carbon Design System's Button component renders the icon passed via the
+//   `renderIcon` prop *after* the button label text, placing it on the right
+//   side. There is no built-in Carbon prop to position the icon on the left.
+//
+// Solution:
+//   Apply `flex-direction: row-reverse` to visually swap the order of the
+//   icon and text so the icon appears to the left of the label. Because the
+//   reversal also flips the direction of Carbon's default `margin-left` on
+//   `.cds--btn__icon` (which would then create a gap on the wrong side), we
+//   zero it out and apply an equivalent `margin-right` instead, keeping the
+//   gap correctly positioned between the icon and the label text.
+//
+// Usage:
+//   Add className="back-btn" to any Carbon <Button> that uses renderIcon with
+//   a left-facing arrow (ArrowLeft) for Back navigation.
+.back-btn {
+  flex-direction: row-reverse;
+
+  .cds--btn__icon {
+    // Remove Carbon's default left margin (would gap on the wrong side in row-reverse)
+    // and replace with a right margin to maintain proper icon-to-label spacing.
+    margin-left: 0 !important;
+    margin-right: var(--cds-spacing-03, 0.5rem);
+  }
+}
 .cds--btn--primary {
   background-color: var(--interactive-primary);
   border-color: var(--interactive-primary);

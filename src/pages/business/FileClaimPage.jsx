@@ -447,6 +447,7 @@ export default function FileClaimPage() {
           <Button
             kind="secondary"
             renderIcon={ArrowLeft}
+            className="back-btn"
             onClick={handleBack}
             disabled={currentStep === 0}
           >

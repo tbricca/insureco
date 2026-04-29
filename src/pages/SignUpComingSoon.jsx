@@ -54,6 +54,7 @@ export default function SignUpComingSoon() {
               <Button
                 kind="primary"
                 renderIcon={ArrowLeft}
+                className="back-btn"
                 onClick={() => navigate('/')}
               >
                 Back to Home

@@ -76,6 +76,7 @@ export default function VehicleDetailPage() {
             kind="ghost"
             renderIcon={ArrowLeft}
             iconDescription="Back"
+            className="back-btn"
             onClick={() => navigate('/business/fleet')}
           >
             Back

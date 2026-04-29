@@ -75,6 +75,7 @@ export default function PropertyDetailPage() {
             kind="ghost"
             renderIcon={ArrowLeft}
             iconDescription="Back"
+            className="back-btn"
             onClick={() => navigate('/business/properties')}
           >
             Back
