@@ -9,6 +9,8 @@ import {
   TextArea,
   Heading,
   Stack,
+  DatePicker,
+  DatePickerInput,
 } from '@carbon/react';
 import {
   Security,
@@ -18,11 +20,34 @@ import {
   ArrowRight,
 } from '@carbon/icons-react';
 import { useNavigate } from 'react-router-dom';
+import StepBreadcrumb from '../components/StepBreadcrumb';
 import './LandingPage.scss';
+
+const SIGNUP_STEPS = [
+  { label: 'Personal Info', key: 'personal' },
+  { label: 'Coverage Type', key: 'coverage' },
+  { label: 'Details', key: 'details' },
+  { label: 'Review', key: 'review' },
+];
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
+  const [signupForm, setSignupForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    dob: '',
+  });
+
+  const handleSignupChange = (field) => (e) => {
+    setSignupForm((prev) => ({ ...prev, [field]: e.target.value }));
+  };
+
+  const handleSignupNext = () => {
+    navigate('/signup', { state: { prefill: signupForm } });
+  };
 
   const features = [
     {
@@ -244,6 +269,102 @@ export default function LandingPage() {
               >
                 Get Your Free Quote
               </Button>
+            </div>
+          </Column>
+        </Grid>
+      </section>
+
+      {/* Inline Sign Up Section */}
+      <section className="landing-signup-section">
+        <Grid>
+          <Column lg={16} md={8} sm={4}>
+            <div className="landing-signup-wrapper">
+              {/* Header */}
+              <div className="landing-signup-header">
+                <h2 className="landing-signup-title">Sign Up for InsureCo</h2>
+                <p className="landing-signup-subtitle">Get started with your insurance coverage in just a few steps</p>
+              </div>
+
+              {/* Progress Indicator */}
+              <div className="landing-signup-progress">
+                <StepBreadcrumb steps={SIGNUP_STEPS} currentIndex={0} />
+              </div>
+
+              {/* Form */}
+              <div className="landing-signup-form-panel">
+                <div className="landing-signup-section-header">
+                  <h3 className="landing-signup-section-title">Personal Information</h3>
+                </div>
+                <p className="landing-signup-form-description">Let's start with some basic information about you.</p>
+
+                <Stack gap={6}>
+                  <TextInput
+                    id="landing-first-name"
+                    labelText="First Name"
+                    placeholder="Enter your first name"
+                    size="lg"
+                    value={signupForm.firstName}
+                    onChange={handleSignupChange('firstName')}
+                  />
+                  <TextInput
+                    id="landing-last-name"
+                    labelText="Last Name"
+                    placeholder="Enter your last name"
+                    size="lg"
+                    value={signupForm.lastName}
+                    onChange={handleSignupChange('lastName')}
+                  />
+                  <TextInput
+                    id="landing-email"
+                    labelText="Email Address"
+                    placeholder="your.email@example.com"
+                    type="email"
+                    size="lg"
+                    value={signupForm.email}
+                    onChange={handleSignupChange('email')}
+                  />
+                  <TextInput
+                    id="landing-phone"
+                    labelText="Phone Number"
+                    placeholder="(555) 123-4567"
+                    type="tel"
+                    size="lg"
+                    value={signupForm.phone}
+                    onChange={handleSignupChange('phone')}
+                  />
+                  <DatePicker
+                    datePickerType="single"
+                    dateFormat="m/d/Y"
+                    onChange={(dates) => {
+                      if (dates[0]) {
+                        const d = dates[0];
+                        setSignupForm((prev) => ({
+                          ...prev,
+                          dob: `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`,
+                        }));
+                      }
+                    }}
+                  >
+                    <DatePickerInput
+                      id="landing-dob"
+                      labelText="Date of Birth"
+                      placeholder="mm/dd/yyyy"
+                      size="lg"
+                    />
+                  </DatePicker>
+                </Stack>
+
+                <div className="landing-signup-actions">
+                  <Button
+                    kind="primary"
+                    size="lg"
+                    renderIcon={ArrowRight}
+                    onClick={handleSignupNext}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
             </div>
           </Column>
         </Grid>
