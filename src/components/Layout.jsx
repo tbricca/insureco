@@ -27,6 +27,28 @@ import {
 import ThemeToggle from "./ThemeToggle";
 import "./Layout.scss";
 
+function SideNavOverlayCloser({ isSideNavExpanded, onClickSideNavExpand }) {
+  React.useEffect(() => {
+    if (!isSideNavExpanded) return undefined;
+
+    const overlay = document.querySelector(".cds--side-nav__overlay");
+    const handleOverlayClick = () => onClickSideNavExpand();
+    overlay?.addEventListener("click", handleOverlayClick);
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClickSideNavExpand();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      overlay?.removeEventListener("click", handleOverlayClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isSideNavExpanded, onClickSideNavExpand]);
+
+  return null;
+}
+
 export default function Layout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,6 +61,10 @@ export default function Layout({ children }) {
       render={({ isSideNavExpanded, onClickSideNavExpand }) => {
         return (
           <>
+            <SideNavOverlayCloser
+              isSideNavExpanded={isSideNavExpanded}
+              onClickSideNavExpand={onClickSideNavExpand}
+            />
             <Header aria-label="InsureCo">
               <SkipToContent />
               <HeaderMenuButton
