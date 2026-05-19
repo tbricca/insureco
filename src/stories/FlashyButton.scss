@@ -68,6 +68,10 @@
   animation: flashy-sparkle 2.4s ease-in-out infinite;
 }
 
+.flashy-label {
+  font-weight: 700;
+}
+
 @keyframes flashy-gradient {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
