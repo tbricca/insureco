@@ -27,6 +27,28 @@ import {
 import ThemeToggle from "./ThemeToggle";
 import "./Layout.scss";
 
+function SideNavOverlayCloser({ isSideNavExpanded, onClickSideNavExpand }) {
+  React.useEffect(() => {
+    if (!isSideNavExpanded) return undefined;
+
+    const overlay = document.querySelector(".cds--side-nav__overlay");
+    const handleOverlayClick = () => onClickSideNavExpand();
+    overlay?.addEventListener("click", handleOverlayClick);
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClickSideNavExpand();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      overlay?.removeEventListener("click", handleOverlayClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isSideNavExpanded, onClickSideNavExpand]);
+
+  return null;
+}
+
 export default function Layout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,11 +56,19 @@ export default function Layout({ children }) {
   // Remove padding for landing page
   const isLandingPage = location.pathname === '/';
 
+  // Focused funnel chrome: hide global nav on /signup/* so users
+  // aren't pulled out of the form. Keep logo + a Help affordance only.
+  const isSignupFunnel = location.pathname.startsWith('/signup');
+
   return (
     <HeaderContainer
       render={({ isSideNavExpanded, onClickSideNavExpand }) => {
         return (
           <>
+            <SideNavOverlayCloser
+              isSideNavExpanded={isSideNavExpanded}
+              onClickSideNavExpand={onClickSideNavExpand}
+            />
             <Header aria-label="InsureCo">
               <SkipToContent />
               <HeaderMenuButton
@@ -50,6 +80,17 @@ export default function Layout({ children }) {
               <HeaderName onClick={() => navigate("/")} prefix="InsureCo">
                 Insurance
               </HeaderName>
+              {isSignupFunnel ? (
+                <HeaderNavigation aria-label="Sign-up help">
+                  <HeaderMenuItem
+                    href="mailto:help@insureco.example"
+                    className="signup-funnel-help-link"
+                  >
+                    Need help?
+                  </HeaderMenuItem>
+                </HeaderNavigation>
+              ) : (
+              <>
               <HeaderNavigation aria-label="InsureCo Navigation">
                 <HeaderMenuItem onClick={() => navigate("/")}>
                   Home
@@ -105,6 +146,14 @@ export default function Layout({ children }) {
                   <SwitcherIcon size={20} />
                 </HeaderGlobalAction>
               </HeaderGlobalBar>
+              </>
+              )}
+              {isSignupFunnel && (
+                <HeaderGlobalBar>
+                  <ThemeToggle />
+                </HeaderGlobalBar>
+              )}
+              {!isSignupFunnel && (
               <SideNav
                 aria-label="Side navigation"
                 expanded={isSideNavExpanded}
@@ -172,6 +221,7 @@ export default function Layout({ children }) {
                   </HeaderSideNavItems>
                 </SideNavItems>
               </SideNav>
+              )}
             </Header>
             <Content
               id="main-content"
