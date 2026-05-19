@@ -56,6 +56,10 @@ export default function Layout({ children }) {
   // Remove padding for landing page
   const isLandingPage = location.pathname === '/';
 
+  // Focused funnel chrome: hide global nav on /signup/* so users
+  // aren't pulled out of the form. Keep logo + a Help affordance only.
+  const isSignupFunnel = location.pathname.startsWith('/signup');
+
   return (
     <HeaderContainer
       render={({ isSideNavExpanded, onClickSideNavExpand }) => {
@@ -76,6 +80,17 @@ export default function Layout({ children }) {
               <HeaderName onClick={() => navigate("/")} prefix="InsureCo">
                 Insurance
               </HeaderName>
+              {isSignupFunnel ? (
+                <HeaderNavigation aria-label="Sign-up help">
+                  <HeaderMenuItem
+                    href="mailto:help@insureco.example"
+                    className="signup-funnel-help-link"
+                  >
+                    Need help?
+                  </HeaderMenuItem>
+                </HeaderNavigation>
+              ) : (
+              <>
               <HeaderNavigation aria-label="InsureCo Navigation">
                 <HeaderMenuItem onClick={() => navigate("/")}>
                   Home
@@ -131,6 +146,14 @@ export default function Layout({ children }) {
                   <SwitcherIcon size={20} />
                 </HeaderGlobalAction>
               </HeaderGlobalBar>
+              </>
+              )}
+              {isSignupFunnel && (
+                <HeaderGlobalBar>
+                  <ThemeToggle />
+                </HeaderGlobalBar>
+              )}
+              {!isSignupFunnel && (
               <SideNav
                 aria-label="Side navigation"
                 expanded={isSideNavExpanded}
@@ -198,6 +221,7 @@ export default function Layout({ children }) {
                   </HeaderSideNavItems>
                 </SideNavItems>
               </SideNav>
+              )}
             </Header>
             <Content
               id="main-content"

@@ -9,6 +9,7 @@ import {
   Stack,
 } from '@carbon/react';
 import { Checkmark, ArrowRight } from '@carbon/icons-react';
+import { clearDraft } from '../lib/signupDraft';
 import './SignUpConfirmationPage.scss';
 
 export default function SignUpConfirmationPage() {
@@ -17,6 +18,7 @@ export default function SignUpConfirmationPage() {
   const confirmationNumber = location.state?.confirmationNumber;
 
   useEffect(() => {
+    clearDraft();
     if (!confirmationNumber) {
       navigate('/signup');
     }
