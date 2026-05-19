@@ -1,0 +1,95 @@
+.flashy-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--text-on-color, #fff);
+  font: 600 1rem/1 var(--font-family-sans, sans-serif);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(
+    120deg,
+    var(--color-brand-red-70, #a2191f),
+    var(--color-brand-red-60, #da1e28),
+    var(--color-brand-red-50, #fa4d56),
+    var(--color-brand-red-60, #da1e28),
+    var(--color-brand-red-70, #a2191f)
+  );
+  background-size: 300% 300%;
+  animation: flashy-gradient 6s ease infinite;
+  box-shadow:
+    0 0 0 0 rgba(250, 77, 86, 0.55),
+    0 8px 24px rgba(218, 30, 40, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.flashy-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+  z-index: -1;
+}
+
+.flashy-button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 0 0 6px rgba(250, 77, 86, 0.25),
+    0 12px 32px rgba(218, 30, 40, 0.5);
+}
+
+.flashy-button:hover::before {
+  transform: translateX(120%);
+}
+
+.flashy-button:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.flashy-button:focus-visible {
+  outline: 2px solid var(--text-on-color, #fff);
+  outline-offset: 3px;
+}
+
+.flashy-icon {
+  display: inline-flex;
+  animation: flashy-sparkle 2.4s ease-in-out infinite;
+}
+
+@keyframes flashy-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes flashy-sparkle {
+  0%, 100% { transform: rotate(0) scale(1); opacity: 1; }
+  50% { transform: rotate(20deg) scale(1.2); opacity: 0.85; }
+}
+
+@media (max-width: 480px) {
+  .flashy-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flashy-button,
+  .flashy-button::before,
+  .flashy-icon {
+    animation: none;
+    transition: none;
+  }
+}
