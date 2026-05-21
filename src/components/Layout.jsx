@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Content,
   Header,
@@ -37,6 +37,17 @@ export default function Layout({ children }) {
   return (
     <HeaderContainer
       render={({ isSideNavExpanded, onClickSideNavExpand }) => {
+        useEffect(() => {
+          if (!isSideNavExpanded) return;
+          const handleClickOutside = (event) => {
+            if (event.target.classList.contains("cds--side-nav__overlay-active")) {
+              onClickSideNavExpand();
+            }
+          };
+          document.addEventListener("click", handleClickOutside);
+          return () => document.removeEventListener("click", handleClickOutside);
+        }, [isSideNavExpanded, onClickSideNavExpand]);
+
         return (
           <>
             <Header aria-label="InsureCo">
