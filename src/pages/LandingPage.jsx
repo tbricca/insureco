@@ -57,19 +57,31 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      quote: 'InsureCo made switching my insurance so easy. The process was smooth and the savings were immediate.',
+      quote: 'Switched in 10 minutes and saved $640 a year. The app actually works, customer service picks up — feels like insurance built by people who, you know, drive cars.',
       author: 'Sarah Johnson',
-      role: 'Customer since 2022',
+      role: 'Bundle customer · Austin, TX',
+      initials: 'SJ',
+      tag: 'Auto + Home',
+      savings: '$640/yr',
+      rating: 5,
     },
     {
-      quote: 'When I had a claim, they handled everything professionally and got me back on the road quickly.',
+      quote: "Got rear-ended on a Tuesday. Filed in the app, had a check Friday. No back-and-forth, no fighting. Insurance the way it should be.",
       author: 'Michael Chen',
-      role: 'Customer since 2021',
+      role: 'Auto customer · Seattle, WA',
+      initials: 'MC',
+      tag: 'Auto',
+      savings: 'Claim paid in 3 days',
+      rating: 5,
     },
     {
-      quote: 'Best insurance experience I\'ve had. The customer service is exceptional and the rates are competitive.',
+      quote: "I've been with three insurers in five years. InsureCo is the first that didn't bury me in fine print. Clear pricing, real humans, zero gotchas.",
       author: 'Emily Rodriguez',
-      role: 'Customer since 2023',
+      role: 'Home customer · Denver, CO',
+      initials: 'ER',
+      tag: 'Home',
+      savings: '$420/yr',
+      rating: 5,
     },
   ];
 
@@ -289,21 +301,62 @@ export default function LandingPage() {
       <section className="testimonials-section">
         <Grid>
           <Column lg={16} md={8} sm={4}>
-            <Heading className="section-heading">
-              What Our Customers Say
-            </Heading>
+            <div className="testimonials-intro">
+              <span className="testimonials-eyebrow">★ 4.9 · 12,408 reviews</span>
+              <Heading className="section-heading">
+                Don't take our word for it. <em>Take theirs.</em>
+              </Heading>
+              <p className="testimonials-subtitle">
+                Real stories from real customers who switched, saved, and never looked back.
+              </p>
+            </div>
           </Column>
           {testimonials.map((testimonial, index) => (
             <Column lg={5} md={4} sm={4} key={index}>
               <Tile className="testimonial-tile">
-                <p className="testimonial-quote">"{testimonial.quote}"</p>
+                <div className="testimonial-header">
+                  <span className="testimonial-tag">{testimonial.tag}</span>
+                  <span className="testimonial-rating" aria-label={`${testimonial.rating} out of 5 stars`}>
+                    {'★'.repeat(testimonial.rating)}
+                  </span>
+                </div>
+                <p className="testimonial-quote">{testimonial.quote}</p>
+                <div className="testimonial-savings">
+                  <CheckmarkFilled size={16} />
+                  <span>{testimonial.savings}</span>
+                </div>
                 <div className="testimonial-author">
-                  <p className="author-name">{testimonial.author}</p>
-                  <p className="author-role">{testimonial.role}</p>
+                  <div className="testimonial-avatar" aria-hidden="true">
+                    {testimonial.initials}
+                  </div>
+                  <div className="testimonial-author__info">
+                    <p className="author-name">{testimonial.author}</p>
+                    <p className="author-role">{testimonial.role}</p>
+                  </div>
                 </div>
               </Tile>
             </Column>
           ))}
+          <Column lg={16} md={8} sm={4}>
+            <div className="testimonials-trust">
+              <div className="trust-stat">
+                <span className="trust-stat__value">500K+</span>
+                <span className="trust-stat__label">Happy customers</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">98%</span>
+                <span className="trust-stat__label">Claim approval rate</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">A+</span>
+                <span className="trust-stat__label">BBB rating</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">$1.2K</span>
+                <span className="trust-stat__label">Avg. annual savings</span>
+              </div>
+            </div>
+          </Column>
         </Grid>
       </section>
 
