@@ -235,6 +235,50 @@ export default function LandingPage() {
         </Grid>
       </section>
 
+      {/* Sign Up CTA Section */}
+      <section className="signup-cta-section">
+        <Grid>
+          <Column lg={16} md={8} sm={4}>
+            <div className="signup-cta-banner">
+              <h2 className="signup-cta-banner__title">Sign Up for InsureCo</h2>
+              <p className="signup-cta-banner__subtitle">
+                Get started with your insurance coverage in just a few steps
+              </p>
+            </div>
+
+            <div className="signup-cta-steps">
+              {[
+                { num: 1, label: 'Personal Info', desc: 'Your basic details' },
+                { num: 2, label: 'Address', desc: 'Where you live' },
+                { num: 3, label: 'Insurance Type', desc: 'Car, Home, or Both' },
+                { num: 4, label: 'Coverage', desc: 'Pick your plan' },
+                { num: 5, label: 'Review', desc: 'Confirm & submit' },
+              ].map((step, i, arr) => (
+                <React.Fragment key={step.num}>
+                  <div className="signup-cta-step">
+                    <div className="signup-cta-step__marker">{step.num}</div>
+                    <span className="signup-cta-step__label">{step.label}</span>
+                    <span className="signup-cta-step__desc">{step.desc}</span>
+                  </div>
+                  {i < arr.length - 1 && <div className="signup-cta-step__line" />}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className="signup-cta-action">
+              <Button
+                kind="primary"
+                size="lg"
+                onClick={() => navigate('/signup')}
+                renderIcon={ArrowRight}
+              >
+                Start Your Application
+              </Button>
+            </div>
+          </Column>
+        </Grid>
+      </section>
+
       {/* Call to Action Section */}
       <section className="cta-section">
         <Grid>
