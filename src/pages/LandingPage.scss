@@ -68,6 +68,14 @@
     gap: var(--spacing-05);
     justify-content: center;
     flex-wrap: wrap;
+
+    .cds--btn--primary {
+      background-color: rgba(80, 36, 38, 1);
+
+      &:hover {
+        background-color: rgba(80, 36, 38, 1);
+      }
+    }
   }
 }
 
