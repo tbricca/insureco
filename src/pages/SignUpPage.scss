@@ -73,10 +73,10 @@
 
 // ── Form Card ────────────────────────────────────────────────────────
 .signup-card {
-  background: var(--background-primary);
-  border-top: 4px solid var(--interactive-primary);
+  background: var(--background-secondary);
+  border-top: 5px solid var(--interactive-primary);
   border-radius: var(--radius-md);
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
@@ -148,31 +148,21 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-04);
-
-  @media (min-width: 672px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
 }
 
-.insurance-tile {
-  flex: 1;
-  min-width: 0;
+// Row-style tiles matching Figma design (icon on left, content on right)
+.insurance-tile-row {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-03);
-  padding: var(--spacing-06);
-  border: 2px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  background: var(--background-secondary);
+  gap: var(--spacing-05);
+  padding: var(--spacing-05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--background-primary);
   cursor: pointer;
-  text-align: center;
+  text-align: left;
+  width: 100%;
   transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-
-  @media (min-width: 672px) {
-    min-width: 180px;
-  }
 
   &:hover {
     border-color: var(--interactive-primary);
@@ -182,31 +172,39 @@
 
   &--selected {
     border-color: var(--interactive-primary);
-    border-width: 3px;
+    border-width: 2px;
     background: var(--background-selected);
     box-shadow: 0 2px 8px rgba(218, 30, 40, 0.18);
   }
 }
 
-.insurance-tile__icon {
+.insurance-tile-row__icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-02);
-  color: var(--text-secondary);
+  flex-shrink: 0;
+  color: var(--text-primary);
 
   &--selected {
     color: var(--interactive-primary);
   }
 }
 
-.insurance-tile__title {
-  font-size: var(--body-md-size);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
+.insurance-tile-row__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-02);
+  flex: 1;
 }
 
-.insurance-tile__description {
+.insurance-tile-row__title {
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.insurance-tile-row__description {
   font-size: var(--body-sm-size);
   color: var(--text-secondary);
   line-height: 1.4;

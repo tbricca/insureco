@@ -86,7 +86,7 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
               <Heading className="hero-heading">
-                Protect Your Future with Confidence
+                Protect Future with Confidence
               </Heading>
               <p className="hero-tagline">
                 Trusted auto and home insurance for individuals and families. Request a quote and speak with a licensed agent today.

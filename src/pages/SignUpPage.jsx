@@ -219,7 +219,7 @@ export default function SignUpPage() {
           <TextInput
             id="city"
             labelText="City"
-            placeholder="New York"
+            placeholder="Your city"
             value={formData.city}
             onChange={e => handleChange('city', e.target.value)}
             required
@@ -250,44 +250,48 @@ export default function SignUpPage() {
   }
 
   function renderInsuranceType() {
+    const options = [
+      {
+        value: 'car',
+        icon: <Car size={30} />,
+        title: 'Car Insurance',
+        description: 'Get comprehensive coverage for your vehicle',
+      },
+      {
+        value: 'home',
+        icon: <Home size={30} />,
+        title: 'Home Insurance',
+        description: 'Protect your most important asset for your family',
+      },
+      {
+        value: 'both',
+        icon: (
+          <span className="insurance-type-both-icons">
+            <Car size={30} />
+            <Home size={30} />
+          </span>
+        ),
+        title: 'Both Home and Car',
+        description: 'Insure both and get bundle savings',
+      },
+    ];
+
     return (
       <div className="insurance-type-selector">
-        {[
-          {
-            value: 'car',
-            icon: <Car size={32} />,
-            title: 'Car Insurance',
-            description: 'Protect your vehicle with comprehensive coverage',
-          },
-          {
-            value: 'home',
-            icon: <Home size={32} />,
-            title: 'Home Insurance',
-            description: 'Secure your property and belongings',
-          },
-          {
-            value: 'both',
-            icon: (
-              <span className="insurance-type-both-icons">
-                <Car size={28} />
-                <Home size={28} />
-              </span>
-            ),
-            title: 'Both Car & Home',
-            description: 'Bundle and save with combined coverage',
-          },
-        ].map(option => (
+        {options.map(option => (
           <button
             key={option.value}
             type="button"
-            className={`insurance-tile ${formData.insuranceType === option.value ? 'insurance-tile--selected' : ''}`}
+            className={`insurance-tile-row ${formData.insuranceType === option.value ? 'insurance-tile-row--selected' : ''}`}
             onClick={() => handleChange('insuranceType', option.value)}
           >
-            <span className={`insurance-tile__icon ${formData.insuranceType === option.value ? 'insurance-tile__icon--selected' : ''}`}>
+            <span className={`insurance-tile-row__icon ${formData.insuranceType === option.value ? 'insurance-tile-row__icon--selected' : ''}`}>
               {option.icon}
             </span>
-            <span className="insurance-tile__title">{option.title}</span>
-            <span className="insurance-tile__description">{option.description}</span>
+            <span className="insurance-tile-row__content">
+              <span className="insurance-tile-row__title">{option.title}</span>
+              <span className="insurance-tile-row__description">{option.description}</span>
+            </span>
           </button>
         ))}
       </div>
@@ -498,8 +502,8 @@ export default function SignUpPage() {
 
   const stepDescriptions = {
     [STEP_KEYS.PERSONAL]: "Let's start with some basic information about you.",
-    [STEP_KEYS.ADDRESS]: "Where do you live? We need this to calculate your quote.",
-    [STEP_KEYS.INSURANCE_TYPE]: "What type of coverage are you looking for?",
+    [STEP_KEYS.ADDRESS]: "Let us know where you live",
+    [STEP_KEYS.INSURANCE_TYPE]: "Which insurance coverage are you looking for",
     [STEP_KEYS.CAR_DETAILS]: "Tell us about your car.",
     [STEP_KEYS.HOME_DETAILS]: "Tell us about your home.",
     [STEP_KEYS.COVERAGE]: "Choose the coverage options that fit your needs.",
@@ -509,7 +513,7 @@ export default function SignUpPage() {
   const stepTitles = {
     [STEP_KEYS.PERSONAL]: "Personal Information",
     [STEP_KEYS.ADDRESS]: "Your Address",
-    [STEP_KEYS.INSURANCE_TYPE]: "Insurance Type",
+    [STEP_KEYS.INSURANCE_TYPE]: "What Will You Insure",
     [STEP_KEYS.CAR_DETAILS]: "Car Details",
     [STEP_KEYS.HOME_DETAILS]: "Home Details",
     [STEP_KEYS.COVERAGE]: "Coverage Preferences",
