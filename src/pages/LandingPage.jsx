@@ -103,7 +103,7 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
               <Heading className="hero-heading">
-                Protect Your Future with Confidence
+                {'\u00A0'}Your Future with Confidence
               </Heading>
               <p className="hero-tagline">
                 Comprehensive car and home insurance designed for the modern world.
