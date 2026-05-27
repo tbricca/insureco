@@ -45,9 +45,11 @@
   }
 
   .hero-heading {
+    font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
     font-size: var(--heading-h1-size);
-    font-weight: var(--heading-h1-weight);
+    font-weight: 700;
     line-height: var(--heading-h1-line-height);
+    letter-spacing: 0.5px;
     margin-bottom: var(--spacing-05);
     color: var(--text-on-color);
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
