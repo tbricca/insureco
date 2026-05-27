@@ -154,28 +154,71 @@ export default function LandingPage() {
         <Grid>
           <Column lg={8} md={4} sm={4}>
             <div className="product-content">
-              <div className="product-icon">
-                <Car size={64} />
-              </div>
-              <Heading className="product-heading">Car Insurance</Heading>
+              <span className="product-eyebrow">
+                <Car size={16} /> Auto Insurance
+              </span>
+              <Heading className="product-heading">
+                Coverage that keeps up with <em>every mile.</em>
+              </Heading>
               <p className="product-description">
-                Drive with confidence knowing you're protected. Our comprehensive auto insurance 
-                covers collision, liability, and more. Get instant quotes and customize your 
-                coverage to match your needs.
+                Get a personalized quote in under 5 minutes, lock in your rate, and hit the road knowing you're covered for whatever's around the next bend.
               </p>
-              <ul className="product-features">
-                <li><CheckmarkFilled size={20} /> Collision coverage</li>
-                <li><CheckmarkFilled size={20} /> Liability protection</li>
-                <li><CheckmarkFilled size={20} /> Roadside assistance</li>
-                <li><CheckmarkFilled size={20} /> Rental car coverage</li>
+
+              <div className="product-pricing">
+                <div className="product-pricing__price">
+                  <span className="product-pricing__currency">$</span>
+                  <span className="product-pricing__amount">29</span>
+                  <span className="product-pricing__period">/mo</span>
+                </div>
+                <span className="product-pricing__label">Starting rate · Save up to 30% when you bundle</span>
+              </div>
+
+              <ul className="product-features product-features--enhanced">
+                <li>
+                  <CheckmarkFilled size={20} />
+                  <div>
+                    <strong>Collision &amp; comprehensive</strong>
+                    <span>Full repair coverage, even for hit-and-runs</span>
+                  </div>
+                </li>
+                <li>
+                  <CheckmarkFilled size={20} />
+                  <div>
+                    <strong>Liability protection up to $500K</strong>
+                    <span>Industry-leading limits, included by default</span>
+                  </div>
+                </li>
+                <li>
+                  <CheckmarkFilled size={20} />
+                  <div>
+                    <strong>24/7 roadside assistance</strong>
+                    <span>Tow, jump, or tire change in 30 min or less</span>
+                  </div>
+                </li>
+                <li>
+                  <CheckmarkFilled size={20} />
+                  <div>
+                    <strong>Rental car reimbursement</strong>
+                    <span>Stay mobile while your car's in the shop</span>
+                  </div>
+                </li>
               </ul>
-              <Button
-                kind="tertiary"
-                onClick={() => navigate('/signup')}
-                renderIcon={ArrowRight}
-              >
-                Learn More
-              </Button>
+
+              <div className="product-actions">
+                <Button
+                  kind="primary"
+                  onClick={() => navigate('/signup')}
+                  renderIcon={ArrowRight}
+                >
+                  Get My Quote
+                </Button>
+                <Button
+                  kind="ghost"
+                  onClick={() => navigate('/signup')}
+                >
+                  See sample policy
+                </Button>
+              </div>
             </div>
           </Column>
           <Column lg={8} md={4} sm={4}>
@@ -185,6 +228,17 @@ export default function LandingPage() {
                 alt="Modern blue sedan representing everyday auto insurance coverage"
                 loading="lazy"
               />
+              <div className="product-image__badge product-image__badge--top">
+                <span className="badge-rating">4.9★</span>
+                <span className="badge-label">12,408 reviews</span>
+              </div>
+              <div className="product-image__badge product-image__badge--bottom">
+                <CheckmarkFilled size={20} />
+                <div>
+                  <strong>Quote in 5 minutes</strong>
+                  <span>No credit pull required</span>
+                </div>
+              </div>
             </div>
           </Column>
         </Grid>
