@@ -28,40 +28,43 @@ export default function LandingPage() {
     {
       icon: <Security size={48} />,
       title: 'Comprehensive Coverage',
-      description: 'Protect what matters most with our comprehensive insurance plans tailored to your needs.',
+      description: 'Protection for your vehicles, home, and personal property, backed by decades of underwriting experience.',
     },
     {
       icon: <CheckmarkFilled size={48} />,
-      title: 'Fast Claims Processing',
-      description: 'Get your claims processed quickly and efficiently with our streamlined digital process.',
+      title: 'Reliable Claims Service',
+      description: 'A straightforward claims process supported by experienced adjusters who guide you from filing to resolution.',
     },
     {
       icon: <Car size={48} />,
-      title: '24/7 Support',
-      description: 'Our dedicated support team is available around the clock to assist you when you need it most.',
+      title: 'Dedicated Support',
+      description: 'Licensed agents available by phone, email, or in person to answer questions and assist with policy changes.',
     },
     {
       icon: <HomeIcon size={48} />,
-      title: 'Flexible Plans',
-      description: 'Choose from a variety of coverage options that fit your lifestyle and budget.',
+      title: 'Flexible Policy Options',
+      description: 'Tailored coverage levels and deductibles designed to fit your individual circumstances and budget.',
     },
   ];
 
   const testimonials = [
     {
-      quote: 'InsureCo made switching my insurance so easy. The process was smooth and the savings were immediate.',
+      quote: 'The transition from my previous insurer was straightforward, and the policy terms were explained clearly. I appreciate the professionalism of the team.',
       author: 'Sarah Johnson',
-      role: 'Customer since 2022',
+      role: 'Policyholder since 2022',
+      initials: 'SJ',
     },
     {
-      quote: 'When I had a claim, they handled everything professionally and got me back on the road quickly.',
+      quote: 'When I needed to file a claim, the process was handled with care and efficiency. The adjuster kept me informed at every step.',
       author: 'Michael Chen',
-      role: 'Customer since 2021',
+      role: 'Policyholder since 2021',
+      initials: 'MC',
     },
     {
-      quote: 'Best insurance experience I\'ve had. The customer service is exceptional and the rates are competitive.',
+      quote: 'Clear documentation, competitive premiums, and responsive customer service. Exactly what I look for in an insurance provider.',
       author: 'Emily Rodriguez',
-      role: 'Customer since 2023',
+      role: 'Policyholder since 2023',
+      initials: 'ER',
     },
   ];
 
@@ -83,11 +86,10 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
               <Heading className="hero-heading">
-                Protect Your Future with Confidence
+                Protect Future with Confidence
               </Heading>
               <p className="hero-tagline">
-                Comprehensive car and home insurance designed for the modern world.
-                Get covered in minutes with InsureCo.
+                Trusted auto and home insurance for individuals and families. Request a quote and speak with a licensed agent today.
               </p>
               <div className="hero-actions">
                 <Button
@@ -96,14 +98,14 @@ export default function LandingPage() {
                   onClick={() => navigate('/signup')}
                   renderIcon={ArrowRight}
                 >
-                  Sign Up Now
+                  Request a Quote
                 </Button>
                 <Button
                   kind="secondary"
                   size="lg"
                   onClick={() => setDemoModalOpen(true)}
                 >
-                  Get a Demo
+                  Contact an Agent
                 </Button>
               </div>
             </div>
@@ -115,9 +117,15 @@ export default function LandingPage() {
       <section className="features-section">
         <Grid>
           <Column lg={16} md={8} sm={4}>
-            <Heading className="section-heading">
-              Why Choose InsureCo?
-            </Heading>
+            <div className="features-intro">
+              <span className="features-eyebrow">Why InsureCo</span>
+              <Heading className="section-heading">
+                A measured approach to protecting what matters.
+              </Heading>
+              <p className="features-subtitle">
+                For more than two decades, InsureCo has provided dependable coverage to households across the country.
+              </p>
+            </div>
           </Column>
           {features.map((feature, index) => (
             <Column lg={4} md={4} sm={4} key={index}>
@@ -139,17 +147,15 @@ export default function LandingPage() {
               <div className="product-icon">
                 <Car size={64} />
               </div>
-              <Heading className="product-heading">Car Insurance</Heading>
+              <Heading className="product-heading">Auto Insurance</Heading>
               <p className="product-description">
-                Drive with confidence knowing you're protected. Our comprehensive auto insurance 
-                covers collision, liability, and more. Get instant quotes and customize your 
-                coverage to match your needs.
+                Comprehensive automobile coverage including collision, liability, and optional add-ons. Policies are tailored to your vehicle, driving history, and coverage preferences.
               </p>
               <ul className="product-features">
-                <li><CheckmarkFilled size={20} /> Collision coverage</li>
+                <li><CheckmarkFilled size={20} /> Collision and comprehensive coverage</li>
                 <li><CheckmarkFilled size={20} /> Liability protection</li>
                 <li><CheckmarkFilled size={20} /> Roadside assistance</li>
-                <li><CheckmarkFilled size={20} /> Rental car coverage</li>
+                <li><CheckmarkFilled size={20} /> Rental reimbursement option</li>
               </ul>
               <Button
                 kind="tertiary"
@@ -217,21 +223,96 @@ export default function LandingPage() {
       <section className="testimonials-section">
         <Grid>
           <Column lg={16} md={8} sm={4}>
-            <Heading className="section-heading">
-              What Our Customers Say
-            </Heading>
+            <div className="testimonials-intro">
+              <span className="testimonials-eyebrow">Client Testimonials</span>
+              <Heading className="section-heading">
+                What our policyholders say.
+              </Heading>
+              <p className="testimonials-subtitle">
+                Feedback from individuals and families who have entrusted InsureCo with their coverage.
+              </p>
+            </div>
           </Column>
           {testimonials.map((testimonial, index) => (
             <Column lg={5} md={4} sm={4} key={index}>
               <Tile className="testimonial-tile">
-                <p className="testimonial-quote">"{testimonial.quote}"</p>
+                <p className="testimonial-quote">{testimonial.quote}</p>
                 <div className="testimonial-author">
-                  <p className="author-name">{testimonial.author}</p>
-                  <p className="author-role">{testimonial.role}</p>
+                  <div className="testimonial-avatar" aria-hidden="true">
+                    {testimonial.initials}
+                  </div>
+                  <div className="testimonial-author__info">
+                    <p className="author-name">{testimonial.author}</p>
+                    <p className="author-role">{testimonial.role}</p>
+                  </div>
                 </div>
               </Tile>
             </Column>
           ))}
+          <Column lg={16} md={8} sm={4}>
+            <div className="testimonials-trust">
+              <div className="trust-stat">
+                <span className="trust-stat__value">500K+</span>
+                <span className="trust-stat__label">Policyholders nationwide</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">98%</span>
+                <span className="trust-stat__label">Claim approval rate</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">A+</span>
+                <span className="trust-stat__label">BBB rating</span>
+              </div>
+              <div className="trust-stat">
+                <span className="trust-stat__value">20+</span>
+                <span className="trust-stat__label">Years in business</span>
+              </div>
+            </div>
+          </Column>
+        </Grid>
+      </section>
+
+      {/* Sign Up CTA Section */}
+      <section className="signup-cta-section">
+        <Grid>
+          <Column lg={16} md={8} sm={4}>
+            <div className="signup-cta-banner">
+              <h2 className="signup-cta-banner__title">Sign Up for InsureCo</h2>
+              <p className="signup-cta-banner__subtitle">
+                Get started with your insurance coverage in just a few steps
+              </p>
+            </div>
+
+            <div className="signup-cta-steps">
+              {[
+                { num: 1, label: 'Personal Info', desc: 'Your basic details' },
+                { num: 2, label: 'Address', desc: 'Where you live' },
+                { num: 3, label: 'Insurance Type', desc: 'Car, Home, or Both' },
+                { num: 4, label: 'Coverage', desc: 'Pick your plan' },
+                { num: 5, label: 'Review', desc: 'Confirm & submit' },
+              ].map((step, i, arr) => (
+                <React.Fragment key={step.num}>
+                  <div className="signup-cta-step">
+                    <div className="signup-cta-step__marker">{step.num}</div>
+                    <span className="signup-cta-step__label">{step.label}</span>
+                    <span className="signup-cta-step__desc">{step.desc}</span>
+                  </div>
+                  {i < arr.length - 1 && <div className="signup-cta-step__line" />}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className="signup-cta-action">
+              <Button
+                kind="primary"
+                size="lg"
+                onClick={() => navigate('/signup')}
+                renderIcon={ArrowRight}
+              >
+                Start Your Application
+              </Button>
+            </div>
+          </Column>
         </Grid>
       </section>
 
