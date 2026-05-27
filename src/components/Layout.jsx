@@ -116,6 +116,7 @@ export default function Layout({ children }) {
               <SideNav
                 aria-label="Side navigation"
                 expanded={isSideNavExpanded}
+                isPersistent={false}
                 onSideNavBlur={onClickSideNavExpand}
                 href="#main-content"
               >
@@ -187,6 +188,13 @@ export default function Layout({ children }) {
                 </SideNavItems>
               </SideNav>
             </Header>
+            {isSideNavExpanded && (
+              <div
+                className="side-nav-backdrop"
+                onClick={onClickSideNavExpand}
+                aria-hidden="true"
+              />
+            )}
             <Content
               id="main-content"
               className="cds--content"
