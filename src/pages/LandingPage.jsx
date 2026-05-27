@@ -27,61 +27,44 @@ export default function LandingPage() {
   const features = [
     {
       icon: <Security size={48} />,
-      stat: '$2.5B+',
-      statLabel: 'in claims paid',
-      title: 'Coverage You Can Count On',
-      description: "From fender-benders to total losses, we've got you covered with policies built around real life — not fine print.",
+      title: 'Comprehensive Coverage',
+      description: 'Protection for your vehicles, home, and personal property, backed by decades of underwriting experience.',
     },
     {
       icon: <CheckmarkFilled size={48} />,
-      stat: '48 hrs',
-      statLabel: 'average payout',
-      title: 'Lightning-Fast Claims',
-      description: 'File in minutes from your phone, track progress in real time, and get paid in days — not weeks.',
+      title: 'Reliable Claims Service',
+      description: 'A straightforward claims process supported by experienced adjusters who guide you from filing to resolution.',
     },
     {
       icon: <Car size={48} />,
-      stat: '24/7',
-      statLabel: 'live support',
-      title: 'Humans, Not Hold Music',
-      description: 'Real agents available around the clock. Call, chat, or text — we answer in under 60 seconds, day or night.',
+      title: 'Dedicated Support',
+      description: 'Licensed agents available by phone, email, or in person to answer questions and assist with policy changes.',
     },
     {
       icon: <HomeIcon size={48} />,
-      stat: '15%',
-      statLabel: 'avg. savings',
-      title: 'Built Around You',
-      description: "Bundle and save, adjust on the fly, and pay only for what you need. No surprises, no upsells — ever.",
+      title: 'Flexible Policy Options',
+      description: 'Tailored coverage levels and deductibles designed to fit your individual circumstances and budget.',
     },
   ];
 
   const testimonials = [
     {
-      quote: 'Switched in 10 minutes and saved $640 a year. The app actually works, customer service picks up — feels like insurance built by people who, you know, drive cars.',
+      quote: 'The transition from my previous insurer was straightforward, and the policy terms were explained clearly. I appreciate the professionalism of the team.',
       author: 'Sarah Johnson',
-      role: 'Bundle customer · Austin, TX',
+      role: 'Policyholder since 2022',
       initials: 'SJ',
-      tag: 'Auto + Home',
-      savings: '$640/yr',
-      rating: 5,
     },
     {
-      quote: "Got rear-ended on a Tuesday. Filed in the app, had a check Friday. No back-and-forth, no fighting. Insurance the way it should be.",
+      quote: 'When I needed to file a claim, the process was handled with care and efficiency. The adjuster kept me informed at every step.',
       author: 'Michael Chen',
-      role: 'Auto customer · Seattle, WA',
+      role: 'Policyholder since 2021',
       initials: 'MC',
-      tag: 'Auto',
-      savings: 'Claim paid in 3 days',
-      rating: 5,
     },
     {
-      quote: "I've been with three insurers in five years. InsureCo is the first that didn't bury me in fine print. Clear pricing, real humans, zero gotchas.",
+      quote: 'Clear documentation, competitive premiums, and responsive customer service. Exactly what I look for in an insurance provider.',
       author: 'Emily Rodriguez',
-      role: 'Home customer · Denver, CO',
+      role: 'Policyholder since 2023',
       initials: 'ER',
-      tag: 'Home',
-      savings: '$420/yr',
-      rating: 5,
     },
   ];
 
@@ -103,11 +86,10 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
               <Heading className="hero-heading">
-                {'\u00A0'}Your Future with Confidence
+                Protect Your Future with Confidence
               </Heading>
               <p className="hero-tagline">
-                Comprehensive car and home insurance designed for the modern world.
-                Get covered in minutes with InsureCo.
+                Trusted auto and home insurance for individuals and families. Request a quote and speak with a licensed agent today.
               </p>
               <div className="hero-actions">
                 <Button
@@ -116,14 +98,14 @@ export default function LandingPage() {
                   onClick={() => navigate('/signup')}
                   renderIcon={ArrowRight}
                 >
-                  Sign Up Now
+                  Request a Quote
                 </Button>
                 <Button
                   kind="secondary"
                   size="lg"
                   onClick={() => setDemoModalOpen(true)}
                 >
-                  Get a Demo
+                  Contact an Agent
                 </Button>
               </div>
             </div>
@@ -138,10 +120,10 @@ export default function LandingPage() {
             <div className="features-intro">
               <span className="features-eyebrow">Why InsureCo</span>
               <Heading className="section-heading">
-                Insurance that actually <em>has your back.</em>
+                A measured approach to protecting what matters.
               </Heading>
               <p className="features-subtitle">
-                Trusted by 500,000+ drivers and homeowners across the country. Here's what makes us different.
+                For more than two decades, InsureCo has provided dependable coverage to households across the country.
               </p>
             </div>
           </Column>
@@ -149,10 +131,6 @@ export default function LandingPage() {
             <Column lg={4} md={4} sm={4} key={index}>
               <Tile className="feature-tile">
                 <div className="feature-icon">{feature.icon}</div>
-                <div className="feature-stat">
-                  <span className="feature-stat__value">{feature.stat}</span>
-                  <span className="feature-stat__label">{feature.statLabel}</span>
-                </div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-description">{feature.description}</p>
               </Tile>
@@ -166,71 +144,26 @@ export default function LandingPage() {
         <Grid>
           <Column lg={8} md={4} sm={4}>
             <div className="product-content">
-              <span className="product-eyebrow">
-                <Car size={16} /> Auto Insurance
-              </span>
-              <Heading className="product-heading">
-                Coverage that keeps up with <em>every mile.</em>
-              </Heading>
+              <div className="product-icon">
+                <Car size={64} />
+              </div>
+              <Heading className="product-heading">Auto Insurance</Heading>
               <p className="product-description">
-                Get a personalized quote in under 5 minutes, lock in your rate, and hit the road knowing you're covered for whatever's around the next bend.
+                Comprehensive automobile coverage including collision, liability, and optional add-ons. Policies are tailored to your vehicle, driving history, and coverage preferences.
               </p>
-
-              <div className="product-pricing">
-                <div className="product-pricing__price">
-                  <span className="product-pricing__currency">$</span>
-                  <span className="product-pricing__amount">29</span>
-                  <span className="product-pricing__period">/mo</span>
-                </div>
-                <span className="product-pricing__label">Starting rate · Save up to 30% when you bundle</span>
-              </div>
-
-              <ul className="product-features product-features--enhanced">
-                <li>
-                  <CheckmarkFilled size={20} />
-                  <div>
-                    <strong>Collision &amp; comprehensive</strong>
-                    <span>Full repair coverage, even for hit-and-runs</span>
-                  </div>
-                </li>
-                <li>
-                  <CheckmarkFilled size={20} />
-                  <div>
-                    <strong>Liability protection up to $500K</strong>
-                    <span>Industry-leading limits, included by default</span>
-                  </div>
-                </li>
-                <li>
-                  <CheckmarkFilled size={20} />
-                  <div>
-                    <strong>24/7 roadside assistance</strong>
-                    <span>Tow, jump, or tire change in 30 min or less</span>
-                  </div>
-                </li>
-                <li>
-                  <CheckmarkFilled size={20} />
-                  <div>
-                    <strong>Rental car reimbursement</strong>
-                    <span>Stay mobile while your car's in the shop</span>
-                  </div>
-                </li>
+              <ul className="product-features">
+                <li><CheckmarkFilled size={20} /> Collision and comprehensive coverage</li>
+                <li><CheckmarkFilled size={20} /> Liability protection</li>
+                <li><CheckmarkFilled size={20} /> Roadside assistance</li>
+                <li><CheckmarkFilled size={20} /> Rental reimbursement option</li>
               </ul>
-
-              <div className="product-actions">
-                <Button
-                  kind="primary"
-                  onClick={() => navigate('/signup')}
-                  renderIcon={ArrowRight}
-                >
-                  Get My Quote
-                </Button>
-                <Button
-                  kind="ghost"
-                  onClick={() => navigate('/signup')}
-                >
-                  See sample policy
-                </Button>
-              </div>
+              <Button
+                kind="tertiary"
+                onClick={() => navigate('/signup')}
+                renderIcon={ArrowRight}
+              >
+                Learn More
+              </Button>
             </div>
           </Column>
           <Column lg={8} md={4} sm={4}>
@@ -240,17 +173,6 @@ export default function LandingPage() {
                 alt="Modern blue sedan representing everyday auto insurance coverage"
                 loading="lazy"
               />
-              <div className="product-image__badge product-image__badge--top">
-                <span className="badge-rating">4.9★</span>
-                <span className="badge-label">12,408 reviews</span>
-              </div>
-              <div className="product-image__badge product-image__badge--bottom">
-                <CheckmarkFilled size={20} />
-                <div>
-                  <strong>Quote in 5 minutes</strong>
-                  <span>No credit pull required</span>
-                </div>
-              </div>
             </div>
           </Column>
         </Grid>
@@ -302,29 +224,19 @@ export default function LandingPage() {
         <Grid>
           <Column lg={16} md={8} sm={4}>
             <div className="testimonials-intro">
-              <span className="testimonials-eyebrow">★ 4.9 · 12,408 reviews</span>
+              <span className="testimonials-eyebrow">Client Testimonials</span>
               <Heading className="section-heading">
-                Don't take our word for it. <em>Take theirs.</em>
+                What our policyholders say.
               </Heading>
               <p className="testimonials-subtitle">
-                Real stories from real customers who switched, saved, and never looked back.
+                Feedback from individuals and families who have entrusted InsureCo with their coverage.
               </p>
             </div>
           </Column>
           {testimonials.map((testimonial, index) => (
             <Column lg={5} md={4} sm={4} key={index}>
               <Tile className="testimonial-tile">
-                <div className="testimonial-header">
-                  <span className="testimonial-tag">{testimonial.tag}</span>
-                  <span className="testimonial-rating" aria-label={`${testimonial.rating} out of 5 stars`}>
-                    {'★'.repeat(testimonial.rating)}
-                  </span>
-                </div>
                 <p className="testimonial-quote">{testimonial.quote}</p>
-                <div className="testimonial-savings">
-                  <CheckmarkFilled size={16} />
-                  <span>{testimonial.savings}</span>
-                </div>
                 <div className="testimonial-author">
                   <div className="testimonial-avatar" aria-hidden="true">
                     {testimonial.initials}
@@ -341,7 +253,7 @@ export default function LandingPage() {
             <div className="testimonials-trust">
               <div className="trust-stat">
                 <span className="trust-stat__value">500K+</span>
-                <span className="trust-stat__label">Happy customers</span>
+                <span className="trust-stat__label">Policyholders nationwide</span>
               </div>
               <div className="trust-stat">
                 <span className="trust-stat__value">98%</span>
@@ -352,8 +264,8 @@ export default function LandingPage() {
                 <span className="trust-stat__label">BBB rating</span>
               </div>
               <div className="trust-stat">
-                <span className="trust-stat__value">$1.2K</span>
-                <span className="trust-stat__label">Avg. annual savings</span>
+                <span className="trust-stat__value">20+</span>
+                <span className="trust-stat__label">Years in business</span>
               </div>
             </div>
           </Column>

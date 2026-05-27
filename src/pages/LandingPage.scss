@@ -45,11 +45,10 @@
   }
 
   .hero-heading {
-    font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
+    font-family: var(--font-family-sans);
     font-size: var(--heading-h1-size);
-    font-weight: 300;
+    font-weight: var(--heading-h1-weight);
     line-height: var(--heading-h1-line-height);
-    letter-spacing: 0.5px;
     margin-bottom: var(--spacing-05);
     color: var(--text-on-color);
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -68,14 +67,6 @@
     gap: var(--spacing-05);
     justify-content: center;
     flex-wrap: wrap;
-
-    .cds--btn--primary {
-      background-color: rgba(80, 36, 38, 1);
-
-      &:hover {
-        background-color: rgba(80, 36, 38, 1);
-      }
-    }
   }
 }
 
@@ -92,68 +83,29 @@
 .features-section {
   padding: var(--spacing-10) var(--spacing-05);
   background: var(--background-secondary);
-  position: relative;
-  overflow: hidden;
-
-  // Subtle decorative gradient blob
-  &::before {
-    content: '';
-    position: absolute;
-    top: -120px;
-    right: -120px;
-    width: 320px;
-    height: 320px;
-    background: radial-gradient(circle, rgba(218, 30, 40, 0.08), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
 
   .features-intro {
     text-align: center;
     max-width: 720px;
     margin: 0 auto var(--spacing-09);
-    position: relative;
-    z-index: 1;
   }
 
   .features-eyebrow {
     display: inline-block;
     font-size: var(--body-xs-size);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.12em;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--interactive-primary);
-    padding: var(--spacing-02) var(--spacing-04);
-    background: rgba(218, 30, 40, 0.1);
-    border-radius: 9999px;
-    margin-bottom: var(--spacing-05);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-04);
   }
 
   .section-heading {
     margin-bottom: var(--spacing-05);
-
-    em {
-      font-style: normal;
-      color: var(--interactive-primary);
-      position: relative;
-      white-space: nowrap;
-
-      &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -4px;
-        height: 4px;
-        background: var(--interactive-primary);
-        border-radius: 2px;
-        opacity: 0.3;
-      }
-    }
   }
 
   .features-subtitle {
-    font-size: var(--body-lg-size);
+    font-size: var(--body-md-size);
     color: var(--text-secondary);
     line-height: var(--line-height-normal);
     max-width: 560px;
@@ -162,54 +114,21 @@
 
   .feature-tile {
     height: 100%;
-    text-align: left;
+    text-align: center;
     padding: var(--spacing-07);
-    position: relative;
-    overflow: hidden;
-    border-top: 3px solid transparent;
-    transition: transform var(--motion-hover), box-shadow var(--motion-hover), border-color var(--motion-hover);
+    border: 1px solid var(--border-subtle);
+    transition: box-shadow var(--motion-hover);
 
     &:hover {
-      transform: translateY(-6px);
       box-shadow: var(--card-shadow-hover);
-      border-top-color: var(--interactive-primary);
-
-      .feature-icon {
-        transform: scale(1.1) rotate(-4deg);
-      }
     }
   }
 
   .feature-icon {
-    color: var(--interactive-primary);
-    margin-bottom: var(--spacing-05);
-    display: flex;
-    justify-content: flex-start;
-    transition: transform 0.3s var(--easing-expressive, cubic-bezier(0.4, 0.14, 0.3, 1));
-  }
-
-  .feature-stat {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-01);
-    margin-bottom: var(--spacing-05);
-    padding-bottom: var(--spacing-04);
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .feature-stat__value {
-    font-size: var(--heading-h3-size);
-    font-weight: var(--font-weight-bold);
-    color: var(--interactive-primary);
-    line-height: 1;
-  }
-
-  .feature-stat__label {
-    font-size: var(--body-xs-size);
     color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-05);
+    display: flex;
+    justify-content: center;
   }
 
   .feature-title {
@@ -239,47 +158,7 @@
     padding: var(--spacing-06);
   }
 
-  // Eyebrow badge (enhanced section)
-  .product-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-02);
-    align-self: flex-start;
-    font-size: var(--body-xs-size);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--interactive-primary);
-    padding: var(--spacing-02) var(--spacing-04);
-    background: rgba(218, 30, 40, 0.1);
-    border-radius: 9999px;
-    margin-bottom: var(--spacing-05);
-
-    svg {
-      fill: currentColor;
-    }
-  }
-
-  // Headline emphasis (enhanced section)
-  .product-heading em {
-    font-style: normal;
-    color: var(--interactive-primary);
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -4px;
-      height: 4px;
-      background: var(--interactive-primary);
-      border-radius: 2px;
-      opacity: 0.3;
-    }
-  }
-
-  // Pricing block
+  // Pricing block (legacy, no longer used in conservative layout)
   .product-pricing {
     display: flex;
     flex-direction: column;
@@ -528,63 +407,25 @@
 .testimonials-section {
   padding: var(--spacing-10) var(--spacing-05);
   background: var(--background-primary);
-  position: relative;
-  overflow: hidden;
-
-  // Decorative gradient blob
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: -160px;
-    left: -160px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(218, 30, 40, 0.06), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
 
   .testimonials-intro {
     text-align: center;
     max-width: 720px;
     margin: 0 auto var(--spacing-09);
-    position: relative;
-    z-index: 1;
   }
 
   .testimonials-eyebrow {
     display: inline-block;
-    font-size: var(--body-sm-size);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: 0.06em;
-    color: var(--interactive-primary);
-    padding: var(--spacing-02) var(--spacing-05);
-    background: rgba(218, 30, 40, 0.1);
-    border-radius: 9999px;
-    margin-bottom: var(--spacing-05);
-  }
-
-  .section-heading em {
-    font-style: normal;
-    color: var(--interactive-primary);
-    position: relative;
-    white-space: nowrap;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -4px;
-      height: 4px;
-      background: var(--interactive-primary);
-      border-radius: 2px;
-      opacity: 0.3;
-    }
+    font-size: var(--body-xs-size);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-04);
   }
 
   .testimonials-subtitle {
-    font-size: var(--body-lg-size);
+    font-size: var(--body-md-size);
     color: var(--text-secondary);
     line-height: var(--line-height-normal);
     max-width: 560px;
@@ -597,55 +438,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-05);
-    position: relative;
-    overflow: hidden;
-    border-top: 3px solid transparent;
-    transition: transform var(--motion-hover), box-shadow var(--motion-hover), border-color var(--motion-hover);
-
-    // Big decorative quote mark
-    &::before {
-      content: '"';
-      position: absolute;
-      top: -24px;
-      right: 12px;
-      font-size: 160px;
-      font-family: Georgia, serif;
-      color: var(--interactive-primary);
-      opacity: 0.08;
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    &:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--card-shadow-hover);
-      border-top-color: var(--interactive-primary);
-    }
-  }
-
-  .testimonial-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-03);
-  }
-
-  .testimonial-tag {
-    display: inline-block;
-    font-size: var(--body-xs-size);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    padding: 4px var(--spacing-03);
-    background: var(--background-secondary);
-    border-radius: var(--radius-sm);
-  }
-
-  .testimonial-rating {
-    color: #f1c21b;
-    font-size: var(--body-md-size);
-    letter-spacing: 2px;
+    border: 1px solid var(--border-subtle);
   }
 
   .testimonial-quote {
@@ -654,25 +447,6 @@
     color: var(--text-primary);
     margin: 0;
     flex-grow: 1;
-    position: relative;
-    z-index: 1;
-  }
-
-  .testimonial-savings {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-02);
-    align-self: flex-start;
-    font-size: var(--body-sm-size);
-    font-weight: var(--font-weight-semibold);
-    color: var(--interactive-primary);
-    padding: var(--spacing-02) var(--spacing-04);
-    background: rgba(218, 30, 40, 0.08);
-    border-radius: 9999px;
-
-    svg {
-      fill: var(--interactive-primary);
-    }
   }
 
   .testimonial-author {
@@ -687,15 +461,16 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #a2191f, #da1e28);
-    color: var(--text-on-color);
+    background: var(--background-secondary);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-semibold);
     font-size: var(--body-sm-size);
     letter-spacing: 0.5px;
     flex-shrink: 0;
+    border: 1px solid var(--border-subtle);
   }
 
   .testimonial-author__info {
@@ -726,7 +501,8 @@
     margin-top: var(--spacing-09);
     padding: var(--spacing-07) var(--spacing-06);
     background: var(--background-secondary);
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
 
     @media (min-width: 672px) {
       grid-template-columns: repeat(4, 1fr);
@@ -742,8 +518,8 @@
 
   .trust-stat__value {
     font-size: var(--heading-h3-size);
-    font-weight: var(--font-weight-bold);
-    color: var(--interactive-primary);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
     line-height: 1;
   }
 
