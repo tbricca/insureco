@@ -27,23 +27,31 @@ export default function LandingPage() {
   const features = [
     {
       icon: <Security size={48} />,
-      title: 'Comprehensive Coverage',
-      description: 'Protect what matters most with our comprehensive insurance plans tailored to your needs.',
+      stat: '$2.5B+',
+      statLabel: 'in claims paid',
+      title: 'Coverage You Can Count On',
+      description: "From fender-benders to total losses, we've got you covered with policies built around real life — not fine print.",
     },
     {
       icon: <CheckmarkFilled size={48} />,
-      title: 'Fast Claims Processing',
-      description: 'Get your claims processed quickly and efficiently with our streamlined digital process.',
+      stat: '48 hrs',
+      statLabel: 'average payout',
+      title: 'Lightning-Fast Claims',
+      description: 'File in minutes from your phone, track progress in real time, and get paid in days — not weeks.',
     },
     {
       icon: <Car size={48} />,
-      title: '24/7 Support',
-      description: 'Our dedicated support team is available around the clock to assist you when you need it most.',
+      stat: '24/7',
+      statLabel: 'live support',
+      title: 'Humans, Not Hold Music',
+      description: 'Real agents available around the clock. Call, chat, or text — we answer in under 60 seconds, day or night.',
     },
     {
       icon: <HomeIcon size={48} />,
-      title: 'Flexible Plans',
-      description: 'Choose from a variety of coverage options that fit your lifestyle and budget.',
+      stat: '15%',
+      statLabel: 'avg. savings',
+      title: 'Built Around You',
+      description: "Bundle and save, adjust on the fly, and pay only for what you need. No surprises, no upsells — ever.",
     },
   ];
 
@@ -115,14 +123,24 @@ export default function LandingPage() {
       <section className="features-section">
         <Grid>
           <Column lg={16} md={8} sm={4}>
-            <Heading className="section-heading">
-              Why Choose InsureCo?
-            </Heading>
+            <div className="features-intro">
+              <span className="features-eyebrow">Why InsureCo</span>
+              <Heading className="section-heading">
+                Insurance that actually <em>has your back.</em>
+              </Heading>
+              <p className="features-subtitle">
+                Trusted by 500,000+ drivers and homeowners across the country. Here's what makes us different.
+              </p>
+            </div>
           </Column>
           {features.map((feature, index) => (
             <Column lg={4} md={4} sm={4} key={index}>
               <Tile className="feature-tile">
                 <div className="feature-icon">{feature.icon}</div>
+                <div className="feature-stat">
+                  <span className="feature-stat__value">{feature.stat}</span>
+                  <span className="feature-stat__label">{feature.statLabel}</span>
+                </div>
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-description">{feature.description}</p>
               </Tile>
