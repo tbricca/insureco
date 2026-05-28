@@ -52,16 +52,19 @@ export default function LandingPage() {
       quote: 'InsureCo made switching my insurance so easy. The process was smooth and the savings were immediate.',
       author: 'Sarah Johnson',
       role: 'Customer since 2022',
+      avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
     {
       quote: 'When I had a claim, they handled everything professionally and got me back on the road quickly.',
       author: 'Michael Chen',
       role: 'Customer since 2021',
+      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
     {
       quote: 'Best insurance experience I\'ve had. The customer service is exceptional and the rates are competitive.',
       author: 'Emily Rodriguez',
       role: 'Customer since 2023',
+      avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200',
     },
   ];
 
@@ -163,8 +166,8 @@ export default function LandingPage() {
           <Column lg={8} md={4} sm={4}>
             <div className="product-image">
               <img
-                src="https://images.pexels.com/photos/220309/pexels-photo-220309.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Modern blue sedan representing everyday auto insurance coverage"
+                src="https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Modern car on an open road representing everyday auto insurance coverage"
                 loading="lazy"
               />
             </div>
@@ -178,8 +181,8 @@ export default function LandingPage() {
           <Column lg={8} md={4} sm={4}>
             <div className="product-image">
               <img
-                src="https://images.pexels.com/photos/7587856/pexels-photo-7587856.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Modern suburban home representing comprehensive home insurance protection"
+                src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                alt="Modern suburban home at dusk representing comprehensive home insurance protection"
                 loading="lazy"
               />
             </div>
@@ -226,8 +229,16 @@ export default function LandingPage() {
               <Tile className="testimonial-tile">
                 <p className="testimonial-quote">"{testimonial.quote}"</p>
                 <div className="testimonial-author">
-                  <p className="author-name">{testimonial.author}</p>
-                  <p className="author-role">{testimonial.role}</p>
+                  <img
+                    className="author-avatar"
+                    src={testimonial.avatar}
+                    alt={`Portrait of ${testimonial.author}`}
+                    loading="lazy"
+                  />
+                  <div className="author-details">
+                    <p className="author-name">{testimonial.author}</p>
+                    <p className="author-role">{testimonial.role}</p>
+                  </div>
                 </div>
               </Tile>
             </Column>
