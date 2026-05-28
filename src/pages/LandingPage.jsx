@@ -12,7 +12,6 @@ import {
 } from '@carbon/react';
 import {
   Security,
-  Car,
   Home as HomeIcon,
   CheckmarkFilled,
   ArrowRight,
@@ -26,42 +25,42 @@ export default function LandingPage() {
 
   const features = [
     {
-      icon: <Security size={48} />,
-      title: 'Comprehensive Coverage',
-      description: 'Protect what matters most with our comprehensive insurance plans tailored to your needs.',
+      icon: <HomeIcon size={48} />,
+      title: 'Whole-Home Coverage',
+      description: 'Protect your house, belongings, and everything in between with policies built for homeowners.',
     },
     {
       icon: <CheckmarkFilled size={48} />,
       title: 'Fast Claims Processing',
-      description: 'Get your claims processed quickly and efficiently with our streamlined digital process.',
+      description: 'File a claim from your phone and get repairs underway quickly with our streamlined digital process.',
     },
     {
-      icon: <Car size={48} />,
+      icon: <Security size={48} />,
       title: '24/7 Support',
-      description: 'Our dedicated support team is available around the clock to assist you when you need it most.',
+      description: 'Our dedicated home insurance specialists are available around the clock when disaster strikes.',
     },
     {
-      icon: <HomeIcon size={48} />,
+      icon: <CheckmarkFilled size={48} />,
       title: 'Flexible Plans',
-      description: 'Choose from a variety of coverage options that fit your lifestyle and budget.',
+      description: 'Choose from dwelling, contents, and liability options that fit the way you live at home.',
     },
   ];
 
   const testimonials = [
     {
-      quote: 'InsureCo made switching my insurance so easy. The process was smooth and the savings were immediate.',
+      quote: 'InsureCo made insuring our new home so easy. The process was smooth and the savings were immediate.',
       author: 'Sarah Johnson',
-      role: 'Customer since 2022',
+      role: 'Homeowner since 2022',
     },
     {
-      quote: 'When I had a claim, they handled everything professionally and got me back on the road quickly.',
+      quote: 'When a storm damaged our roof, they handled everything professionally and got repairs done quickly.',
       author: 'Michael Chen',
-      role: 'Customer since 2021',
+      role: 'Homeowner since 2021',
     },
     {
-      quote: 'Best insurance experience I\'ve had. The customer service is exceptional and the rates are competitive.',
+      quote: 'Best home insurance experience I\'ve had. The customer service is exceptional and the rates are competitive.',
       author: 'Emily Rodriguez',
-      role: 'Customer since 2023',
+      role: 'Homeowner since 2023',
     },
   ];
 
@@ -83,11 +82,11 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="hero-content">
               <Heading className="hero-heading">
-                Protect Your Future with Confidence
+                Protect Your Home with Confidence
               </Heading>
               <p className="hero-tagline">
-                Comprehensive car and home insurance designed for the modern world.
-                Get covered in minutes with InsureCo.
+                Comprehensive home insurance designed for the modern homeowner.
+                Get your house covered in minutes with InsureCo.
               </p>
               <div className="hero-actions">
                 <Button
@@ -128,47 +127,6 @@ export default function LandingPage() {
               </Tile>
             </Column>
           ))}
-        </Grid>
-      </section>
-
-      {/* Car Insurance Section */}
-      <section id="car-insurance" className="product-section car-insurance-section">
-        <Grid>
-          <Column lg={8} md={4} sm={4}>
-            <div className="product-content">
-              <div className="product-icon">
-                <Car size={64} />
-              </div>
-              <Heading className="product-heading">Car Insurance</Heading>
-              <p className="product-description">
-                Drive with confidence knowing you're protected. Our comprehensive auto insurance 
-                covers collision, liability, and more. Get instant quotes and customize your 
-                coverage to match your needs.
-              </p>
-              <ul className="product-features">
-                <li><CheckmarkFilled size={20} /> Collision coverage</li>
-                <li><CheckmarkFilled size={20} /> Liability protection</li>
-                <li><CheckmarkFilled size={20} /> Roadside assistance</li>
-                <li><CheckmarkFilled size={20} /> Rental car coverage</li>
-              </ul>
-              <Button
-                kind="tertiary"
-                onClick={() => navigate('/signup')}
-                renderIcon={ArrowRight}
-              >
-                Learn More
-              </Button>
-            </div>
-          </Column>
-          <Column lg={8} md={4} sm={4}>
-            <div className="product-image">
-              <img
-                src="https://images.pexels.com/photos/220309/pexels-photo-220309.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Modern blue sedan representing everyday auto insurance coverage"
-                loading="lazy"
-              />
-            </div>
-          </Column>
         </Grid>
       </section>
 
@@ -241,10 +199,10 @@ export default function LandingPage() {
           <Column lg={16} md={8} sm={4}>
             <div className="cta-content">
               <Heading className="cta-heading">
-                Ready to Get Started?
+                Ready to Protect Your Home?
               </Heading>
               <p className="cta-text">
-                Join thousands of satisfied customers who trust InsureCo for their insurance needs.
+                Join thousands of satisfied homeowners who trust InsureCo to protect their houses.
               </p>
               <Button
                 kind="primary"
@@ -266,7 +224,7 @@ export default function LandingPage() {
             <div className="footer-section">
               <h4 className="footer-heading">InsureCo</h4>
               <p className="footer-description">
-                Protecting what matters most since 2020.
+                Protecting homes and the people in them since 2020.
               </p>
             </div>
           </Column>
@@ -274,9 +232,9 @@ export default function LandingPage() {
             <div className="footer-section">
               <h4 className="footer-heading">Products</h4>
               <ul className="footer-links">
-                <li><a href="#car-insurance">Car Insurance</a></li>
                 <li><a href="#home-insurance">Home Insurance</a></li>
-                <li><button onClick={() => navigate('/signup')} className="footer-link-button">Bundle & Save</button></li>
+                <li><button onClick={() => navigate('/signup')} className="footer-link-button">Condo Insurance</button></li>
+                <li><button onClick={() => navigate('/signup')} className="footer-link-button">Renters Insurance</button></li>
               </ul>
             </div>
           </Column>
