@@ -1,0 +1,76 @@
+---
+description: Requirements and guardrails when building features for government customers (accessibility, security, privacy, browser support)
+globs:
+alwaysApply: false
+---
+
+# Government Customer Requirements
+
+When building features intended for government customers (federal, state, or local agencies),
+the following requirements apply IN ADDITION to the normal project rules. Government work
+carries legal and contractual obligations that exceed typical commercial standards.
+
+## 1. Accessibility — Section 508 / WCAG 2.1 AA (Mandatory)
+
+Section 508 of the Rehabilitation Act legally requires federal digital services to meet
+WCAG 2.1 AA. This is non-negotiable for government work.
+
+**Requirements:**
+- Every interactive element must be fully operable by keyboard alone (no mouse-only flows).
+- Visible focus indicators on all focusable elements. Never remove focus outlines without a
+  compliant replacement.
+- Proper semantic HTML (`<button>`, `<nav>`, `<main>`, headings in order) and ARIA labels
+  where semantics are insufficient.
+- Color contrast must meet WCAG AA (4.5:1 normal text, 3:1 large text/UI). Prefer AAA where
+  feasible. See `.builder/rules/theme-contrast-guidelines.mdc`.
+- Never convey information by color alone — pair with text, icons, or patterns.
+- All form fields must have associated labels and clear, programmatically-linked error
+  messages. Use Carbon `FormField`/`TextInput` invalid props and `InlineNotification`.
+- Test with a screen reader (VoiceOver/NVDA) and keyboard-only navigation before shipping.
+- Carbon components are accessible by default — preserve that; do not strip ARIA attributes.
+
+## 2. Security & Data Handling
+
+- Never store PII or sensitive data in `localStorage`, `sessionStorage`, cookies, or logs.
+  The theming system uses `localStorage` for the `insureco-theme` key only — keep client
+  storage limited to non-sensitive UI preferences.
+- Reference all secrets via environment variables (e.g. `REPLACE_ENV.API_KEY`). Never hardcode
+  keys, tokens, or credentials in source.
+- Validate and sanitize all input at system boundaries (user input, external APIs) to prevent
+  XSS, injection, and the OWASP Top 10.
+- Do not log sensitive insurance data (SSNs, VINs, full addresses, DOB, policy/account numbers).
+- Use HTTPS for all network requests; never downgrade to HTTP.
+
+## 3. Privacy & Compliance
+
+- Treat all insurance PII collected in flows (e.g. the sign-up flow: VINs, addresses, personal
+  details) as sensitive. Collect only what is necessary.
+- Be mindful of agency compliance posture (FISMA / FedRAMP for federal; state equivalents).
+  When unsure whether a feature introduces a compliance concern, flag it rather than assume.
+- Provide clear consent and disclosure points where personal data is collected.
+- Avoid third-party scripts/trackers that exfiltrate user data without review.
+
+## 4. Browser & Device Support
+
+- Government environments are often locked down with older or restricted browsers.
+- Define and respect a minimum support matrix; avoid bleeding-edge browser APIs without
+  graceful fallbacks.
+- Ensure the experience degrades gracefully and remains accessible on lower-spec devices.
+
+## Checklist Before Shipping a Government-Facing Feature
+
+- [ ] Full keyboard operability + visible focus on every interactive element
+- [ ] Screen reader pass (labels, roles, reading order, error announcements)
+- [ ] WCAG AA contrast verified in BOTH light and dark themes
+- [ ] No information conveyed by color alone
+- [ ] No PII/sensitive data in client storage or logs
+- [ ] Secrets via env vars only; no hardcoded credentials
+- [ ] Input validated/sanitized at boundaries
+- [ ] Works on the supported (potentially older) browser matrix
+
+## Related Documentation
+
+- Accessibility/contrast: `.builder/rules/theme-contrast-guidelines.mdc`
+- Theming: `.builder/rules/theming-system.mdc`
+- Form fields: `.builder/rules/form-field-theming.mdc`
+- Sign-up flow (PII collection): `.builder/rules/signup-flow.mdc`
