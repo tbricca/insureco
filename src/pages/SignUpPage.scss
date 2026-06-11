@@ -143,91 +143,95 @@
 }
 
 // ============================================
+// Step Warning Banner
+// ============================================
+
+.signup-step__warning {
+  max-width: 100%;
+
+  &.cds--inline-notification {
+    max-width: 100%;
+  }
+}
+
+// ============================================
 // Insurance Type Tiles
 // ============================================
 
-.signup-step__tile-group {
+.signup-insurance-tiles {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-04);
   width: 100%;
-
-  // Override Carbon TileGroup layout
-  .cds--tile-group > fieldset {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-04);
-  }
 }
 
-.signup-step__tile {
-  min-height: 100px;
-  border: 2px solid var(--border-subtle) !important;
-  border-radius: var(--radius-md) !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-
-  &:hover {
-    border-color: var(--interactive-primary) !important;
-    box-shadow: 0 2px 8px rgba(218, 30, 40, 0.1);
-  }
-
-  &.cds--tile--is-selected,
-  &[data-selected='true'] {
-    border-color: var(--interactive-primary) !important;
-    border-width: 3px !important;
-    background: rgba(218, 30, 40, 0.04);
-
-    .signup-tile__icon {
-      color: var(--interactive-primary);
-      fill: var(--interactive-primary);
-    }
-
-    .signup-tile__title {
-      color: var(--interactive-primary);
-    }
-  }
-
-  @media (min-width: 672px) {
-    min-height: 120px;
-  }
-}
-
-.signup-tile__content {
+.signup-insurance-tile {
   display: flex;
   align-items: center;
   gap: var(--spacing-05);
-  padding: var(--spacing-03) 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: var(--spacing-05);
+  background: var(--background-primary);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: var(--interactive-primary);
+    box-shadow: 0 2px 8px rgba(218, 30, 40, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+
+  &--selected {
+    border-color: var(--interactive-primary);
+    border-width: 3px;
+    background: rgba(218, 30, 40, 0.04);
+
+    .signup-insurance-tile__icon {
+      color: var(--interactive-primary);
+    }
+
+    .signup-insurance-tile__title {
+      color: var(--interactive-primary);
+    }
+  }
 }
 
-.signup-tile__icon {
+.signup-insurance-tile__icon {
   flex-shrink: 0;
-  color: var(--text-secondary);
-  fill: var(--text-secondary);
-  transition: color 0.15s ease, fill 0.15s ease;
-}
-
-.signup-tile__dual-icons {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-02);
-  flex-shrink: 0;
-}
-
-.signup-tile__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-02);
-}
-
-.signup-tile__title {
-  font-family: var(--font-family-sans);
-  font-size: var(--body-md-size);
-  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   transition: color 0.15s ease;
 }
 
-.signup-tile__desc {
+.signup-insurance-tile__dual-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-04);
+  flex-shrink: 0;
+}
+
+.signup-insurance-tile__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+}
+
+.signup-insurance-tile__title {
+  font-family: var(--font-family-sans);
+  font-size: var(--heading-h5-size, 1.25rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1.2;
+  transition: color 0.15s ease;
+}
+
+.signup-insurance-tile__desc {
   font-family: var(--font-family-sans);
   font-size: var(--body-sm-size);
   color: var(--text-secondary);
@@ -338,6 +342,7 @@
   @media (max-width: 671px) {
     flex-direction: column-reverse;
 
+    .signup-nav__cancel,
     .signup-nav__back,
     .signup-nav__next,
     .signup-nav__submit {
@@ -356,6 +361,7 @@
   flex: 1;
 }
 
+.signup-nav__cancel,
 .signup-nav__back,
 .signup-nav__next,
 .signup-nav__submit {
