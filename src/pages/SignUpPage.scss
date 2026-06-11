@@ -1,0 +1,375 @@
+@use '../styles/tokens' as *;
+
+// ============================================
+// Sign Up Page
+// ============================================
+
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--background-secondary);
+  padding: var(--spacing-05);
+  gap: var(--spacing-05);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-07);
+    gap: var(--spacing-06);
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+// ============================================
+// Hero Banner
+// ============================================
+
+.signup-banner {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #a2191f 70.71%, #da1e28 0%);
+  box-shadow: 0 4px 12px 0 rgba(218, 30, 40, 0.15);
+  padding: var(--spacing-07) var(--spacing-05);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-03);
+}
+
+.signup-banner__title {
+  font-family: var(--font-family-sans);
+  font-size: var(--heading-h3-size);
+  font-weight: var(--heading-h3-weight);
+  color: var(--text-on-color);
+  margin: 0;
+  line-height: 1.2;
+
+  @media (min-width: 672px) {
+    font-size: var(--heading-h2-size);
+  }
+}
+
+.signup-banner__subtitle {
+  font-family: var(--font-family-sans);
+  font-size: var(--body-md-size);
+  color: var(--text-on-color);
+  opacity: 0.95;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ============================================
+// Progress Indicator
+// ============================================
+
+.signup-progress {
+  background: var(--background-primary);
+  border-radius: var(--radius-md);
+  border-top: 1px solid var(--interactive-primary);
+  box-shadow: var(--card-shadow);
+  padding: var(--spacing-05);
+}
+
+// ============================================
+// Content Area
+// ============================================
+
+.signup-content {
+  background: var(--background-primary);
+  border-radius: var(--radius-md);
+  border-top: 5px solid var(--interactive-primary);
+  box-shadow: var(--card-shadow);
+  padding: var(--spacing-06) var(--spacing-05);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-07);
+
+  @media (min-width: 672px) {
+    padding: var(--spacing-07) var(--spacing-07);
+  }
+}
+
+// ============================================
+// Step Layout
+// ============================================
+
+.signup-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-07);
+}
+
+.signup-step__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-04);
+  padding-bottom: var(--spacing-05);
+  border-bottom: 1px solid var(--interactive-primary);
+}
+
+.signup-step__title {
+  font-family: var(--font-family-sans);
+  font-size: var(--heading-h4-size);
+  font-weight: var(--heading-h4-weight);
+  color: var(--text-primary);
+  margin: 0;
+
+  @media (min-width: 672px) {
+    font-size: var(--heading-h3-size);
+  }
+}
+
+.signup-step__description {
+  font-family: var(--font-family-sans);
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.signup-step__form {
+  width: 100%;
+}
+
+.signup-step__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-05);
+
+  @media (max-width: 671px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ============================================
+// Step Warning Banner
+// ============================================
+
+.signup-step__warning {
+  max-width: 100%;
+
+  &.cds--inline-notification {
+    max-width: 100%;
+  }
+}
+
+// ============================================
+// Insurance Type Tiles
+// ============================================
+
+.signup-insurance-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-04);
+  width: 100%;
+}
+
+.signup-insurance-tile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-05);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: var(--spacing-05);
+  background: var(--background-primary);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: var(--interactive-primary);
+    box-shadow: 0 2px 8px rgba(218, 30, 40, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+
+  &--selected {
+    border-color: var(--interactive-primary);
+    border-width: 3px;
+    background: rgba(218, 30, 40, 0.04);
+
+    .signup-insurance-tile__icon {
+      color: var(--interactive-primary);
+    }
+
+    .signup-insurance-tile__title {
+      color: var(--interactive-primary);
+    }
+  }
+}
+
+.signup-insurance-tile__icon {
+  flex-shrink: 0;
+  color: var(--text-primary);
+  transition: color 0.15s ease;
+}
+
+.signup-insurance-tile__dual-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-04);
+  flex-shrink: 0;
+}
+
+.signup-insurance-tile__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+}
+
+.signup-insurance-tile__title {
+  font-family: var(--font-family-sans);
+  font-size: var(--heading-h5-size, 1.25rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1.2;
+  transition: color 0.15s ease;
+}
+
+.signup-insurance-tile__desc {
+  font-family: var(--font-family-sans);
+  font-size: var(--body-sm-size);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+// ============================================
+// Coverage Radio Group
+// ============================================
+
+.signup-step__radio-group {
+  .cds--radio-button-wrapper {
+    margin-bottom: var(--spacing-03);
+  }
+}
+
+.signup-step__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.signup-step__legend {
+  font-family: var(--font-family-sans);
+  font-size: var(--body-sm-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-04);
+}
+
+// ============================================
+// Review Section
+// ============================================
+
+.signup-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-05);
+
+  @media (min-width: 672px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-05);
+  }
+}
+
+.signup-review__section {
+  background: var(--background-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-05);
+  border-left: 3px solid var(--interactive-primary);
+}
+
+.signup-review__section-title {
+  font-family: var(--font-family-sans);
+  font-size: var(--body-md-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--interactive-primary);
+  margin: 0 0 var(--spacing-04) 0;
+}
+
+.signup-review__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-03);
+  margin: 0;
+  padding: 0;
+}
+
+.signup-review__item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-04);
+  align-items: baseline;
+
+  dt {
+    font-family: var(--font-family-sans);
+    font-size: var(--body-sm-size);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+
+  dd {
+    font-family: var(--font-family-sans);
+    font-size: var(--body-sm-size);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+    text-align: right;
+    margin: 0;
+  }
+}
+
+.signup-review__capitalize {
+  text-transform: capitalize;
+}
+
+// ============================================
+// Navigation
+// ============================================
+
+.signup-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-04);
+  padding-top: var(--spacing-05);
+  border-top: 1px solid var(--interactive-primary);
+
+  @media (max-width: 671px) {
+    flex-direction: column-reverse;
+
+    .signup-nav__cancel,
+    .signup-nav__back,
+    .signup-nav__next,
+    .signup-nav__submit {
+      width: 100%;
+      justify-content: center;
+
+      // Carbon button full-width fix
+      .cds--btn {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.signup-nav__spacer {
+  flex: 1;
+}
+
+.signup-nav__cancel,
+.signup-nav__back,
+.signup-nav__next,
+.signup-nav__submit {
+  @media (max-width: 671px) {
+    width: 100%;
+
+    &.cds--btn {
+      max-width: 100%;
+    }
+  }
+}
