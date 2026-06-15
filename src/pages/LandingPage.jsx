@@ -16,6 +16,9 @@ import {
   Home as HomeIcon,
   CheckmarkFilled,
   ArrowRight,
+  Time,
+  Chat,
+  Money,
 } from '@carbon/icons-react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.scss';
@@ -27,24 +30,31 @@ export default function LandingPage() {
   const features = [
     {
       icon: <Security size={48} />,
-      title: 'Comprehensive Coverage',
-      description: 'Protect what matters most with our comprehensive insurance plans tailored to your needs.',
+      title: 'Coverage You Can Trust',
+      description: 'Comprehensive car and home protection tailored to your life, so you are never caught off guard.',
     },
     {
-      icon: <CheckmarkFilled size={48} />,
-      title: 'Fast Claims Processing',
-      description: 'Get your claims processed quickly and efficiently with our streamlined digital process.',
+      icon: <Time size={48} />,
+      title: 'Claims in Minutes',
+      description: 'File a claim from your phone and get a decision fast with our fully digital, no-paperwork process.',
     },
     {
-      icon: <Car size={48} />,
-      title: '24/7 Support',
-      description: 'Our dedicated support team is available around the clock to assist you when you need it most.',
+      icon: <Chat size={48} />,
+      title: 'Real Help, 24/7',
+      description: 'Talk to a real person any time, day or night. Our team is always here when you need it most.',
     },
     {
-      icon: <HomeIcon size={48} />,
-      title: 'Flexible Plans',
-      description: 'Choose from a variety of coverage options that fit your lifestyle and budget.',
+      icon: <Money size={48} />,
+      title: 'Save When You Bundle',
+      description: 'Combine car and home coverage and unlock flexible plans that fit your budget, not the other way around.',
     },
+  ];
+
+  const stats = [
+    { value: '500K+', label: 'Customers protected' },
+    { value: '4.8/5', label: 'Average customer rating' },
+    { value: '< 5 min', label: 'Average quote time' },
+    { value: '98%', label: 'Claims approved' },
   ];
 
   const testimonials = [
@@ -116,8 +126,12 @@ export default function LandingPage() {
         <Grid>
           <Column lg={16} md={8} sm={4}>
             <Heading className="section-heading">
-              Why Choose InsureCo?
+              Insurance That Works as Hard as You Do
             </Heading>
+            <p className="section-subheading">
+              Join hundreds of thousands of people who switched to smarter,
+              simpler coverage. Here is what you get with InsureCo.
+            </p>
           </Column>
           {features.map((feature, index) => (
             <Column lg={4} md={4} sm={4} key={index}>
@@ -128,6 +142,29 @@ export default function LandingPage() {
               </Tile>
             </Column>
           ))}
+          <Column lg={16} md={8} sm={4}>
+            <div className="feature-stats">
+              {stats.map((stat, index) => (
+                <div className="stat-item" key={index}>
+                  <span className="stat-value">{stat.value}</span>
+                  <span className="stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </Column>
+          <Column lg={16} md={8} sm={4}>
+            <div className="features-cta">
+              <Button
+                kind="primary"
+                size="lg"
+                onClick={() => navigate('/signup')}
+                renderIcon={ArrowRight}
+              >
+                Get Your Free Quote
+              </Button>
+              <p className="features-cta-note">No commitment. Cancel anytime.</p>
+            </div>
+          </Column>
         </Grid>
       </section>
 
