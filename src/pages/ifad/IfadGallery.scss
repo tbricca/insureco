@@ -1,0 +1,98 @@
+@use '../../styles/tokens' as *;
+
+.ifad-gallery {
+  padding: var(--spacing-06);
+  background: var(--background-primary);
+
+  @media (min-width: 1056px) {
+    padding: var(--spacing-09);
+  }
+
+  &__header {
+    margin-bottom: var(--spacing-08);
+  }
+
+  &__title {
+    font-size: var(--heading-h2-size);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-03) 0;
+
+    @media (min-width: 672px) {
+      font-size: var(--heading-h1-size);
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--body-lg-size);
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 260px;
+    padding: var(--spacing-06);
+    background: var(--background-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: var(--interactive-primary);
+      box-shadow: var(--shadow-04);
+    }
+  }
+
+  &__card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-05);
+  }
+
+  &__card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--background-selected);
+
+    svg {
+      fill: var(--interactive-primary);
+    }
+  }
+
+  &__card-name {
+    font-size: var(--heading-h4-size);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-03) 0;
+  }
+
+  &__card-desc {
+    font-size: var(--body-sm-size);
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-05) 0;
+    flex: 1;
+  }
+
+  &__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-02);
+    font-size: var(--body-sm-size);
+    font-weight: var(--font-weight-semibold);
+    color: var(--interactive-primary);
+
+    svg {
+      fill: currentColor;
+    }
+  }
+}

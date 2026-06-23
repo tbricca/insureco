@@ -1,0 +1,54 @@
+---
+description: Insurance Financial Analytics Dashboard (IFAD) - three concept variants
+globs:
+alwaysApply: false
+---
+
+# Insurance Financial Analytics Dashboard (IFAD)
+
+Three design concepts built from the Financial Dashboard PRD, all sharing the
+same derived data and chart/table components.
+
+## Routes
+
+- `/ifad` — gallery index linking to the three concepts (`IfadGallery`)
+- `/ifad/conservative` — clean, standards-first Carbon layout (`IfadConservative`)
+- `/ifad/mild` — accented cards + portfolio donut + line/bar toggle (`IfadMild`)
+- `/ifad/wild` — gradient hero, animated count-up metrics, asymmetric layout (`IfadWild`)
+
+Routes are registered in `src/App.jsx`.
+
+## Data
+
+`src/utils/financialAnalytics.js` derives everything from the existing
+`src/data/businessMockData.js`:
+
+- `getFinancialSummary(mode)` — KPI figures (owed, claimed, net, loss ratio) and
+  Auto/Property split. `mode` is `'gross'` or `'net'` (net subtracts approved
+  claim payouts).
+- `getMonthlySeries(mode)` — 12-month multi-series history for the chart
+  (Property/Auto Premiums and Claims). Claims are bucketed by `incidentDate`.
+- `getAssetLedger()` — combined Auto + Property rows with `premiumDue`,
+  synthetic `dueDate`, and lifecycle `totalClaims`.
+- `getAssetDetailPath(assetId)` — drill-down route (reuses existing
+  `/business/properties/:id` and `/business/fleet/:id` detail pages).
+- `SERIES_META` — stable label/color metadata for chart series.
+
+## Shared components (`src/components/ifad/`)
+
+- `IfadChart` — custom SVG multi-series chart. Props: `data`, `type`
+  (`'line'` | `'bar'`). Series toggle on/off via the legend; hover shows a
+  tooltip. No chart library dependency. Colors come from `SERIES_META` design
+  tokens so it is theme-aware.
+- `IfadLedger` — sortable Carbon `DataTable` ("Asset Performance Ledger").
+  Numeric/date values are stored raw so sorting (e.g. Highest Claims, Due Date)
+  is correct, and formatted on render. Rows drill down to asset detail.
+
+## Conventions
+
+- All styling uses design tokens / CSS variables (no hardcoded colors) and works
+  in both light and dark themes, per the global CSS rules.
+- Financial color semantics: green for premiums/revenue, red for claims/expenses.
+- The "wild" variant's gradient hero intentionally uses fixed dark brand tokens
+  (`--color-grey-90/100`, brand red/blue) for an immersive band; text inside is
+  light for contrast in both themes.
