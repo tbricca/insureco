@@ -19,6 +19,10 @@ import AddVehiclePage from "./pages/business/AddVehiclePage";
 import FileClaimPage from "./pages/business/FileClaimPage";
 import MakePaymentPage from "./pages/business/MakePaymentPage";
 import MapPage from "./pages/business/MapPage";
+import IfadGallery from "./pages/ifad/IfadGallery";
+import IfadConservative from "./pages/ifad/IfadConservative";
+import IfadMild from "./pages/ifad/IfadMild";
+import IfadWild from "./pages/ifad/IfadWild";
 
 export default function App() {
   return (
@@ -46,6 +50,12 @@ export default function App() {
         <Route path="/business/payments" element={<BusinessComingSoon />} />
         <Route path="/business/file-claim" element={<FileClaimPage />} />
         <Route path="/business/make-payment" element={<MakePaymentPage />} />
+
+        {/* IFAD - Financial Analytics Dashboard concepts */}
+        <Route path="/ifad" element={<IfadGallery />} />
+        <Route path="/ifad/conservative" element={<IfadConservative />} />
+        <Route path="/ifad/mild" element={<IfadMild />} />
+        <Route path="/ifad/wild" element={<IfadWild />} />
       </Routes>
     </Layout>
   );

@@ -1,0 +1,119 @@
+@use '../../styles/tokens' as *;
+
+.ifad-chart {
+  width: 100%;
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-03) var(--spacing-05);
+    margin-bottom: var(--spacing-05);
+  }
+
+  &__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-03);
+    padding: var(--spacing-02) var(--spacing-03);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: var(--body-sm-size);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: opacity 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      background: var(--background-hover);
+    }
+
+    &.is-hidden {
+      opacity: 0.4;
+      text-decoration: line-through;
+    }
+  }
+
+  &__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  &__canvas {
+    position: relative;
+    width: 100%;
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+  }
+
+  &__grid {
+    stroke: var(--border-subtle);
+    stroke-width: 1;
+  }
+
+  &__axis-label {
+    fill: var(--text-secondary);
+    font-size: 11px;
+  }
+
+  &__line {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  &__dot {
+    stroke: var(--background-secondary);
+    stroke-width: 1.5;
+  }
+
+  &__bar {
+    transition: opacity 0.15s ease;
+  }
+
+  &__tooltip {
+    position: absolute;
+    top: var(--spacing-03);
+    right: var(--spacing-03);
+    min-width: 200px;
+    padding: var(--spacing-04);
+    background: var(--background-primary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-03);
+    pointer-events: none;
+  }
+
+  &__tooltip-title {
+    font-size: var(--body-sm-size);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-03) 0;
+  }
+
+  &__tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-03);
+    margin: 0 0 var(--spacing-02) 0;
+    font-size: var(--body-sm-size);
+    color: var(--text-secondary);
+  }
+
+  &__tooltip-label {
+    flex: 1;
+  }
+
+  &__tooltip-value {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+}

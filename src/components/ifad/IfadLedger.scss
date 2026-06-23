@@ -1,0 +1,14 @@
+@use '../../styles/tokens' as *;
+
+.ifad-ledger {
+  width: 100%;
+
+  .ifad-ledger__row {
+    cursor: pointer;
+  }
+
+  .ifad-ledger__claims {
+    color: var(--text-error);
+    font-weight: var(--font-weight-semibold);
+  }
+}
