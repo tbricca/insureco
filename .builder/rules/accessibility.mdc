@@ -1,0 +1,357 @@
+---
+description: Accessibility standards - WCAG 2.1 AA compliance requirements for all components
+globs:
+alwaysApply: true
+---
+
+# Accessibility Standards
+
+All components must meet **WCAG 2.1 Level AA** compliance. Carbon Design System provides a strong baseline — these rules extend and enforce it project-wide.
+
+---
+
+## 1. Color Contrast
+
+### Text Contrast Ratios (WCAG 1.4.3 / 1.4.11)
+- **Normal text** (< 18px or < 14px bold): minimum **4.5:1** contrast ratio
+- **Large text** (≥ 18px or ≥ 14px bold): minimum **3:1** contrast ratio
+- **UI components** (borders, icons, focus rings): minimum **3:1** contrast ratio
+
+### Rules
+- **NEVER** hardcode colors. Always use semantic tokens:
+  ```scss
+  color: var(--text-primary);          // main text
+  color: var(--text-secondary);        // supporting text
+  color: var(--text-on-color);         // text on colored backgrounds
+  background: var(--background-primary);
+  ```
+- **NEVER** use dark text on dark backgrounds or light text on light backgrounds
+- **ALWAYS** test in both light (`white`) and dark (`g100`) themes
+- Use `--text-on-color` (always white) when text sits on `--interactive-primary` (brand red) or any colored background
+- Check contrast with browser DevTools accessibility panel or https://webaim.org/resources/contrastchecker/
+
+### Do / Don't
+
+// ✅ DO - theme-aware, adapts to light and dark
+.my-label { color: var(--text-primary); }
+
+// ❌ DON'T - hardcoded, breaks dark mode
+.my-label { color: #161616; }
+
+// ✅ DO - white text on brand red
+.badge { background: var(--interactive-primary); color: var(--text-on-color); }
+
+// ❌ DON'T - primary text on colored background (dark in dark mode)
+.badge { background: var(--interactive-primary); color: var(--text-primary); }
+```
+
+---
+
+## 2. Keyboard Navigation (WCAG 2.1.1 / 2.4.3 / 2.4.7)
+
+- **ALL interactive elements** must be reachable and operable via keyboard
+- Tab order must follow the visual reading order (left-to-right, top-to-bottom)
+- **NEVER** use `tabindex` values greater than 0 (breaks natural tab flow)
+- `tabindex="0"` is allowed for custom interactive elements (e.g., custom tiles)
+- `tabindex="-1"` is allowed for programmatic focus management only
+
+### Focus Indicators
+- **NEVER** use `outline: none` or `outline: 0` without providing a custom visible focus style
+- Focus rings must have at least **3:1** contrast against adjacent colors
+- Carbon provides built-in focus rings — do not override them unless replacing with a compliant alternative:
+  ```scss
+  // ✅ Acceptable custom focus ring
+  &:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+
+  // ❌ Never do this
+  &:focus { outline: none; }
+  ```
+
+### Interactive Custom Elements
+When building non-native interactive elements, add keyboard handlers:
+```jsx
+// ✅ Custom clickable element with keyboard support
+<div
+  role="button"
+  tabIndex={0}
+  onClick={handleClick}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  }}
+>
+  Click me
+</div>
+```
+
+---
+
+## 3. Semantic HTML & ARIA (WCAG 1.3.1 / 4.1.2)
+
+### Use Semantic HTML First
+Prefer native HTML elements over ARIA. Native elements have built-in accessibility:
+```jsx
+// ✅ Native button - keyboard, role, and focus built in
+<button onClick={handleClick}>Submit</button>
+
+// ❌ Avoid - requires manual ARIA + keyboard handling
+<div onClick={handleClick}>Submit</div>
+```
+
+### Heading Hierarchy
+- Use a **single `<h1>`** per page (the page title)
+- Headings must follow a logical hierarchy: `h1 → h2 → h3 → h4` — never skip levels
+- Use Carbon's `Heading` component (not raw `<h2>`, `<h3>`, etc.):
+  ```jsx
+  // ✅ Carbon Heading
+  import { Heading } from '@carbon/react';
+  <Heading as="h2" className="section-title">Features</Heading>
+
+  // ❌ Raw HTML heading (bypasses Carbon's typography system)
+  <h2 className="section-title">Features</h2>
+  ```
+
+### Lists
+Use Carbon's list components instead of raw HTML:
+```jsx
+// ✅ Carbon list components
+import { UnorderedList, ListItem } from '@carbon/react';
+<UnorderedList>
+  <ListItem>Item one</ListItem>
+  <ListItem>Item two</ListItem>
+</UnorderedList>
+
+// ❌ Raw HTML (misses Carbon theming + spacing)
+<ul><li>Item one</li></ul>
+```
+
+### Landmarks
+Every page must have these landmark regions:
+- `<header>` or `role="banner"` — page header
+- `<main>` or `role="main"` — primary content (one per page)
+- `<nav>` or `role="navigation"` — navigation menus (with `aria-label` when multiple)
+- `<footer>` or `role="contentinfo"` — page footer
+
+---
+
+## 4. Images & Icons (WCAG 1.1.1)
+
+### Images
+- **Informative images**: must have a descriptive `alt` attribute
+  ```jsx
+  <img src="car.jpg" alt="Red sedan on a highway representing auto insurance coverage" />
+  ```
+- **Decorative images**: use `alt=""` to hide from screen readers
+  ```jsx
+  <img src="divider.svg" alt="" />
+  ```
+- **Never** omit `alt` entirely (causes screen readers to read the filename)
+
+### Icons
+- **Decorative icons** (accompanied by visible text): add `aria-hidden="true"`
+  ```jsx
+  // ✅ Icon is decorative - label comes from button text
+  <Button renderIcon={ArrowRight}>Next</Button>
+
+  // ✅ Standalone icon with no text - needs a label
+  <IconButton label="Close dialog" kind="ghost">
+    <Close />
+  </IconButton>
+  ```
+- **Standalone icons** (no adjacent text): use `aria-label` on the parent or Carbon's `IconButton`:
+  ```jsx
+  import { IconButton } from '@carbon/react';
+  <IconButton label="Search" kind="ghost"><Search /></IconButton>
+  ```
+
+---
+
+## 5. Forms (WCAG 1.3.1 / 3.3.1 / 3.3.2)
+
+### Labels
+- **Every form input must have a visible label** — never use placeholder text as the only label
+- Use Carbon form components which wire labels automatically:
+  ```jsx
+  // ✅ Carbon TextInput - label is linked via htmlFor/id
+  <TextInput id="email" labelText="Email Address" placeholder="you@example.com" />
+
+  // ❌ Input with no label - inaccessible
+  <input type="email" placeholder="Email Address" />
+  ```
+
+### Error States
+- Use Carbon's built-in `invalid` and `invalidText` props to communicate errors
+- Error messages must appear near the field and be announced by screen readers:
+  ```jsx
+  <TextInput
+    id="email"
+    labelText="Email Address"
+    invalid={emailError}
+    invalidText="Please enter a valid email address"
+  />
+  ```
+
+### Required Fields
+- Mark required fields with `required` attribute (Carbon exposes this via props)
+- Do not rely solely on color or an asterisk to indicate required fields — include text or `aria-required`
+
+### Helper Text
+- Use `helperText` prop on Carbon inputs for additional context (e.g., format hints):
+  ```jsx
+  <TextInput
+    id="vin"
+    labelText="VIN (optional)"
+    helperText="17 alphanumeric characters"
+  />
+  ```
+
+### Groups
+- Radio buttons and checkboxes must be grouped using `fieldset` + `legend`, or Carbon's `RadioButtonGroup`:
+  ```jsx
+  import { RadioButtonGroup, RadioButton } from '@carbon/react';
+  <RadioButtonGroup legendText="Insurance type" name="insurance-type">
+    <RadioButton labelText="Car" value="car" id="car" />
+    <RadioButton labelText="Home" value="home" id="home" />
+  </RadioButtonGroup>
+  ```
+
+---
+
+## 6. Modals & Dialogs (WCAG 2.4.3 / 2.1.2)
+
+- Use Carbon's `Modal` or `ComposedModal` — never build custom modal dialogs from scratch
+- Focus must move to the dialog when it opens
+- Focus must be **trapped** inside the dialog while open (Carbon handles this automatically)
+- Focus must return to the trigger element when the dialog closes
+- `Escape` key must close the dialog
+- Dialog must have an accessible name (`aria-label` or `aria-labelledby`):
+  ```jsx
+  <Modal
+    open={isOpen}
+    modalHeading="Request a Demo"   // automatically sets aria-labelledby
+    onRequestClose={handleClose}
+    primaryButtonText="Submit"
+    secondaryButtonText="Cancel"
+  >
+    {/* content */}
+  </Modal>
+  ```
+
+---
+
+## 7. Multi-Step Flows (WCAG 2.4.3 / 4.1.3)
+
+- Progress indicators must announce current step to screen readers
+- The `StepBreadcrumb` component (`src/components/StepBreadcrumb.jsx`) must include `aria` attributes:
+  ```jsx
+  // ✅ Step breadcrumb with ARIA (step container)
+  <nav aria-label="Progress" role="navigation">
+    <ol>
+      <li aria-current="step">Step 1: Personal Info</li>
+      <li>Step 2: Address</li>
+    </ol>
+  </nav>
+  ```
+- When navigating between steps, scroll to the top and move focus to the step heading or a skip link
+- Use `aria-live="polite"` regions to announce step transitions:
+  ```jsx
+  <div aria-live="polite" aria-atomic="true" className="sr-only">
+    {`Step ${currentStep + 1} of ${totalSteps}: ${stepTitle}`}
+  </div>
+  ```
+
+---
+
+## 8. Motion & Animation (WCAG 2.3.3)
+
+- Respect the user's `prefers-reduced-motion` media query for all animations and transitions:
+  ```scss
+  .animated-element {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+  ```
+- Never auto-play video or audio without user control
+- Avoid content that flashes more than 3 times per second
+
+---
+
+## 9. Screen Reader Only Content
+
+Use this utility class (add to `src/styles/index.scss` if not present) for content visible only to screen readers:
+```scss
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+```
+
+Use it for supplemental context:
+```jsx
+<button onClick={handleDelete}>
+  Delete
+  <span className="sr-only">policy for John Smith</span>
+</button>
+```
+
+---
+
+## 10. Testing Checklist
+
+Before marking any component or page as complete:
+
+### Automated
+- [ ] Run browser DevTools Lighthouse audit (target: Accessibility score ≥ 90)
+- [ ] Check contrast ratios in DevTools (Elements → Accessibility → Contrast)
+
+### Manual Keyboard
+- [ ] Tab through all interactive elements — nothing is skipped
+- [ ] Shift+Tab works in reverse
+- [ ] Enter/Space activates buttons and controls
+- [ ] Escape closes modals and dropdowns
+- [ ] Arrow keys work in radio groups, dropdowns, tabs
+
+### Manual Screen Reader (basic)
+- [ ] Test with macOS VoiceOver (Cmd+F5) or Windows NVDA
+- [ ] All form inputs announce their label when focused
+- [ ] Error messages are announced
+- [ ] Page/section headings are read in logical order
+- [ ] Images have appropriate alt text
+- [ ] Decorative icons are silent
+
+### Visual
+- [ ] All text has sufficient contrast in light mode
+- [ ] All text has sufficient contrast in dark mode
+- [ ] Focus rings are visible on every interactive element
+- [ ] Page is usable at 200% browser zoom
+- [ ] No content is lost when text size is increased
+
+---
+
+## Carbon Design System Accessibility Notes
+
+- Carbon components are accessible **by default** — do not remove or override ARIA attributes without a replacement
+- When Carbon components have theming contrast issues (e.g., dark text on dark background in dark mode), fix with high-specificity CSS overrides using theme tokens — see `.builder/rules/theme-contrast-guidelines.mdc`
+- The `StepBreadcrumb` custom component replaced Carbon's `ProgressIndicator` due to theming/accessibility issues — see `.builder/rules/banned-components.mdc`
+- Always use Carbon's `size`, `kind`, `invalid`, `warn`, and `disabled` props to communicate state — these automatically update ARIA attributes
+
+## Related Rules
+- `.builder/rules/theme-contrast-guidelines.mdc` — Color contrast + CSS specificity for Carbon overrides
+- `.builder/rules/design-tokens.mdc` — Available semantic color tokens
+- `.builder/rules/banned-components.mdc` — Components banned due to accessibility/theming issues
+- `.builder/rules/carbon-design-system.mdc` — Carbon component usage guide
