@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@carbon/react';
-import { Add, TrashCan, Download } from '@carbon/icons-react';
+import { Add, TrashCan, Download, Rocket } from '@carbon/icons-react';
+import FlashyButton from './FlashyButton';
 
 export default {
   title: 'Components/Button',
@@ -92,15 +93,28 @@ export const DisabledButtons = () => (
   </div>
 );
 
+export const Flashy = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '2rem' }}>
+    <h3>Flashy Button</h3>
+    <p>Animated gradient, shimmer sweep on hover, and a soft glow halo.</p>
+
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <FlashyButton>Get Started</FlashyButton>
+      <FlashyButton icon={Rocket}>Launch Now</FlashyButton>
+    </div>
+  </div>
+);
+
 export const AllVariants = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '2rem' }}>
     <h2>Carbon Button Component</h2>
     <p>All button variants automatically adapt to the current theme.</p>
-    
+
     <ButtonKinds />
     <ButtonSizes />
     <ButtonsWithIcons />
     <IconOnlyButtons />
     <DisabledButtons />
+    <Flashy />
   </div>
 );
