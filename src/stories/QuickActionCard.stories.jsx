@@ -23,7 +23,7 @@ export default {
 
 export const Default = {
   args: {
-    title: 'View Policies',
+    title: 'View',
     description: 'Manage your active insurance policies',
     icon: DocumentBlank,
   },
