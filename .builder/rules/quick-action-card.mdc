@@ -1,0 +1,71 @@
+---
+description: QuickActionCard component - clickable dashboard navigation card
+globs: src/components/QuickActionCard.*, src/stories/QuickActionCard.*
+alwaysApply: false
+---
+
+# QuickActionCard Component
+
+A reusable clickable card used for primary quick-action navigation across dashboard views.
+
+## Location
+- Component: `src/components/QuickActionCard.jsx`
+- Styles: `src/components/QuickActionCard.scss`
+- Story: `src/stories/QuickActionCard.stories.jsx`
+
+## Usage
+
+
+import QuickActionCard from '../components/QuickActionCard';
+import { DocumentBlank } from '@carbon/icons-react';
+
+<QuickActionCard
+  icon={DocumentBlank}
+  title="View Policies"
+  description="Manage your active insurance policies"
+  href="/policies"
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `icon` | Carbon icon component | No | Icon displayed in the red brand container |
+| `title` | string | Yes | Primary label for the action |
+| `description` | string | Yes | Short supporting text beneath the title |
+| `href` | string | No | Navigation URL (uses Carbon ClickableTile href) |
+| `onClick` | function | No | Click handler for programmatic navigation |
+
+## Design Specifications
+
+- **Background**: `var(--background-secondary)` — adapts to light/dark themes
+- **Border**: `1px solid var(--border-subtle)`
+- **Icon container**: 56×56px, `var(--interactive-primary)` (brand red), `var(--radius-md)` border-radius
+- **Icon color**: `var(--text-on-color)` (white) — always readable on the red background
+- **Title**: `var(--body-lg-size)`, `var(--font-weight-semibold)`, `var(--text-primary)`
+- **Description**: `var(--body-sm-size)`, `var(--text-secondary)`
+- **Hover**: red border glow, slight lift (`translateY(-2px)`), arrow nudge (`translateX(4px)`)
+
+## Theme Compatibility
+
+Fully theme-aware — tested and working in:
+- ✅ Light mode (`white` theme)
+- ✅ Dark mode (`g100` theme)
+
+All colors use semantic CSS variables, no hardcoded values.
+
+## Where It's Used
+
+- `src/pages/DashboardHome.jsx` — View Policies, File a Claim, Make a Payment
+- `src/pages/business/BusinessDashboard.jsx` — Properties, Fleet, Map, File Claim, Make Payment
+
+## Storybook
+
+View the component in Storybook under **Components → QuickActionCard**.
+
+Stories:
+- **Default** — View Policies card (matches Figma design)
+- **FileClaim** — File a Claim variant
+- **MakePayment** — Make a Payment variant
+- **AllVariants** — All common variants rendered together

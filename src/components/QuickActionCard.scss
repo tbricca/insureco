@@ -1,0 +1,63 @@
+@use '../styles/tokens' as *;
+
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-05);
+  padding: var(--spacing-06);
+  background: var(--background-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+
+  &:hover {
+    border-color: var(--interactive-primary);
+    box-shadow: 0 2px 8px rgba(218, 30, 40, 0.15);
+    transform: translateY(-2px);
+
+    .quick-action-card__arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--interactive-primary);
+    border-radius: var(--radius-md);
+
+    svg {
+      fill: var(--text-on-color);
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: var(--body-lg-size);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-02);
+  }
+
+  &__description {
+    font-size: var(--body-sm-size);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    fill: var(--text-secondary);
+    transition: transform 0.2s ease;
+  }
+}
